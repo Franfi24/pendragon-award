@@ -35,7 +35,6 @@ st.markdown("""
         font-size: 2.2rem !important;
     }
     
-    /* Set weight to 400 to prevent forced bolding of explanations */
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 400 !important; 
@@ -71,13 +70,12 @@ def get_voters():
 
 voted_names = get_voters()
 
-# Initialize Session States
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'voted_stage' not in st.session_state:
     st.session_state.voted_stage = "instructions"
 
-# --- 4. LOGIN (THE INVISIBLE WAY) ---
+# --- 4. LOGIN ---
 if not st.session_state.authenticated:
     st.markdown("""
         <div style='display: flex; align-items: center; white-space: nowrap;'>
@@ -100,7 +98,6 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
     if team:
-        # Hides names already in Supabase
         available_names = [n for n in roster[team] if n not in voted_names]
         
         if not available_names:
@@ -118,7 +115,6 @@ if not st.session_state.authenticated:
 
 # --- 5. SUCCESS & VOTING PAGES ---
 else:
-    # No Self-Voting List
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
@@ -156,14 +152,14 @@ else:
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
 
-    # --- STAGE 2: BASKETBALL AWARDS (WELCOME HEADER REMOVED) ---
+    # --- STAGE 2: BASKETBALL AWARDS ---
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
         st.write("Select one winner for each category below.")
         st.divider()
         
-        # CATEGORIES WILL GO HERE
-        st.info("Award selections go here.")
+        # Space for Award Dropdowns (Placeholder)
+        st.info("The floor is yours. Select the winners.")
 
         col1, col2 = st.columns([1, 1])
         with col1:
@@ -175,8 +171,12 @@ else:
                 st.session_state.voted_stage = "fun_awards"
                 st.rerun()
 
-    # --- LOG OUT ---
-    st.divider()
-    if st.button("LOG OUT"):
-        st.session_state.clear()
-        st.rerun()
+    # --- STAGE 3: FUN AWARDS ---
+    elif st.session_state.voted_stage == "fun_awards":
+        st.markdown("## ✨ Fun Season Awards")
+        st.write("Cast your votes for the community awards.")
+        st.divider()
+
+        if st.button("← BACK TO BASKETBALL"):
+            st.session_state.voted_stage = "basketball_awards"
+            st.rerun()
