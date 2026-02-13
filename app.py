@@ -93,6 +93,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+   /* This makes the info box background invisible */
     div.stAlert {
         background-color: transparent !important;
         border: none !important;
@@ -100,13 +101,13 @@ st.markdown("""
         margin-bottom: -20px !important; /* Pulls the divider closer */
     }
 
+    /* This forces the text to be white and clean */
     div.stAlert p {
         color: #FFFFFF !important;
         font-weight: 400 !important;
         font-size: 1.05rem !important;
         line-height: 1.5 !important;
     }
-
 # --- 3. DATA ---
 roster = {
     "Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
