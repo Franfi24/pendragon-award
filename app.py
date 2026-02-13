@@ -120,7 +120,13 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    st.markdown("# Pendragon Awards 🏀") # No columns, just straight text
+    # We wrap the ball in a span to make it smaller than the text
+    st.markdown("""
+        <h1 style='display: inline-block;'>
+            Pendragon Awards <span style='font-size: 1.5rem;'>🏀</span>
+        </h1>
+    """, unsafe_allow_html=True)
+    
     st.write("Official 2026 Voting Portal")
     st.divider()
     
