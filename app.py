@@ -87,6 +87,16 @@ st.markdown("""
         margin-left: 0 !important;
     }
 
+    @media only screen and (max-width: 600px) {
+        h1 {
+            font-size: 1.7rem !important; /* Shrunk from 2.2rem for mobile */
+            white-space: nowrap !important; /* Prevents the text from breaking */
+        }
+        h1 span {
+            font-size: 1.2rem !important; /* Shrunk the ball even more for mobile */
+        }
+    }
+
     div.stButton > button:hover {
         background-color: #ffffff !important;
         color: #000000 !important;
