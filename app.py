@@ -127,13 +127,11 @@ else:
     st.divider()
 
     # --- NO SELF-VOTING LOGIC ---
-    # 1. Flatten all teams into one big list of players
     all_players = [player for team_list in roster.values() for player in team_list]
-    
-    # 2. Filter out the current user's name so they can't see it in any dropdowns
     nominees = [p for p in all_players if p != st.session_state.user_name]
-   st.write(f"**The 2026 Ballot is split into two halves:**")
-   st.write("""
+    
+    st.write(f"**The 2026 Ballot is split into two halves:**")
+    st.write("""
     * **Basketball Season Awards:** Official performance categories with pre-selected nominees.
     * **Fun Awards:** Community-focused categories where any Pendragon member is eligible.
     """)
@@ -150,8 +148,6 @@ else:
     st.write(f"These are open categories. You can nominate any Pendragon member you feel fits the title.")
     st.write(f"*(Note: You cannot nominate yourself!)*")
         
-    # (You can add your award dropdowns here using the 'nominees' list)
-
     st.divider()
 
     if st.button("LOG OUT"):
