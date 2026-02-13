@@ -132,8 +132,14 @@ else:
     
     # 2. Filter out the current user's name so they can't see it in any dropdowns
     nominees = [p for p in all_players if p != st.session_state.user_name]
-
-    st.write("The nominees list is ready. You will not see your own name in the selections below.")
+    st.write(f"**Here some information about the Voting Process**")
+    st.divider()
+    st.write("""
+    * *Anonymous Voting:* Your individual selections are private.
+    * *Eligibility:* Vote for members of any team.
+    * *No Self-Voting:* The system hides your name from the ballot.
+    * *One-Time Access:* Your name disappears from this list once you submit.
+    """)
 
     # (You can add your award dropdowns here using the 'nominees' list)
 
