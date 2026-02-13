@@ -124,14 +124,11 @@ if not st.session_state.authenticated:
     st.write("Official 2026 Voting Portal")
     st.divider()
     
-    st.write("") # Extra spacing
     st.write("""
     Welcome to the Pendragon Ballot!
     
     Each Pendragon Member can only vote once!
     """)
-    st.write("") # Extra spacing
-
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
