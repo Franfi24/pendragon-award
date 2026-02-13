@@ -116,11 +116,12 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # Header logic (keeping your centered logo/title)
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.markdown("<h1 style='text-align: center; font-size: 60px; margin-bottom:0;'>🏀</h1>", unsafe_allow_html=True)
-        st.markdown("<h1 style='text-align: center; margin-top:0;'>PENDRAGON AWARDS</h1>", unsafe_allow_html=True)
+    # This brings back the side-by-side logo and title you liked
+    t_col1, t_col2 = st.columns([1, 5])
+    with t_col1:
+        st.markdown("<h1 style='font-size: 50px;'>🏀</h1>", unsafe_allow_html=True)
+    with t_col2:
+        st.markdown("# Pendragon Awards")
 
     st.write("Official 2026 Voting Portal")
     st.divider()
