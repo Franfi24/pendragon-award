@@ -116,14 +116,15 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # Everything in one line, naturally left-aligned
+    # Title sits on top
     st.markdown("# Pendragon Awards 🏀")
-
+    # Subtitle sits directly below it
     st.write("Official 2026 Voting Portal")
+    
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
-
+    
     if team:
         available_names = [n for n in roster[team] if n not in voted_names]
         
@@ -132,10 +133,9 @@ if not st.session_state.authenticated:
         else:
             name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
 
-            # --- ONLY SHOW BUTTON IF NAME SELECTED ---
             if name != "":
-                # We use a 1:2 ratio to keep the button small on the left
-                btn_col, spacer = st.columns([1, 2]) 
+                # Keep the button small and on the left
+                btn_col, _ = st.columns([1, 2])
                 with btn_col:
                     if st.button("VERIFY & ENTER"):
                         st.session_state.user_name = name
