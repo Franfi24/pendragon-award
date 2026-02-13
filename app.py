@@ -18,44 +18,67 @@ st.set_page_config(
 # --- 2. THEME & MOBILE TWEAKS ---
 st.markdown("""
     <style>
+    /* Main Background Gradient */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
 
-    /* Pulls the second column (title) closer to the first column (logo) */
-    [data-testid="column"]:nth-child(2) {
-        margin-left: -25px !important;
+    /* 1. MAKE DROPDOWNS WHITE WITH BLACK TEXT */
+    /* This targets the main box */
+    div[data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border-radius: 10px !important;
+        border: none !important;
     }
 
-    [data-testid="stHorizontalBlock"] {
-        align-items: center;
+    /* This targets the text inside the dropdown when selected */
+    div[data-baseweb="select"] * {
+        color: #000000 !important;
+    }
+    
+    /* This ensures the placeholder text (like "Select your name") is also visible */
+    div[role="listbox"] {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
     }
 
+    /* 2. PROGRESS BAR COLOR */
+    /* This makes the progress bar a bright white/silver or gold so it pops */
+    .stProgress > div > div > div > div {
+        background-color: #FFFFFF !important;
+    }
+
+    /* Label text (the questions above dropdowns) */
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
     }
 
+    /* 3. BUTTON STYLING */
     div.stButton > button {
         width: 100%;
         border-radius: 12px;
-        background-color: #000000; 
-        color: #ffffff;
-        border: 2px solid #ffffff;
+        background-color: #000000 !important; 
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
         font-weight: 700;
         text-transform: uppercase;
         height: 3.5rem;
+        margin-top: 10px;
     }
-
-    .stSelectbox>div>div>div {
-        background-color: rgba(255, 255, 255, 0.9) !important;
+    
+    div.stButton > button:hover {
+        background-color: #ffffff !important;
         color: #000000 !important;
-        border-radius: 10px;
     }
 
     h1 {
         font-size: 1.8rem !important;
-        white-space: nowrap; /* Prevents title from jumping to next line */
+        font-weight: 800 !important;
+        text-align: center;
     }
 
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
@@ -96,7 +119,7 @@ if not st.session_state.authenticated:
     with t_col2:
         st.markdown("# Pendragon Awards 🏀")
 
-    st.write("Official voting app")
+    st.write("Pendragon Official voting app")
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
