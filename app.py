@@ -81,10 +81,12 @@ st.markdown("""
         color: #000000 !important;
     }
 
-    h1 {
-        font-size: 1.8rem !important;
-        font-weight: 800 !important;
-        text-align: center;
+   h1 {
+        text-align: left !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        display: block !important;
     }
 
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
@@ -116,11 +118,9 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # Title sits on top
-    st.markdown("# Pendragon Awards 🏀")
-    # Subtitle sits directly below it
+    st.markdown("# Pendragon Awards 🏀") # No columns, just straight text
     st.write("Official 2026 Voting Portal")
-    
+    st.divider()
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
