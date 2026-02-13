@@ -15,27 +15,20 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- 2. THEME & MOBILE TWEAKS ---
+# --- 2. THEME & MOBILE STYLING (Original Red) ---
 st.markdown("""
     <style>
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
+    /* Logo and Title Alignment */
+    [data-testid="column"]:nth-child(2) { margin-left: -25px !important; }
+    [data-testid="stHorizontalBlock"] { align-items: center; }
+    
+    label, p, [data-testid="stWidgetLabel"] { color: white !important; font-weight: 600; }
 
-    /* Pulls the second column (title) closer to the first column (logo) */
-    [data-testid="column"]:nth-child(2) {
-        margin-left: -25px !important;
-    }
-
-    [data-testid="stHorizontalBlock"] {
-        align-items: center;
-    }
-
-    label, p, [data-testid="stWidgetLabel"] {
-        color: white !important;
-    }
-
+    /* Button Styling */
     div.stButton > button {
         width: 100%;
         border-radius: 12px;
@@ -46,23 +39,21 @@ st.markdown("""
         text-transform: uppercase;
         height: 3.5rem;
     }
-
+    
+    /* Input/Selectbox Styling */
     .stSelectbox>div>div>div {
         background-color: rgba(255, 255, 255, 0.9) !important;
         color: #000000 !important;
         border-radius: 10px;
     }
 
-    h1 {
-        font-size: 1.8rem !important;
-        white-space: nowrap; /* Prevents title from jumping to next line */
-    }
-
+    h1 { font-size: 1.8rem !important; white-space: nowrap; color: white !important; }
+    h3 { color: white !important; }
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. DATA ---
+# --- 3. DATA (Roster & Awards) ---
 roster = {
     "Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
     "Ladies 2": ["Maria", "Sarah", "Elena", "Coach Jo"],
@@ -70,21 +61,29 @@ roster = {
     "Men's 2": ["Alex", "Jordan", "Chris", "Big Steve"],
 }
 
+awards_list = [
+    "🏆 Most Valuable Player (MVP)",
+    "📈 Most Improved Player",
+    "🛡️ Best Defensive Player",
+    "🔥 Pendragon Spirit Award"
+]
+
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
-# --- 4. LOGIN ---
+# --- 4. LOGIN INTERFACE ---
 if not st.session_state.authenticated:
-    # Header Row
-    t_col1, t_col2 = st.columns([1, 5])
-    with t_col1:
+    col1, col2 = st.columns([1, 5])
+    with col1:
         logo_path = os.path.join("images", "logo.png")
         if os.path.exists(logo_path):
-            st.image(logo_path, width=80)  # Made the logo bigger
-    with t_col2:
-        st.markdown("# Pendragon Awards 🏀")
+            st.image(logo_path, width=80)
+        else:
+            st.write("🏀")
+    with col2:
+        st.markdown("# Pendragon Awards")
 
-    st.write("Official voting app")
+    st.write("Official voting app for Pendragon Basketball")
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
@@ -99,34 +98,54 @@ if not st.session_state.authenticated:
                 st.session_state.authenticated = True
                 st.rerun()
 
-# --- 5. THE SYNC & SUCCESS ---
+# --- 5. VOTING INTERFACE ---
 else:
-    # Header Row for Welcome Page
-    t_col1, t_col2 = st.columns([1, 5])
-    with t_col1:
+    col1, col2 = st.columns([1, 5])
+    with col1:
         logo_path = os.path.join("images", "logo.png")
         if os.path.exists(logo_path):
             st.image(logo_path, width=60)
-    with t_col2:
+    with col2:
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-    if 'logged_entry' not in st.session_state:
-        try:
-            entry_data = {
-                "Name": st.session_state.user_name,
-                "Team": st.session_state.user_team,
-                "Selection": "Login Success",
-                "Award": "Design Polish"
-            }
-            supabase.table(TABLE_NAME).insert(entry_data).execute()
-            st.session_state.logged_entry = True
-            st.toast("Logged in!✅ ")
-        except Exception as e:
-            st.error(f"Sync Error: {e}")
-
-    st.write(f"Logged in as: **{st.session_state.user_team}**")
+    st.write(f"Voting for: **{st.session_state.user_team}**")
     st.divider()
 
+    st.subheader("Cast Your Votes 🗳️")
+    
+    with st.form("voting_form"):
+        user_votes = {}
+        
+        for award in awards_list:
+            user_votes[award] = st.selectbox(
+                f"Vote for: {award}",
+                options=[""] + roster[st.session_state.user_team],
+                key=f"vote_{award}"
+            )
+        
+        st.write(" ")
+        submit_button = st.form_submit_button("SUBMIT ALL VOTES")
+
+        if submit_button:
+            # Check if all categories were filled
+            if all(val != "" for val in user_votes.values()):
+                try:
+                    for award_name, selection in user_votes.items():
+                        supabase.table(TABLE_NAME).insert({
+                            "Name": st.session_state.user_name,
+                            "Team": st.session_state.user_team,
+                            "Award": award_name,
+                            "Selection": selection
+                        }).execute()
+                    
+                    st.success("SUCCESS! Your votes have been counted. 🏀")
+                    st.balloons()
+                except Exception as e:
+                    st.error(f"Sync Error: {e}")
+            else:
+                st.warning("Please pick a player for every category!")
+
+    st.divider()
     if st.button("LOG OUT"):
         st.session_state.clear()
         st.rerun()
