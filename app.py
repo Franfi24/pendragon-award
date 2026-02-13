@@ -128,8 +128,6 @@ if not st.session_state.authenticated:
     st.write("""
     Welcome to the Pendragon Ballot!
     
-    Please Select your Team and then Select your Name in the dropdown menu.
-    
     Each Pendragon Member can only vote once!
     """)
     st.write("") # Extra spacing
