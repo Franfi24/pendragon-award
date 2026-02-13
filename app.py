@@ -10,182 +10,107 @@ TABLE_NAME = "Pendragon Awards 2026"
 
 # --- 1. APP CONFIGURATION ---
 st.set_page_config(
-page_title="Pendragon Awards",
-page_icon="🏀",
-layout="centered"
+    page_title="Pendragon Awards",
+    page_icon="🏀",
+    layout="centered"
 )
 
 # --- 2. THEME & MOBILE TWEAKS ---
 st.markdown("""
-   <style>
-   /* Main Background */
-   .stApp {
-       background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
-       color: #ffffff;
-   }
+    <style>
+    .stApp {
+        background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
+        color: #ffffff;
+    }
 
-   /* 1. DROPDOWNS: WHITE BOX, BLACK TEXT */
-   div[data-baseweb="select"] > div {
-       background-color: #FFFFFF !important;
-       color: #000000 !important;
-       border-radius: 10px !important;
-   }
-   div[data-baseweb="select"] * {
-       color: #000000 !important;
-   }
+    /* DROPDOWNS: FORCE WHITE BOX, BLACK TEXT */
+    div[data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        border-radius: 10px !important;
+    }
+    
+    /* Force text inside white boxes to be black */
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+    }
 
-   /* 2. PROGRESS BAR: WHITE */
-   .stProgress > div > div > div > div {
-       background-color: #FFFFFF !important;
-   }
+    h1 {
+        text-align: left !important;
+        margin-bottom: 0 !important;
+        font-size: 2.2rem !important;
+    }
 
-   /* 3. TITLES & LABELS: LEFT ALIGNED & WHITE */
-   h1 {
-       text-align: left !important;
-       margin-left: 0 !important;
-       margin-right: auto !important;
-       width: 100% !important;
-       display: block !important;
-       font-size: 2.2rem !important;
-   }
+    label, [data-testid="stWidgetLabel"] {
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        text-align: left !important;
+    }
 
-   label, p, [data-testid="stWidgetLabel"] {
-       color: white !important;
-       font-weight: 700 !important;
-       font-size: 1.1rem !important;
-       text-align: left !important;
-   }
+    /* BUTTON: SMALL, BLACK, LEFT ALIGNED */
+    div.stButton > button {
+        width: auto !important;
+        padding: 0px 20px !important;
+        border-radius: 12px;
+        background-color: #000000 !important; 
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+        height: 2.5rem !important;
+        font-size: 0.8rem !important;
+    }
 
-   /* 4. DESCRIPTION BOX: TRANSPARENT WITH WHITE TEXT */
-   div.stAlert {
-       background-color: transparent !important;
-       border: none !important;
-       padding-left: 0 !important;
-       margin-bottom: -20px !important;
-   }
-   div.stAlert p {
-       color: #FFFFFF !important;
-       font-weight: 400 !important;
-       font-size: 1.05rem !important;
-       line-height: 1.5 !important;
-   }
+    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
+    </style>
+    """, unsafe_allow_html=True)
 
-   /* 5. BUTTON: SMALL, BLACK, LEFT ALIGNED */
-   div.stButton > button {
-       width: auto !important;
-       padding: 0px 20px !important;
-       border-radius: 12px;
-       background-color: #000000 !important; 
-       color: #ffffff !important;
-       border: 2px solid #ffffff !important;
-       font-weight: 700;
-       text-transform: uppercase;
-       height: 2.5rem !important;
-       font-size: 0.8rem !important;
-       margin-top: 10px;
-       display: block !important;
-       margin-left: 0 !important;
-   }
-
-   div.stButton > button:hover {
-       background-color: #ffffff !important;
-       color: #000000 !important;
-   }
-
-   hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
-   </style>
-   """, unsafe_allow_html=True)
 # --- 3. DATA ---
 roster = {
-"Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
-"Ladies 2": ["Maria", "Sarah", "Elena", "Coach Jo"],
-"Men's 1": ["Tom", "Jake", "Ryan", "Pete"],
-"Men's 2": ["Alex", "Jordan", "Chris", "Big Steve"],
+    "Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
+    "Ladies 2": ["Maria", "Sarah", "Elena", "Coach Jo"],
+    "Men's 1": ["Tom", "Jake", "Ryan", "Pete"],
+    "Men's 2": ["Alex", "Jordan", "Chris", "Big Steve"],
 }
 
-# --- ADDED: Function to see who already voted ---
 def get_voters():
-try:
-# Fetches only the 'Name' column from your Supabase table
-result = supabase.table(TABLE_NAME).select("Name").execute()
-return [row['Name'] for row in result.data]
-except Exception:
-return []
+    try:
+        result = supabase.table(TABLE_NAME).select("Name").execute()
+        return [row['Name'] for row in result.data]
+    except Exception:
+        return []
 
-# Get the list of names that already exist in the database
 voted_names = get_voters()
 
 if 'authenticated' not in st.session_state:
-st.session_state.authenticated = False
+    st.session_state.authenticated = False
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    st.markdown("# Pendragon Awards 🏀") # No columns, just straight text
-    # We wrap the ball in a span to make it smaller than the text
-    st.markdown("""
-        <h1 style='display: inline-block;'>
-            Pendragon Awards <span style='font-size: 1.5rem;'>🏀</span>
-        </h1>
-    """, unsafe_allow_html=True)
+    # Small ball fix and Title
+    st.markdown("<h1>Pendragon Awards <span style='font-size: 1.5rem;'>🏀</span></h1>", unsafe_allow_html=True)
+    st.write("Official 2026 Voting Portal")
     
-st.write("Official 2026 Voting Portal")
-st.divider()
+    st.divider()
+    
+    # Three sentences stacked vertically
+    st.write("Welcome to the Pendragon Ballot!")
+    st.write("Please Select your Team and find your name in the dropdown menu.")
+    st.write("Each Pendragon Member can only vote once!")
+    
+    st.divider()
 
-st.write("""
-   Welcome to the Pendragon Ballot!
-   
-   Each Pendragon Member can only vote once!
-   """)
-st.divider()
+    team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
 
-team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
+    if team:
+        available_names = [n for n in roster[team] if n not in voted_names]
+        
+        if not available_names:
+            st.warning("All players on this team have voted! 🎉")
+        else:
+            name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
 
-if team:
-available_names = [n for n in roster[team] if n not in voted_names]
-
-if not available_names:
-st.warning("All players on this team have voted! 🎉")
-else:
-name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
-
-if name != "":
-# Keep the button small and on the left
-btn_col, _ = st.columns([1, 2])
-with btn_col:
-if st.button("VERIFY & ENTER"):
-st.session_state.user_name = name
-st.session_state.user_team = team
-st.session_state.authenticated = True
-st.rerun()
-
-# --- 5. THE SYNC & SUCCESS ---
-else:
-# Header Row for Welcome Page
-t_col1, t_col2 = st.columns([1, 5])
-with t_col1:
-logo_path = os.path.join("images", "logo.png")
-if os.path.exists(logo_path):
-st.image(logo_path, width=60)
-with t_col2:
-st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
-
-if 'logged_entry' not in st.session_state:
-try:
-entry_data = {
-"Name": st.session_state.user_name,
-"Team": st.session_state.user_team,
-"Selection": "Login Success",
-"Award": "Design Polish"
-}
-supabase.table(TABLE_NAME).insert(entry_data).execute()
-st.session_state.logged_entry = True
-st.toast("Logged in!✅ ")
-except Exception as e:
-st.error(f"Sync Error: {e}")
-
-st.write(f"Logged in as: **{st.session_state.user_team}**")
-st.divider()
-
-if st.button("LOG OUT"):
-st.session_state.clear()
-st.rerun()
+            if name != "":
+                btn_col, _ = st.columns([1, 2])
+                with btn_col:
+                    if st.button("VERIFY & ENTER"):
+                        st
