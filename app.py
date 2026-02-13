@@ -93,6 +93,20 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+    div.stAlert {
+        background-color: transparent !important;
+        border: none !important;
+        padding-left: 0 !important; /* Aligns text perfectly to the left */
+        margin-bottom: -20px !important; /* Pulls the divider closer */
+    }
+
+    div.stAlert p {
+        color: #FFFFFF !important;
+        font-weight: 400 !important;
+        font-size: 1.05rem !important;
+        line-height: 1.5 !important;
+    }
+
 # --- 3. DATA ---
 roster = {
     "Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
@@ -122,6 +136,12 @@ if not st.session_state.authenticated:
     st.write("Official 2026 Voting Portal")
     st.divider()
     st.divider()
+
+    st.info("""
+    Welcome to the Pendragon Ballot! 
+    Please Select your Team and find your name in the dropdown menu.
+    Each Pendragon Member can only vote once. 
+    """)
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
