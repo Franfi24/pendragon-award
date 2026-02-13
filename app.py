@@ -125,7 +125,7 @@ if not st.session_state.authenticated:
     st.divider()
     
     st.write("") # Extra spacing
-  st.write("""
+    st.write("""
     Welcome to the Pendragon Ballot!
     
     Please Select your Team and find your name in the dropdown menu.
