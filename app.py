@@ -98,6 +98,17 @@ st.markdown("""
         }
     }
 
+    /* Prevents the keyboard from popping up on mobile */
+    div[data-baseweb="select"] input {
+        caret-color: transparent !important;
+        pointer-events: none !important;
+    }
+
+    /* Ensures the dropdown still opens when clicking the box */
+    div[data-baseweb="select"] {
+        cursor: pointer !important;
+    }
+
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
