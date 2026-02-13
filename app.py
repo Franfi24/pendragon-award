@@ -24,16 +24,28 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. DROPDOWNS: WHITE BOX, BLACK TEXT */
+   /* 1. DROPDOWNS: FORCE WHITE BOX, BLACK TEXT */
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
-        color: #000000 !important;
         border-radius: 10px !important;
     }
-    div[data-baseweb="select"] * {
+
+    /* Target the text specifically inside the dropdown */
+    div[data-baseweb="select"] div, 
+    div[data-baseweb="select"] span, 
+    div[data-baseweb="select"] input {
         color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
     }
 
+    /* 2. DESCRIPTION TEXT: ONLY target the login sentences, not the dropdowns */
+    .login-description {
+        color: #FFFFFF !important;
+        text-align: left !important;
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 10px;
+    }
     /* 2. PROGRESS BAR: WHITE */
     .stProgress > div > div > div > div {
         background-color: #FFFFFF !important;
