@@ -139,7 +139,6 @@ if not st.session_state.authenticated:
     
     # Using separate st.write calls for the clean stacking you liked
     st.write("Welcome to the Pendragon Ballot!")
-    st.write("Please Select your Team and find your name in the dropdown menu.")
     st.write("Each Pendragon Member can only vote once!")
     
     st.divider()
