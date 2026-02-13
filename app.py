@@ -103,10 +103,8 @@ st.markdown("""
     """, unsafe_allow_html=True)
 # --- 3. DATA ---
 roster = {
-    "Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
-    "Ladies 2": ["Maria", "Sarah", "Elena", "Coach Jo"],
-    "Men's 1": ["Tom", "Jake", "Ryan", "Pete"],
-    "Men's 2": ["Alex", "Jordan", "Chris", "Big Steve"],
+    "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
+    "Men's 3": ["Albert", "Dani", "Demir", "Eugen", "Francesco", "Gundars", "Hugo", "Jesper", "Quinn", "Rayan", "Terence", "Tuna"],
 }
 
 # --- ADDED: Function to see who already voted ---
