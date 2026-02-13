@@ -18,13 +18,10 @@ st.set_page_config(
 # --- 2. THEME & MOBILE TWEAKS ---
 st.markdown("""
     <style>
-    /* Main Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
-
-    /* 1. DROPDOWNS: WHITE BOX, BLACK TEXT */
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
         color: #000000 !important;
@@ -33,115 +30,63 @@ st.markdown("""
     div[data-baseweb="select"] * {
         color: #000000 !important;
     }
-
-    /* 2. PROGRESS BAR: WHITE */
-    .stProgress > div > div > div > div {
-        background-color: #FFFFFF !important;
-    }
-
-    /* 3. TITLES & LABELS: LEFT ALIGNED & WHITE */
     h1 {
         text-align: left !important;
-        margin-left: 0 !important;
-        margin-right: auto !important;
-        width: 100% !important;
-        display: block !important;
         font-size: 2.2rem !important;
     }
-
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        text-align: left !important;
     }
-
-    /* 4. DESCRIPTION BOX: TRANSPARENT WITH WHITE TEXT */
-    div.stAlert {
-        background-color: transparent !important;
-        border: none !important;
-        padding-left: 0 !important;
-        margin-bottom: -20px !important;
-    }
-    div.stAlert p {
-        color: #FFFFFF !important;
-        font-weight: 400 !important;
-        font-size: 1.05rem !important;
-        line-height: 1.5 !important;
-    }
-
-    /* 5. BUTTON: SMALL, BLACK, LEFT ALIGNED */
     div.stButton > button {
-        width: auto !important;
-        padding: 0px 20px !important;
-        border-radius: 12px;
         background-color: #000000 !important; 
         color: #ffffff !important;
         border: 2px solid #ffffff !important;
-        font-weight: 700;
+        border-radius: 12px;
         text-transform: uppercase;
-        height: 2.5rem !important;
-        font-size: 0.8rem !important;
-        margin-top: 10px;
-        display: block !important;
-        margin-left: 0 !important;
+        font-weight: 700;
     }
-
-    div.stButton > button:hover {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-
-    @media only screen and (max-width: 480px) {
-        h1 {
-            font-size: 1.8rem !important; /* Slightly smaller for very thin phones */
-        }
-    }
-
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
+
 # --- 3. DATA ---
 roster = {
     "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
     "Men's 3": ["Albert", "Dani", "Demir", "Eugen", "Francesco", "Gundars", "Hugo", "Jesper", "Quinn", "Rayan", "Terence", "Tuna"],
 }
 
-# --- ADDED: Function to see who already voted ---
+# Fetch names that already exist in Supabase
 def get_voters():
     try:
-        # Fetches only the 'Name' column from your Supabase table
         result = supabase.table(TABLE_NAME).select("Name").execute()
         return [row['Name'] for row in result.data]
     except Exception:
         return []
 
-# Get the list of names that already exist in the database
 voted_names = get_voters()
 
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
-# --- 4. LOGIN ---
-# --- 4. LOGIN ---
+# --- 4. LOGIN (THE INVISIBLE WAY) ---
 if not st.session_state.authenticated:
-    # 'white-space: nowrap' forces the text and ball to stay on one line
     st.markdown("""
-        <h1 style='white-space: nowrap; display: inline-block;'>
-            Pendragon Awards <span style='font-size: 1.3rem; vertical-align: middle;'>🏀</span>
-        </h1>
+        <div style='display: flex; align-items: center; white-space: nowrap;'>
+            <h1 style='margin: 0;'>Pendragon Awards</h1>
+            <span style='font-size: 1.5rem; margin-left: 10px;'>🏀</span>
+        </div>
     """, unsafe_allow_html=True)
     
     st.write("Official 2026 Voting Portal")
     st.divider()
     
-    # Using separate st.write calls for the clean stacking you liked
     st.write("Welcome to the Pendragon Ballot!")
     st.write("""
-    * *Anonymous Voting:* Your individual selections are private and encrypted.
-    * *Eligibility:* You can vote for members of any team, not just your own.
-    * *No Self-Voting:* The system will flag ballots where a member votes for themselves.
-    * *One-Time Access:* Once your ballot is submitted, the portal will lock.
+    * *Anonymous Voting:* Your individual selections are private.
+    * *Eligibility:* Vote for members of any team.
+    * *No Self-Voting:* The system hides your name from the ballot.
+    * *One-Time Access:* Your name disappears from this list once you submit.
     """)
     
     st.divider()
@@ -149,15 +94,15 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
     if team:
+        # THE INVISIBLE LOGIC: Only show names NOT in voted_names
         available_names = [n for n in roster[team] if n not in voted_names]
         
         if not available_names:
-            st.warning("All players on this team have voted! 🎉")
+            st.warning("All players on this team have already voted! 🎉")
         else:
             name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
 
-            if name != "":
-                # Keep the button small and on the left
+            if name:
                 btn_col, _ = st.columns([1, 2])
                 with btn_col:
                     if st.button("VERIFY & ENTER"):
@@ -166,9 +111,8 @@ if not st.session_state.authenticated:
                         st.session_state.authenticated = True
                         st.rerun()
 
-# --- 5. THE SYNC & SUCCESS ---
+# --- 5. VOTING PAGE ---
 else:
-    # Header Row for Welcome Page
     t_col1, t_col2 = st.columns([1, 5])
     with t_col1:
         logo_path = os.path.join("images", "logo.png")
@@ -177,23 +121,40 @@ else:
     with t_col2:
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-    if 'logged_entry' not in st.session_state:
-        try:
-            entry_data = {
-                "Name": st.session_state.user_name,
-                "Team": st.session_state.user_team,
-                "Selection": "Login Success",
-                "Award": "Design Polish"
-            }
-            supabase.table(TABLE_NAME).insert(entry_data).execute()
-            st.session_state.logged_entry = True
-            st.toast("Logged in!✅ ")
-        except Exception as e:
-            st.error(f"Sync Error: {e}")
-
-    st.write(f"***Here is some information about the voting process***")
-    
+    st.write(f"***The Voting Process***")
+    st.write("Please select your nominees. You cannot vote for yourself.")
     st.divider()
+
+    # NO SELF-VOTING LOGIC:
+    # Create a list of all players across all teams, then remove the current user
+    all_players = [p for t in roster.values() for p in t]
+    nominees = [p for p in all_players if p != st.session_state.user_name]
+
+    # Example Awards
+    mvp = st.selectbox("🏆 SEASON MVP", options=[""] + nominees)
+    mip = st.selectbox("📈 MOST IMPROVED PLAYER", options=[""] + nominees)
+
+    st.divider()
+
+    # Submit Button logic
+    if st.button("SUBMIT FINAL BALLOT"):
+        if mvp and mip: # Ensure they picked someone
+            try:
+                submission = {
+                    "Name": st.session_state.user_name,
+                    "Team": st.session_state.user_team,
+                    "Award": "Full Ballot",
+                    "Selection": f"MVP: {mvp}, MIP: {mip}"
+                }
+                supabase.table(TABLE_NAME).insert(submission).execute()
+                st.success("Ballot Submitted! See you at the ceremony.")
+                st.balloons()
+                st.session_state.clear() # Logs them out and wipes the name from login list
+                st.rerun()
+            except Exception as e:
+                st.error(f"Error: {e}")
+        else:
+            st.warning("Please make a selection for all awards!")
 
     if st.button("LOG OUT"):
         st.session_state.clear()
