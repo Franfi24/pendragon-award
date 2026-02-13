@@ -35,6 +35,7 @@ st.markdown("""
         font-size: 2.2rem !important;
     }
     
+    /* Set weight to 400 to prevent forced bolding of explanations */
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 400 !important; 
@@ -70,12 +71,13 @@ def get_voters():
 
 voted_names = get_voters()
 
+# Initialize Session States
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'voted_stage' not in st.session_state:
     st.session_state.voted_stage = "instructions"
 
-# --- 4. LOGIN ---
+# --- 4. LOGIN (THE INVISIBLE WAY) ---
 if not st.session_state.authenticated:
     st.markdown("""
         <div style='display: flex; align-items: center; white-space: nowrap;'>
@@ -98,6 +100,7 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
     if team:
+        # Hides names already in Supabase
         available_names = [n for n in roster[team] if n not in voted_names]
         
         if not available_names:
@@ -109,3 +112,71 @@ if not st.session_state.authenticated:
                 with btn_col:
                     if st.button("VERIFY & ENTER"):
                         st.session_state.user_name = name
+                        st.session_state.user_team = team
+                        st.session_state.authenticated = True
+                        st.rerun()
+
+# --- 5. SUCCESS & VOTING PAGES ---
+else:
+    # No Self-Voting List
+    all_players = [player for team_list in roster.values() for player in team_list]
+    nominees = [p for p in all_players if p != st.session_state.user_name]
+
+    # --- STAGE 1: INSTRUCTIONS ---
+    if st.session_state.voted_stage == "instructions":
+        t_col1, t_col2 = st.columns([1, 5])
+        with t_col1:
+            logo_path = os.path.join("images", "logo.png")
+            if os.path.exists(logo_path):
+                st.image(logo_path, width=60)
+        with t_col2:
+            st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
+
+        st.write("***Here is some information about the voting process***")
+        st.divider()
+
+        st.write("**The 2026 Ballot is split into two halves:**")
+        st.write("""
+        * Basketball Season Awards: Official performance categories with pre-selected nominees.
+        * Fun Awards: Community-focused categories where any Pendragon member is eligible.
+        """)
+        st.divider()
+        
+        st.write("***Basketball Season Awards***")
+        st.write("Our coaches have selected 3 top candidates for each of the 5 player categories and the Coach of the Year award.")
+        st.write("*Your job is to crown the winner!*")
+        st.divider()
+        
+        st.write("***Fun Season Awards***")
+        st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
+        st.write("*(Note: You cannot nominate yourself!)*")
+        st.divider()
+
+        if st.button("START VOTING →"):
+            st.session_state.voted_stage = "basketball_awards"
+            st.rerun()
+
+    # --- STAGE 2: BASKETBALL AWARDS (WELCOME HEADER REMOVED) ---
+    elif st.session_state.voted_stage == "basketball_awards":
+        st.markdown("## 🏀 Basketball Season Awards")
+        st.write("Select one winner for each category below.")
+        st.divider()
+        
+        # CATEGORIES WILL GO HERE
+        st.info("Award selections go here.")
+
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            if st.button("← BACK TO INFO"):
+                st.session_state.voted_stage = "instructions"
+                st.rerun()
+        with col2:
+            if st.button("NEXT: FUN AWARDS →"):
+                st.session_state.voted_stage = "fun_awards"
+                st.rerun()
+
+    # --- LOG OUT ---
+    st.divider()
+    if st.button("LOG OUT"):
+        st.session_state.clear()
+        st.rerun()
