@@ -109,6 +109,22 @@ st.markdown("""
         cursor: pointer !important;
     }
 
+    div[data-baseweb="select"] input {
+        readonly: readonly !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+
+    /* This ensures the whole box is still a giant button for the dropdown */
+    div[data-baseweb="select"] {
+        cursor: pointer !important;
+    }
+    
+    /* Optional: hides the flashing cursor just in case */
+    .stSelectbox input {
+        caret-color: transparent !important;
+    }
+
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
