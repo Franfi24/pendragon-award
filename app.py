@@ -139,7 +139,9 @@ else:
     st.divider()
     
     st.write(f"***Basketball Season Awards***")
-    st.write(f"Our coaches have shortlisted 3 top candidates for each of the 5 player categories and the Coach of the Year award.")
+    st.write(f"""
+    Our coaches have shortlisted 3 top candidates for each of the 5 player categories and the Coach of the Year award
+    """)
     st.write(f"*Your job is to crown the winner!*")
     
     st.divider()
