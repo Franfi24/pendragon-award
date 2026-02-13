@@ -116,10 +116,10 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # This brings back the side-by-side logo and title you liked
+    # Header Row (Back to original side-by-side)
     t_col1, t_col2 = st.columns([1, 5])
     with t_col1:
-        st.markdown("<h1 style='font-size: 50px;'>🏀</h1>", unsafe_allow_html=True)
+        st.write("🏀") 
     with t_col2:
         st.markdown("# Pendragon Awards")
 
@@ -136,13 +136,11 @@ if not st.session_state.authenticated:
         else:
             name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
 
-            # --- ONLY SHOW BUTTON IF NAME IS SELECTED ---
+            # --- ONLY SHOW BUTTON IF NAME SELECTED ---
             if name != "":
-                st.write("") # Add a little spacing
-                
-                # Use columns to make the button smaller (centered)
-                btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 1])
-                with btn_col2: # This makes the button only 1/3 of the width
+                # Create a narrow column on the left for a smaller button
+                btn_col, spacer = st.columns([1, 2]) 
+                with btn_col:
                     if st.button("VERIFY & ENTER"):
                         st.session_state.user_name = name
                         st.session_state.user_team = team
