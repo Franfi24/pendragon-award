@@ -2,20 +2,20 @@ import streamlit as st
 from supabase import create_client, Client
 import os
 
-# --- 0. SUPABASE CONFIG ---
+# --- DATABASE CONNECTION (SUPABASE) ---
 SUPABASE_URL = "https://gkrkdujyuzcdoneuoakr.supabase.co"
 SUPABASE_KEY = "sb_publishable_R20QEdVZMJuy8AiPBETy0g_R62okepN"
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 TABLE_NAME = "Pendragon Awards 2026"
 
-# --- 1. APP CONFIGURATION ---
+# --- GLOBAL APP & PAGE SETTINGS ---
 st.set_page_config(
     page_title="Pendragon Awards",
     page_icon="🏀",
     layout="centered"
 )
 
-# --- 2. THEME & MOBILE TWEAKS ---
+# --- VISUAL THEME & CSS STYLING (ORIGINAL RED) ---
 st.markdown("""
     <style>
     .stApp {
@@ -55,12 +55,13 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. DATA ---
+# --- PLAYER ROSTER & CLUB DATA ---
 roster = {
     "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
     "Men's 3": ["Albert", "Dani", "Demir", "Eugen", "Francesco", "Gundars", "Hugo", "Jesper", "Quinn", "Rayan", "Terence", "Tuna"],
 }
 
+# --- DATABASE HELPER: FETCH SUBMITTED BALLOTS ---
 def get_voters():
     try:
         result = supabase.table(TABLE_NAME).select("Name").execute()
@@ -70,12 +71,13 @@ def get_voters():
 
 voted_names = get_voters()
 
+# --- SESSION STATE INITIALIZATION ---
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'voted_stage' not in st.session_state:
     st.session_state.voted_stage = "instructions"
 
-# --- 4. LOGIN ---
+# --- LOGIN & AUTHENTICATION INTERFACE ---
 if not st.session_state.authenticated:
     st.markdown("""
         <div style='display: flex; align-items: center; white-space: nowrap;'>
@@ -98,6 +100,7 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
     if team:
+        # THE INVISIBLE LOGIC: Only show players who haven't voted yet
         available_names = [n for n in roster[team] if n not in voted_names]
         
         if not available_names:
@@ -113,12 +116,13 @@ if not st.session_state.authenticated:
                         st.session_state.authenticated = True
                         st.rerun()
 
-# --- 5. SUCCESS & VOTING PAGES ---
+# --- POST-LOGIN VOTING SYSTEM ---
 else:
+    # --- NO SELF-VOTING LOGIC: GENERATE NOMINEE LIST ---
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # --- STAGE 1: INSTRUCTIONS ---
+    # --- STAGE: VOTING INSTRUCTIONS ---
     if st.session_state.voted_stage == "instructions":
         t_col1, t_col2 = st.columns([1, 5])
         with t_col1:
@@ -128,7 +132,7 @@ else:
         with t_col2:
             st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-        st.write("***Some information about the voting process***")
+        st.write("***Here is some information about the voting process***")
         st.divider()
 
         st.write("**The 2026 Ballot is split into two halves:**")
@@ -152,15 +156,23 @@ else:
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
 
-    # --- STAGE 2: BASKETBALL AWARDS ---
+    # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
-        st.write("Select one winner for each category below.")
-        st.divider()
         
-        # Space for Award Dropdowns (Placeholder)
-        st.info("The floor is yours. Select the winners.")
+        st.write("***Rules of Engagement:***")
+        st.write("""
+        1. **Coach's Selection:** You must choose one of the three candidates shortlisted by the coaches.
+        2. **One Vote:** Only one winner per category is allowed.
+        3. **Criteria:** Think about performance, dedication, and team spirit throughout the 2025-26 season.
+        """)
+        st.divider()
 
+        st.write("### Cast Your Votes")
+        # Selectboxes for individual awards will go here
+        st.info("The 6 Basketball Award categories will be listed here.")
+
+        st.divider()
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("← BACK TO INFO"):
@@ -171,12 +183,16 @@ else:
                 st.session_state.voted_stage = "fun_awards"
                 st.rerun()
 
-    # --- STAGE 3: FUN AWARDS ---
+    # --- STAGE: FUN AWARDS (OPEN NOMINATIONS) ---
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("Cast your votes for the community awards.")
+        st.write("These awards are open to any member of Pendragon except yourself.")
         st.divider()
+        
+        # Uses the 'nominees' list which excludes the current user
+        best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
 
+        st.divider()
         if st.button("← BACK TO BASKETBALL"):
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
