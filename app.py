@@ -137,7 +137,12 @@ if not st.session_state.authenticated:
     
     # Using separate st.write calls for the clean stacking you liked
     st.write("Welcome to the Pendragon Ballot!")
-    st.write("Each Pendragon Member can only vote once!")
+    st.write("""
+    * *Anonymous Voting:* Your individual selections are private and encrypted.
+    * *Eligibility:* You can vote for members of any team, not just your own.
+    * *No Self-Voting:* The system will flag ballots where a member votes for themselves.
+    * *One-Time Access:* Once your ballot is submitted, the portal will lock.
+    """)
     
     st.divider()
 
@@ -186,7 +191,8 @@ else:
         except Exception as e:
             st.error(f"Sync Error: {e}")
 
-    st.write(f"Logged in as: **{st.session_state.user_team}**")
+    st.write(f"***Here is some information about the voting process***")
+    
     st.divider()
 
     if st.button("LOG OUT"):
