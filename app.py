@@ -116,12 +116,8 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # Header Row (Back to original side-by-side)
-    t_col1, t_col2 = st.columns([1, 5])
-    with t_col1:
-        st.write("🏀") 
-    with t_col2:
-        st.markdown("# Pendragon Awards")
+    # Everything in one line, naturally left-aligned
+    st.markdown("# Pendragon Awards 🏀")
 
     st.write("Official 2026 Voting Portal")
     st.divider()
@@ -138,7 +134,7 @@ if not st.session_state.authenticated:
 
             # --- ONLY SHOW BUTTON IF NAME SELECTED ---
             if name != "":
-                # Create a narrow column on the left for a smaller button
+                # We use a 1:2 ratio to keep the button small on the left
                 btn_col, spacer = st.columns([1, 2]) 
                 with btn_col:
                     if st.button("VERIFY & ENTER"):
