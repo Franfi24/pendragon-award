@@ -125,7 +125,11 @@ if not st.session_state.authenticated:
     st.divider()
     
     st.write("") # Extra spacing
-    st.write("Welcome to the Pendragon Ballot! Please Select your Team and find your name in the dropdown menu. Each Pendragon Member can only vote once.")
+    st.write("""
+Welcome to the Pendragon Ballot! 
+Please Select your Team and find your name in the dropdown menu. 
+Each Pendragon Member can only vote once.
+""")
     st.write("") # Extra spacing
 
     st.divider()
