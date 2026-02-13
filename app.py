@@ -110,8 +110,21 @@ if not st.session_state.authenticated:
                         st.session_state.user_team = team
                         st.session_state.authenticated = True
                         st.rerun()
+# --- 5. TITLES & LABELS: LEFT ALIGNED & WHITE ---
+    h1 {
+        text-align: left !important;
+        font-size: 2.2rem !important;
+    }
 
-# --- 5. THE SYNC & SUCCESS ---
+    /* Change font-weight to 400 here to stop forcing everything to be bold */
+    label, p, [data-testid="stWidgetLabel"] {
+        color: white !important;
+        font-weight: 400 !important; /* This was 700, making it bold */
+        font-size: 1.1rem !important;
+        text-align: left !important;
+    }
+
+# --- 6. THE SYNC & SUCCESS ---
 else:
     # Header Row for Welcome Page
     t_col1, t_col2 = st.columns([1, 5])
