@@ -132,15 +132,24 @@ else:
     
     # 2. Filter out the current user's name so they can't see it in any dropdowns
     nominees = [p for p in all_players if p != st.session_state.user_name]
-    st.write(f"**Here some information about the Voting Process**")
-    st.divider()
-    st.write("""
-    * *Anonymous Voting:* Your individual selections are private.
-    * *Eligibility:* Vote for members of any team.
-    * *No Self-Voting:* The system hides your name from the ballot.
-    * *One-Time Access:* Your name disappears from this list once you submit.
+   st.write(f"**The 2026 Ballot is split into two halves:**")
+   st.write("""
+    * **Basketball Season Awards:** Official performance categories with pre-selected nominees.
+    * **Fun Awards:** Community-focused categories where any Pendragon member is eligible.
     """)
-
+    
+    st.divider()
+    
+    st.write(f"***Basketball Season Awards***")
+    st.write(f"Our coaches have shortlisted 3 top candidates for each of the 5 player categories and the Coach of the Year award.")
+    st.write(f"*Your job is to crown the winner!*")
+    
+    st.divider()
+    
+    st.write(f"***Fun Season Awards***")
+    st.write(f"These are open categories. You can nominate any Pendragon member you feel fits the title.")
+    st.write(f"*(Note: You cannot nominate yourself!)*")
+        
     # (You can add your award dropdowns here using the 'nominees' list)
 
     st.divider()
