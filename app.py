@@ -92,6 +92,12 @@ st.markdown("""
         color: #000000 !important;
     }
 
+    @media only screen and (max-width: 480px) {
+        h1 {
+            font-size: 1.8rem !important; /* Slightly smaller for very thin phones */
+        }
+    }
+
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
@@ -119,22 +125,23 @@ if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
 # --- 4. LOGIN ---
+# --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # We wrap the ball in a span to make it smaller than the text
+    # 'white-space: nowrap' forces the text and ball to stay on one line
     st.markdown("""
-        <h1 style='display: inline-block;'>
-            Pendragon Awards <span style='font-size: 1.5rem;'>🏀</span>
+        <h1 style='white-space: nowrap; display: inline-block;'>
+            Pendragon Awards <span style='font-size: 1.3rem; vertical-align: middle;'>🏀</span>
         </h1>
     """, unsafe_allow_html=True)
     
     st.write("Official 2026 Voting Portal")
     st.divider()
     
-    st.write("""
-    Welcome to the Pendragon Ballot!
+    # Using separate st.write calls for the clean stacking you liked
+    st.write("Welcome to the Pendragon Ballot!")
+    st.write("Please Select your Team and find your name in the dropdown menu.")
+    st.write("Each Pendragon Member can only vote once!")
     
-    Each Pendragon Member can only vote once!
-    """)
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
