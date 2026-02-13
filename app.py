@@ -111,8 +111,9 @@ if not st.session_state.authenticated:
                         st.session_state.authenticated = True
                         st.rerun()
 
-# --- 5. VOTING PAGE ---
+# --- 5. THE SYNC & SUCCESS ---
 else:
+    # Header Row for Welcome Page
     t_col1, t_col2 = st.columns([1, 5])
     with t_col1:
         logo_path = os.path.join("images", "logo.png")
@@ -121,39 +122,22 @@ else:
     with t_col2:
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-    st.write(f"***The Voting Process***")
+    st.write(f"***Here is some information about the voting process***")
+    
     st.divider()
 
-    # NO SELF-VOTING LOGIC:
-    # Create a list of all players across all teams, then remove the current user
-    all_players = [p for t in roster.values() for p in t]
+    # --- NO SELF-VOTING LOGIC ---
+    # 1. Flatten all teams into one big list of players
+    all_players = [player for team_list in roster.values() for player in team_list]
+    
+    # 2. Filter out the current user's name so they can't see it in any dropdowns
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # Example Awards
-    mvp = st.selectbox("🏆 SEASON MVP", options=[""] + nominees)
-    mip = st.selectbox("📈 MOST IMPROVED PLAYER", options=[""] + nominees)
+    st.write("The nominees list is ready. You will not see your own name in the selections below.")
+
+    # (You can add your award dropdowns here using the 'nominees' list)
 
     st.divider()
-
-    # Submit Button logic
-    if st.button("SUBMIT FINAL BALLOT"):
-        if mvp and mip: # Ensure they picked someone
-            try:
-                submission = {
-                    "Name": st.session_state.user_name,
-                    "Team": st.session_state.user_team,
-                    "Award": "Full Ballot",
-                    "Selection": f"MVP: {mvp}, MIP: {mip}"
-                }
-                supabase.table(TABLE_NAME).insert(submission).execute()
-                st.success("Ballot Submitted! See you at the ceremony.")
-                st.balloons()
-                st.session_state.clear() # Logs them out and wipes the name from login list
-                st.rerun()
-            except Exception as e:
-                st.error(f"Error: {e}")
-        else:
-            st.warning("Please make a selection for all awards!")
 
     if st.button("LOG OUT"):
         st.session_state.clear()
