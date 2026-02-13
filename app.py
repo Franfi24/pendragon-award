@@ -128,7 +128,7 @@ else:
         with t_col2:
             st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-        st.write("***Here is some information about the voting process***")
+        st.write("***Some information about the voting process***")
         st.divider()
 
         st.write("**The 2026 Ballot is split into two halves:**")
