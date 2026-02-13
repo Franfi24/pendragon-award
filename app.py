@@ -18,96 +18,83 @@ st.set_page_config(
 # --- 2. THEME & MOBILE TWEAKS ---
 st.markdown("""
     <style>
-    /* Main Background Gradient */
+    /* Main Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
 
-    /* 1. MAKE DROPDOWNS WHITE WITH BLACK TEXT */
-    /* This targets the main box */
+    /* 1. DROPDOWNS: WHITE BOX, BLACK TEXT */
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
         color: #000000 !important;
         border-radius: 10px !important;
-        border: none !important;
     }
-
-    /* This targets the text inside the dropdown when selected */
     div[data-baseweb="select"] * {
         color: #000000 !important;
     }
-    
-    /* This ensures the placeholder text (like "Select your name") is also visible */
-    div[role="listbox"] {
-        background-color: #FFFFFF !important;
-        color: #000000 !important;
-    }
 
-    /* 2. PROGRESS BAR COLOR */
-    /* This makes the progress bar a bright white/silver or gold so it pops */
+    /* 2. PROGRESS BAR: WHITE */
     .stProgress > div > div > div > div {
         background-color: #FFFFFF !important;
     }
 
-    /* Label text (the questions above dropdowns) */
-    label, p, [data-testid="stWidgetLabel"] {
-        color: white !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-    }
-
-    /* 3. BUTTON STYLING */
-    div.stButton > button {
-        width: 100%;
-        border-radius: 12px;
-        background-color: #000000 !important; 
-        color: #ffffff !important;
-        border: 2px solid #ffffff !important;
-        font-weight: 700;
-        text-transform: uppercase;
-        height: 3.5rem;
-        margin-top: 10px;
-    }
-
-    div.stButton > button {
-        height: 2.5rem !important; /* Shorter height */
-        font-size: 0.8rem !important; /* Smaller text */
-        padding: 0px 10px !important;
-    }
-    
-    div.stButton > button:hover {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-
-   h1 {
+    /* 3. TITLES & LABELS: LEFT ALIGNED & WHITE */
+    h1 {
         text-align: left !important;
         margin-left: 0 !important;
         margin-right: auto !important;
         width: 100% !important;
         display: block !important;
+        font-size: 2.2rem !important;
     }
 
-    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
-    </style>
-    """, unsafe_allow_html=True)
+    label, p, [data-testid="stWidgetLabel"] {
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        text-align: left !important;
+    }
 
-   /* This makes the info box background invisible */
+    /* 4. DESCRIPTION BOX: TRANSPARENT WITH WHITE TEXT */
     div.stAlert {
         background-color: transparent !important;
         border: none !important;
-        padding-left: 0 !important; /* Aligns text perfectly to the left */
-        margin-bottom: -20px !important; /* Pulls the divider closer */
+        padding-left: 0 !important;
+        margin-bottom: -20px !important;
     }
-
-    /* This forces the text to be white and clean */
     div.stAlert p {
         color: #FFFFFF !important;
         font-weight: 400 !important;
         font-size: 1.05rem !important;
         line-height: 1.5 !important;
     }
+
+    /* 5. BUTTON: SMALL, BLACK, LEFT ALIGNED */
+    div.stButton > button {
+        width: auto !important;
+        padding: 0px 20px !important;
+        border-radius: 12px;
+        background-color: #000000 !important; 
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        height: 2.5rem !important;
+        font-size: 0.8rem !important;
+        margin-top: 10px;
+        display: block !important;
+        margin-left: 0 !important;
+    }
+
+    div.stButton > button:hover {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
+    </style>
+    """, unsafe_allow_html=True)
 # --- 3. DATA ---
 roster = {
     "Ladies 1": ["Maria", "Sarah", "Elena", "Coach Jo"],
