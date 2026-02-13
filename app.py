@@ -122,7 +122,6 @@ else:
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
     st.write(f"***The Voting Process***")
-    st.write("Please select your nominees. You cannot vote for yourself.")
     st.divider()
 
     # NO SELF-VOTING LOGIC:
