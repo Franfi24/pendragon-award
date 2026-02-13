@@ -123,13 +123,12 @@ if not st.session_state.authenticated:
     st.markdown("# Pendragon Awards 🏀") # No columns, just straight text
     st.write("Official 2026 Voting Portal")
     st.divider()
-    st.divider()
+    
+    st.write("") # Extra spacing
+    st.write("Welcome to the Pendragon Ballot! Please Select your Team and find your name in the dropdown menu. Each Pendragon Member can only vote once.")
+    st.write("") # Extra spacing
 
-    st.info("""
-    Welcome to the Pendragon Ballot! 
-    Please Select your Team and find your name in the dropdown menu.
-    Each Pendragon Member can only vote once. 
-    """)
+    st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
