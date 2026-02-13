@@ -70,6 +70,18 @@ roster = {
     "Men's 2": ["Alex", "Jordan", "Chris", "Big Steve"],
 }
 
+# --- ADDED: Function to see who already voted ---
+def get_voters():
+    try:
+        # Fetches only the 'Name' column from your Supabase table
+        result = supabase.table(TABLE_NAME).select("Name").execute()
+        return [row['Name'] for row in result.data]
+    except Exception:
+        return []
+
+# Get the list of names that already exist in the database
+voted_names = get_voters()
+
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
@@ -90,14 +102,22 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
 
     if team:
-        name = st.selectbox("SELECT YOUR NAME", options=[""] + roster[team])
+        # --- ADD THIS LINE TO FILTER NAMES ---
+        available_names = [name for name in roster[team] if name not in voted_names]
+        
+        # --- ADD THIS CHECK ---
+        if not available_names:
+            st.warning("Everyone on this team has already voted! 🎉")
+        else:
+            # CHANGE 'roster[team]' TO 'available_names' BELOW
+            name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
 
-        if st.button("VERIFY & ENTER"):
-            if name:
-                st.session_state.user_name = name
-                st.session_state.user_team = team
-                st.session_state.authenticated = True
-                st.rerun()
+            if st.button("VERIFY & ENTER"):
+                if name:
+                    st.session_state.user_name = name
+                    st.session_state.user_team = team
+                    st.session_state.authenticated = True
+                    st.rerun()
 
 # --- 5. THE SYNC & SUCCESS ---
 else:
