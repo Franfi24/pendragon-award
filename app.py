@@ -69,6 +69,12 @@ st.markdown("""
         height: 3.5rem;
         margin-top: 10px;
     }
+
+    div.stButton > button {
+        height: 2.5rem !important; /* Shorter height */
+        font-size: 0.8rem !important; /* Smaller text */
+        padding: 0px 10px !important;
+    }
     
     div.stButton > button:hover {
         background-color: #ffffff !important;
@@ -110,37 +116,37 @@ if 'authenticated' not in st.session_state:
 
 # --- 4. LOGIN ---
 if not st.session_state.authenticated:
-    # Header Row
-    t_col1, t_col2 = st.columns([1, 5])
-    with t_col1:
-        logo_path = os.path.join("images", "logo.png")
-        if os.path.exists(logo_path):
-            st.image(logo_path, width=80)  # Made the logo bigger
-    with t_col2:
-        st.markdown("# Pendragon Awards 🏀")
+    # Header logic (keeping your centered logo/title)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown("<h1 style='text-align: center; font-size: 60px; margin-bottom:0;'>🏀</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align: center; margin-top:0;'>PENDRAGON AWARDS</h1>", unsafe_allow_html=True)
 
-    st.write("Pendragon Official voting app")
+    st.write("Official 2026 Voting Portal")
     st.divider()
 
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
 
     if team:
-        # --- ADD THIS LINE TO FILTER NAMES ---
-        available_names = [name for name in roster[team] if name not in voted_names]
+        available_names = [n for n in roster[team] if n not in voted_names]
         
-        # --- ADD THIS CHECK ---
         if not available_names:
-            st.warning("Everyone on this team has already voted! 🎉")
+            st.warning("All players on this team have voted! 🎉")
         else:
-            # CHANGE 'roster[team]' TO 'available_names' BELOW
             name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
 
-            if st.button("VERIFY & ENTER"):
-                if name:
-                    st.session_state.user_name = name
-                    st.session_state.user_team = team
-                    st.session_state.authenticated = True
-                    st.rerun()
+            # --- ONLY SHOW BUTTON IF NAME IS SELECTED ---
+            if name != "":
+                st.write("") # Add a little spacing
+                
+                # Use columns to make the button smaller (centered)
+                btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 1])
+                with btn_col2: # This makes the button only 1/3 of the width
+                    if st.button("VERIFY & ENTER"):
+                        st.session_state.user_name = name
+                        st.session_state.user_team = team
+                        st.session_state.authenticated = True
+                        st.rerun()
 
 # --- 5. THE SYNC & SUCCESS ---
 else:
