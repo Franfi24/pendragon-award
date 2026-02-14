@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
+# --- THE MATEI WIDTH EQUALIZER CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,38 +23,53 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Target the container of the 3 columns */
+    /* 1. THE STRIP CONTAINER */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
+        align-items: flex-start !important;
     }
 
-    /* Target the columns themselves and force them to stay 33% */
-    [data-testid="column"], .stColumn {
+    /* 2. THE COLUMN EQUALIZER */
+    /* Forces all 3 columns to be mathematically identical in width */
+    [data-testid="column"] {
+        flex: 1 1 0 !important; 
         width: 33.33% !important;
-        flex: 1 1 33.33% !important;
-        min-width: 0px !important; /* This stops them from stacking */
+        max-width: 33.33% !important;
+        min-width: 0px !important;
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* Force the image to fill that 33% width perfectly */
-    [data-testid="stImage"] img {
-        height: 140px !important;
+    /* 3. THE IMAGE EQUALIZER */
+    [data-testid="stImage"] {
         width: 100% !important;
-        object-fit: cover !important;
-        border: none !important;
     }
 
-    /* Dropdown text size */
-    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
+    [data-testid="stImage"] img {
+        height: 180px !important;    /* Uniform height */
+        width: 100% !important;      /* Forced uniform width */
+        object-fit: cover !important; /* Crops edges so they fill the 33% width */
+        border: none !important;
+        border-radius: 0px !important;
+    }
 
-    /* Pinning buttons to edges */
+    /* 4. BLACK BUTTONS */
     div.stButton > button {
-        width: auto !important;
-        min-width: 90px;
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px !important;
+        min-width: 100px;
+    }
+
+    /* Centered Labels */
+    [data-testid="column"] p {
+        text-align: center !important;
+        font-size: 0.75rem !important;
+        margin-top: 5px !important;
     }
     </style>
     """, unsafe_allow_html=True)
