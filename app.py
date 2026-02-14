@@ -417,7 +417,6 @@ else:
                 st.session_state.voted_stage = "best_coach"
                 st.rerun()
         with f_col2:
-            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("🏀 SUBMIT"):
                 # Check if everything is filled (Optional: remove checks if some are optional)
                 if all(st.session_state.selections.get(k) for k in ["best_supporter", "party_animal", "drama", "karen", "always_late", "always_forgets"]):
