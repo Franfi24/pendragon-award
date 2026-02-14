@@ -168,7 +168,7 @@ else:
         with b_col2:
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"
+                    st.session_state.voted_stage = "most_improved_player"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
@@ -188,20 +188,20 @@ else:
         mip_vote = st.selectbox("Your Pick:", options=["", "Rayan", "Lise", "Elmer"], key="mip_sel")
         st.session_state.selections['most_improved_player'] = mip_vote
 
+         # Back & Next Buttons on the same line
+        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "rookie_awards"
+                st.session_state.voted_stage = "rookie_of_the_year"
                 st.rerun()
         with b_col2:
-            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('most_improved_player'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-            st.markdown('</div>', unsafe_allow_html=True)
 
     # STAGE 4: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
