@@ -58,26 +58,13 @@ st.markdown("""
         font-weight: bold !important;
     }
 
-    /* ALIGN RIGHT COLUMN CONTENT TO THE END */
-    .align-right {
-        display: flex;
-        justify-content: flex-end;
-    }
-
     /* Dropdown text size */
     div[data-baseweb="select"] div { font-size: 0.8rem !important; }
 
-    /* This forces the container to push its content to the far right */
-    .pin-right {
-        display: flex;
-        justify-content: flex-end;
-        width: 100%;
-    }
-
-    /* Ensure buttons don't try to be full-width so they can align */
+    /* Pinning buttons to edges */
     div.stButton > button {
         width: auto !important;
-        min-width: 110px;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -182,27 +169,20 @@ else:
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # --- NAVIGATION BUTTONS ---
+        # Back & Next Buttons on the same line
         st.write("") # Spacer
-        # Use columns to get them on the same line
-        b_col, n_col = st.columns(2)
-        
-        with b_col:
-            # Back button stays on the left
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-                
-        with n_col:
-            # Next button gets pinned to the far right
-            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
+        with b_col2:
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-            st.markdown('</div>', unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
