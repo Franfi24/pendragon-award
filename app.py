@@ -345,7 +345,7 @@ else:
             options=["", "Niels", "Ilinca", "KJ"], 
             key="bc_sel"
         )
-        st.session_state.selections['best_shooter'] = best_coach_vote
+        st.session_state.selections['best_coach'] = best_coach_vote
 
         # --- Navigation Buttons ---
         st.write("") 
