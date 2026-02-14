@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE NO-SCROLL MOBILE STRIP CSS ---
+# --- THE FINAL MOBILE FORCE-FIT CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,31 +23,36 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. THE ROW: Force it to fit the screen width exactly */
+    /* 1. THE ROW: Kill all overflow and force 100% width */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
         width: 100% !important;
-        overflow: hidden !important; /* Prevents horizontal scrolling */
+        max-width: 100% !important;
+        overflow: hidden !important; /* Prevents the scroll you're seeing */
     }
 
-    /* 2. THE COLUMNS: Strict 1/3rd locking */
+    /* 2. THE COLUMNS: Force them to shrink to fit */
     [data-testid="column"] {
-        flex: 1 1 0% !important; 
+        flex: 1 1 33.33% !important; /* Grow: 1, Shrink: 1, Basis: 33% */
         width: 33.33% !important;
         max-width: 33.33% !important;
-        min-width: 0px !important;
+        min-width: 0px !important; /* Critical: allows column to be smaller than the image */
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* 3. THE IMAGES: Force them to shrink to fit the column */
+    /* 3. THE IMAGES: Force to 100% of the tiny column width */
+    [data-testid="stImage"] {
+        width: 100% !important;
+    }
+
     [data-testid="stImage"] img {
-        height: 140px !important;    
-        width: 100% !important;      
-        object-fit: cover !important; 
+        height: 140px !important;     /* Height that works well on most phones */
+        width: 100% !important;       /* Forces the image to shrink to the column */
+        object-fit: cover !important;  /* Crops the sides to keep it looking good */
         border-radius: 0px !important;
         border: none !important;
         display: block !important;
@@ -61,9 +66,9 @@ st.markdown("""
         border-radius: 8px !important;
     }
 
-    /* Remove Streamlit default container padding */
-    [data-testid="stImage"], [data-testid="column"] { 
-        padding: 0px !important; 
+    /* Remove hidden Streamlit padding that pushes Matei off-screen */
+    [data-testid="stImage"] > div {
+        width: 100% !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -147,22 +152,28 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # This row is now locked to the screen width
+        # The Horizontal Strip: Locked to 100% Screen Width
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
         with col2:
+            # Stella - The Middle Anchor
             st.image(os.path.join("images", "rookie2.jpeg"))
         with col3:
+            # Matei - Forced to match Stella's width by CSS
             st.image(os.path.join("images", "rookie3.jpeg"))
 
         st.divider()
         
-        # Dropdown for voting
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_no_scroll")
+        # Dropdown for the vote
+        rookie_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Jesper", "Stella", "Matei"], 
+            key="rookie_mobile_v8"
+        )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Black Buttons
+        # Black Navigation Buttons
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
