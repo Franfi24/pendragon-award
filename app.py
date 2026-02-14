@@ -96,58 +96,30 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- SECTION 1: LOGIN ---
+# --- SECTION 1: LOGIN ---hey
 if not st.session_state.authenticated:
-    st.markdown("<h1 style='text-align: center;'>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
-    st.write("<p style='text-align: center;'>Official 2026 Voting Portal</p>", unsafe_allow_html=True)
-    
-    with st.expander("Voting Instructions & Rules", expanded=True):
-        st.write("""
-        * **Private Voting:** Your individual selections are private.
-        * **Eligibility:** You can vote for members of any team.
-        * **No Self-Voting:** The system will filter you out of the nominee lists.
-        * **One-Time Access:** Your name disappears from this list once you submit.
-        """)
-    
+    st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
+    st.write("Official 2026 Voting Portal")
+    st.write("Welcome to the Pendragon Ballot!")
+    st.write("""
+    * *Private Voting:* Your individual selections are private.
+    * *Eligibility:* Vote for members of any team.
+    * *No Self-Voting:* The system does not allow to vote for yourself.
+    * *One-Time Access:* Your name disappears from this list once you submit.
+    """)
     st.divider()
-    
-    # 1. TEAM SELECTION
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
-    
     if team:
-        # IMMEDIATELY fetch the most recent list of people who have already voted
-        # We clear the cache to ensure we aren't seeing old data
-        st.cache_data.clear()
-        voted_names = get_voters() 
-        
-        # Filter the roster for that specific team: 
-        # Only show names NOT found in the 'voted_names' list from Supabase
         available_names = [n for n in roster[team] if n not in voted_names]
-        
         if not available_names:
-            st.error(f"Selection Error: All players from {team} have already submitted their ballots! 🏆")
+            st.warning("All players on this team have already voted! 🎉")
         else:
-            # 2. NAME SELECTION
-            # Only names that haven't voted yet will appear here
             name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
-            
-            if name:
-                st.warning(f"Logging in as: **{name}**. You cannot change this once you enter.")
-                
-                if st.button("VERIFY & ENTER"):
-                    # FINAL DOUBLE-CHECK: 
-                    # This prevents a user from voting if they opened the page 
-                    # before someone else with the same name submitted.
-                    fresh_voted_list = get_voters()
-                    if name in fresh_voted_list:
-                        st.error("Access Denied: A submission for this name was just detected.")
-                        st.cache_data.clear()
-                        st.rerun()
-                    else:
-                        st.session_state.user_name = name
-                        st.session_state.user_team = team
-                        st.session_state.authenticated = True
-                        st.rerun()
+            if name and st.button("VERIFY & ENTER"):
+                st.session_state.user_name = name
+                st.session_state.user_team = team
+                st.session_state.authenticated = True
+                st.rerun()
 
 # --- POST-LOGIN VOTING FLOW ---
 else:
@@ -398,22 +370,45 @@ else:
                 else:
                     st.warning("Please pick a winner!")
     
-  # STAGE 8: FUN AWARDS
+    # STAGE 8: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("*Anybody is eligible for these awards!*")
+        st.write("*Anybody is eligible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester.*")
         st.divider()
 
-        # Input Selectboxes
-        s_supporter = st.selectbox("📣 Best Supporter", options=[""] + nominees, key="fun_supporter")
-        s_party = st.selectbox("🍻 Party Animal", options=[""] + nominees, key="fun_party")
-        s_drama = st.selectbox("🎭 Most Dramatic", options=[""] + nominees, key="fun_drama")
-        s_karen = st.selectbox("👑 The 'Karen'", options=[""] + nominees, key="fun_karen")
-        s_late = st.selectbox("⏰ Always Late", options=[""] + nominees, key="fun_late")
-        s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + nominees, key="fun_forget")
+        # 1. Best Supporter
+        st.markdown("### 📣 Best Supporter")
+        s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + nominees, key="fun_supporter")
+        st.write("*Cheering even when their own team isn't playing.*")
+
+        # 2. Party Animal
+        st.markdown("### 🍻 Party Animal")
+        s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
+        st.write("*First one at the bar, last one to leave the after-party.*")
+
+        # 3. Drama
+        st.markdown("### 🎭 Most Dramatic")
+        s_drama = st.selectbox("Who brings Hollywood to the hardwood?", options=[""] + nominees, key="fun_drama")
+        st.write("*Every foul is a tragedy, every missed layup is a heartbreak.*")
+
+        # 4. Karen
+        st.markdown("### 👑 The 'Karen'")
+        s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
+        st.write("*Ready to challenge every whistle and discuss the rules.*")
+
+        # 5. Always Late
+        st.markdown("### ⏰ Always Late")
+        s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
+        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
+
+        # 6. Forgetful One
+        st.markdown("### 🎒 The Forgetful One")
+        s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
+        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
 
         st.divider()
         
+        # --- SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
@@ -423,11 +418,13 @@ else:
                 
         with f_col2:
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
+                
+                # Check if all fields are filled using the variables above
                 fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
                     data = {
-                        "name": st.session_state.user_name, # Saved as lowercase "name"
+                        "name": st.session_state.user_name,
                         "team": st.session_state.user_team,
                         "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
                         "mip_vote": st.session_state.selections.get('most_improved_player'),
@@ -440,33 +437,17 @@ else:
                         "drama": s_drama,
                         "karen": s_karen,
                         "always_late": s_late,
-                        "always_forgets": s_forget 
+                        "always_forgets": s_forget  # Matches your error-prone key
                     }
                     
                     try:
-                        # 1. Push to Database
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        
-                        # 2. CLEAR THE CACHE - This is what stops the double-vote
-                        # It forces get_voters() to run again on the next load
-                        st.cache_data.clear() 
-                        
-                        # 3. Success UI
+                        st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
-                        st.success(f"Thank you, {st.session_state.user_name}! Your votes are locked in.")
-                        
-                        # 4. Reset Session State
                         st.session_state.authenticated = False
-                        st.session_state.voted_stage = "instructions"
-                        st.session_state.selections = {}
-                        
-                        import time
-                        time.sleep(3)
-                        
-                        # 5. Rerun to Login
-                        st.rerun()
-                        
+                        st.info("Log out complete. Thank you for voting!")
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories!")
+                    st.warning("Please make a selection for all categories before submitting!")
+            st.markdown('</div>', unsafe_allow_html=True)
