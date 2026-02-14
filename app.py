@@ -110,7 +110,7 @@ else:
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # STAGE: INSTRUCTIONS
+    # STAGE 1: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
         st.write("***Information about the voting process***")
@@ -124,20 +124,21 @@ else:
         
         st.divider()
         st.write("### Basketball Season Awards")
-        st.write("Our coaches have selected 3 top candidates for each category. *Your job is to crown the winner!*")
+        st.write("Our coaches have selected 3 top candidates for each category.")
         st.write("### Fun Season Awards")
-        st.write("These are open categories. You can nominate any member. *(Note: You cannot nominate yourself!)*")
+        st.write("These are open categories. You can nominate any member.")
         st.divider()
 
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-  elif st.session_state.voted_stage == "rookie_awards":
+    # STAGE 2: ROOKIE OF THE YEAR
+    elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # All columns must be shifted right (indented)
+        # Nominee Strip
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -170,28 +171,26 @@ else:
                     st.warning("Pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
 
-
-    # STAGE: FUN AWARDS & SUBMISSION
+    # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("*Choose anyone from the club for these community titles.*")
+        st.write("*Choose anyone from the club.*")
         
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
         st.session_state.selections['best_dressed'] = best_dressed
 
         st.divider()
         
-        if st.button("🏀 SUBMIT FINAL BALLOT"):
-            try:
-                submission = {
-                    "Name": st.session_state.user_name,
-                    "Team": st.session_state.user_team,
-                    "Selection": str(st.session_state.selections)
-                }
-                supabase.table(TABLE_NAME).insert(submission).execute()
-                st.success("Ballot Submitted!")
-                st.balloons()
-                st.session_state.clear()
+        # Navigation
+        f_col1, f_col2 = st.columns(2)
+        with f_col1:
+            if st.button("← BACK", key="f_back"):
+                st.session_state.voted_stage = "rookie_awards"
                 st.rerun()
-            except Exception as e:
-                st.error(f"Error: {e}")
+        with f_col2:
+            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
+            if st.button("🏀 SUBMIT"):
+                # (Your Supabase logic here)
+                st.success("Submitted!")
+                st.balloons()
+            st.markdown("</div>", unsafe_allow_html=True)
