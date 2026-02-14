@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE FINAL MOBILE FORCE-FIT CSS ---
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,52 +23,38 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. THE ROW: Kill all overflow and force 100% width */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow: hidden !important; /* Prevents the scroll you're seeing */
     }
 
-    /* 2. THE COLUMNS: Force them to shrink to fit */
-    [data-testid="column"] {
-        flex: 1 1 33.33% !important; /* Grow: 1, Shrink: 1, Basis: 33% */
+    /* Target the columns themselves and force them to stay 33% */
+    [data-testid="column"], .stColumn {
         width: 33.33% !important;
-        max-width: 33.33% !important;
-        min-width: 0px !important; /* Critical: allows column to be smaller than the image */
+        flex: 1 1 33.33% !important;
+        min-width: 0px !important; /* This stops them from stacking */
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* 3. THE IMAGES: Force to 100% of the tiny column width */
-    [data-testid="stImage"] {
-        width: 100% !important;
-    }
-
+    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
-        height: 140px !important;     /* Height that works well on most phones */
-        width: 100% !important;       /* Forces the image to shrink to the column */
-        object-fit: cover !important;  /* Crops the sides to keep it looking good */
-        border-radius: 0px !important;
-        border: none !important;
-        display: block !important;
-    }
-
-    /* 4. SOLID BLACK BUTTONS */
-    div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px !important;
-    }
-
-    /* Remove hidden Streamlit padding that pushes Matei off-screen */
-    [data-testid="stImage"] > div {
+        height: 140px !important;
         width: 100% !important;
+        object-fit: cover !important;
+        border: none !important;
+    }
+
+    /* Dropdown text size */
+    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
+
+    /* Pinning buttons to edges */
+    div.stButton > button {
+        width: auto !important;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
