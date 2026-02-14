@@ -96,30 +96,58 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- SECTION 1: LOGIN ---hey
+# --- SECTION 1: LOGIN ---
 if not st.session_state.authenticated:
-    st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
-    st.write("Official 2026 Voting Portal")
-    st.write("Welcome to the Pendragon Ballot!")
-    st.write("""
-    * *Private Voting:* Your individual selections are private.
-    * *Eligibility:* Vote for members of any team.
-    * *No Self-Voting:* The system does not allow to vote for yourself.
-    * *One-Time Access:* Your name disappears from this list once you submit.
-    """)
+    st.markdown("<h1 style='text-align: center;'>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
+    st.write("<p style='text-align: center;'>Official 2026 Voting Portal</p>", unsafe_allow_html=True)
+    
+    with st.expander("Voting Instructions & Rules", expanded=True):
+        st.write("""
+        * **Private Voting:** Your individual selections are private.
+        * **Eligibility:** You can vote for members of any team.
+        * **No Self-Voting:** The system will filter you out of the nominee lists.
+        * **One-Time Access:** Your name disappears from this list once you submit.
+        """)
+    
     st.divider()
+    
+    # 1. TEAM SELECTION
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
+    
     if team:
+        # IMMEDIATELY fetch the most recent list of people who have already voted
+        # We clear the cache to ensure we aren't seeing old data
+        st.cache_data.clear()
+        voted_names = get_voters() 
+        
+        # Filter the roster for that specific team: 
+        # Only show names NOT found in the 'voted_names' list from Supabase
         available_names = [n for n in roster[team] if n not in voted_names]
+        
         if not available_names:
-            st.warning("All players on this team have already voted! 🎉")
+            st.error(f"Selection Error: All players from {team} have already submitted their ballots! 🏆")
         else:
+            # 2. NAME SELECTION
+            # Only names that haven't voted yet will appear here
             name = st.selectbox("SELECT YOUR NAME", options=[""] + available_names)
-            if name and st.button("VERIFY & ENTER"):
-                st.session_state.user_name = name
-                st.session_state.user_team = team
-                st.session_state.authenticated = True
-                st.rerun()
+            
+            if name:
+                st.warning(f"Logging in as: **{name}**. You cannot change this once you enter.")
+                
+                if st.button("VERIFY & ENTER"):
+                    # FINAL DOUBLE-CHECK: 
+                    # This prevents a user from voting if they opened the page 
+                    # before someone else with the same name submitted.
+                    fresh_voted_list = get_voters()
+                    if name in fresh_voted_list:
+                        st.error("Access Denied: A submission for this name was just detected.")
+                        st.cache_data.clear()
+                        st.rerun()
+                    else:
+                        st.session_state.user_name = name
+                        st.session_state.user_team = team
+                        st.session_state.authenticated = True
+                        st.rerun()
 
 # --- POST-LOGIN VOTING FLOW ---
 else:
