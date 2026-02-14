@@ -24,13 +24,14 @@ st.markdown("""
         color: #ffffff;
     }
     
-    /* FORCE IDENTICAL IMAGE SIZING */
+   /* FORCE IDENTICAL IMAGE SIZING & FULL WIDTH */
     [data-testid="stImage"] img {
-        height: 450px !important;    /* Exact height for all portraits */
+        height: 450px !important;    /* Fixed height */
         min-height: 450px !important; 
-        width: 100% !important;
-        object-fit: cover !important; /* Forces the crop to fill the 450px */
-        object-position: top;         /* Focuses the crop on the player's face */
+        width: 100% !important;      /* Forces it to fill the column width */
+        min-width: 100% !important;
+        object-fit: cover !important; /* Crops the image to fill the 450xWidth box */
+        object-position: center;      /* Keeps the player centered in the frame */
         border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.2);
     }
