@@ -7,7 +7,7 @@ import os
 SUPABASE_URL = "https://gkrkdujyuzcdoneuoakr.supabase.co"
 SUPABASE_KEY = "sb_publishable_R20QEdVZMJuy8AiPBETy0g_R62okepN"
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-TABLE_NAME = "Pendragon Awards 2026"
+TABLE_NAME = "Pendragon Awards"
 
 # --- GLOBAL APP & PAGE SETTINGS ---
 st.set_page_config(
