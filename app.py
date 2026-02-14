@@ -79,7 +79,7 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- LOGIN & AUTHENTICATION INTERFACE ---
+# --- SECTION 1: LOGIN & AUTHENTICATION ---
 if not st.session_state.authenticated:
     st.markdown("""
         <div style='display: flex; align-items: center; white-space: nowrap;'>
@@ -92,9 +92,9 @@ if not st.session_state.authenticated:
     st.divider()
     st.write("Welcome to the Pendragon Ballot!")
     st.write("""
-    * *Private Voting:* Your individual selections are private.
+    * *Anonymous Voting:* Your individual selections are private.
     * *Eligibility:* Vote for members of any team.
-    * *No Self-Voting:* It is not possible to vote for yourself.
+    * *No Self-Voting:* The system hides your name from the ballot.
     * *One-Time Access:* Your name disappears from this list once you submit.
     """)
     st.divider()
@@ -117,13 +117,12 @@ if not st.session_state.authenticated:
                         st.session_state.authenticated = True
                         st.rerun()
 
-# --- POST-LOGIN VOTING SYSTEM ---
+# --- POST-LOGIN VOTING FLOW ---
 else:
-    # --- NO SELF-VOTING LOGIC: GENERATE NOMINEE LIST ---
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # --- STAGE: VOTING INSTRUCTIONS ---
+    # --- SECTION 2: VOTING INSTRUCTIONS ---
     if st.session_state.voted_stage == "instructions":
         t_col1, t_col2 = st.columns([1, 5])
         with t_col1:
@@ -133,70 +132,84 @@ else:
         with t_col2:
             st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-        st.write("***Here is some information about the voting process***")
+        st.write("***Information about the voting process***")
         st.divider()
-
         st.write("**The 2026 Ballot is split into two halves:**")
         st.write("""
-        * Basketball Season Awards: Official performance categories with pre-selected nominees.
-        * Fun Awards: Community-focused categories where any Pendragon member is eligible.
+        * Basketball Season Awards: Official categories with coach-selected nominees.
+        * Fun Awards: Community categories where any member is eligible.
         """)
         st.divider()
         
-        st.write("***Basketball Season Awards***")
-        st.write("Our coaches have selected 3 top candidates for each of the 5 player categories and the Coach of the Year award.")
-        st.write("*Your job is to crown the winner!*")
-        st.divider()
-        
-        st.write("***Fun Season Awards***")
-        st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
-        st.write("*(Note: You cannot nominate yourself!)*")
-        st.divider()
-
-        if st.button("BASKETBALL SEASON AWARDS →"):
+        if st.button("START VOTING →"):
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
 
-    # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
+    # --- SECTION 3: BASKETBALL AWARDS & ELIGIBILITY RULES ---
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
         
         st.write("***Basketball Award Eligibility:***")
-        st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for the basketball award nomination if:")
+        st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for nomination if:")
         st.write("""
         * They have been a member for only one semester.
         * They missed 6 or more games due to injury or other reasons.
         """)
         st.divider()
 
+        st.write("### Cast Your Votes")
+
+        # --- AWARD: ROOKIE OF THE YEAR ---
+        st.write("**1. Rookie of the Year**")
+        st.write("*Players who are new to Pendragon and have shown amazing improvement, commitment, and growth this season.*")
+        
+        # Replace these placeholders with your actual 3 nominees
+        rookie_nominees = ["", "Nominee A", "Nominee B", "Nominee C"]
+        rookie_vote = st.selectbox("Select your Rookie of the Year:", options=rookie_nominees, key="rookie_select")
+        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+
+        st.divider()
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("← BACK TO INFO"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with col2:
-            if st.button("CATEGORY 1→"):
-                st.session_state.voted_stage = "fun_awards"
-                st.rerun()
+            if st.button("NEXT: FUN AWARDS →"):
+                if st.session_state.selections.get('rookie_of_the_year'):
+                    st.session_state.voted_stage = "fun_awards"
+                    st.rerun()
+                else:
+                    st.warning("Please make a selection for Rookie of the Year!")
 
-    # --- STAGE: FUN AWARDS (OPEN NOMINATIONS) ---
+    # --- SECTION 4: FUN AWARDS & SUBMISSION ---
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
         st.write("These awards are open to any member of Pendragon except yourself.")
         st.divider()
         
-        # Uses the 'nominees' list which excludes the current user
+        # Example Fun Award
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
         st.session_state.selections['best_dressed'] = best_dressed
 
         st.divider()
         col1, col2 = st.columns([1, 1])
         with col1:
-            if st.button("← BACK TO BASKETBALL"):
+            if st.button("← BACK"):
                 st.session_state.voted_stage = "basketball_awards"
                 st.rerun()
         with col2:
              if st.button("🏀 SUBMIT FINAL BALLOT"):
-                # Logic for database insertion would go here
-                st.success("Ballot Submitted!")
-                st.balloons()
+                try:
+                    submission = {
+                        "Name": st.session_state.user_name,
+                        "Team": st.session_state.user_team,
+                        "Selection": str(st.session_state.selections)
+                    }
+                    supabase.table(TABLE_NAME).insert(submission).execute()
+                    st.success("Ballot Submitted!")
+                    st.balloons()
+                    st.session_state.clear()
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {e}")
