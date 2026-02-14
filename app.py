@@ -316,7 +316,7 @@ else:
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "defensive_driver"
+                st.session_state.voted_stage = "best_driver"
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
@@ -345,7 +345,7 @@ else:
             options=["", "Niels", "Ilinca", "KJ"], 
             key="bc_sel"
         )
-        st.session_state.selections['best_shooter'] = best_shooter_vote
+        st.session_state.selections['best_shooter'] = best_coach_vote
 
         # --- Navigation Buttons ---
         st.write("") 
@@ -361,7 +361,7 @@ else:
         with b_col2:
             if st.button("NEXT →"):
                 if st.session_state.selections.get('best_shooter'):
-                    st.session_state.voted_stage = "best_coach"
+                    st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
