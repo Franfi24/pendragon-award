@@ -3,7 +3,6 @@ from supabase import create_client, Client
 import os
 
 
-
 # --- DATABASE CONNECTION (SUPABASE) ---
 SUPABASE_URL = "https://gkrkdujyuzcdoneuoakr.supabase.co"
 SUPABASE_KEY = "sb_publishable_R20QEdVZMJuy8AiPBETy0g_R62okepN"
@@ -92,7 +91,7 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- SECTION 1: LOGIN ---
+# --- SECTION 1: LOGIN ---hey
 if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
     st.write("Official 2026 Voting Portal")
