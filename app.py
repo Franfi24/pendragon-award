@@ -15,83 +15,72 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- MOBILE-FIRST CSS STYLING ---
+# --- VISUAL THEME & CSS STYLING ---
 st.markdown("""
     <style>
-    /* Main App Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
 
-   /* THE IMAGE EQUALIZER: Tightened Gaps */
+    /* THE SEAMLESS IMAGE STRIP */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        justify-content: center !important; /* Centers the group */
-        gap: 2px !important; /* Reduced gap between pictures */
+        gap: 0px !important; /* Removes gaps */
     }
 
     [data-testid="column"] {
         flex: 1 !important;
-        width: 33% !important;
-        min-width: 0px !important;
-        padding: 0px 2px !important; /* Reduced side padding */
+        width: 33.33% !important;
+        padding: 0px !important; /* Removes gutters */
     }
 
     [data-testid="stImage"] img {
         height: 150px !important;
-        width: 100% !important;      
+        width: 100% !important;
         object-fit: cover !important;
-        object-position: center 20%; 
-        border-radius: 8px; /* Slightly smaller radius looks better closer together */
-        border: 2px solid rgba(255,255,255,0.3);
-    }
-    [data-testid="stImage"] img {
-        height: 150px !important;    /* Uniform height for the row */
-        width: 100% !important;      
-        object-fit: cover !important; /* Crops landscape photos to match portrait */
-        object-position: center 20%; 
-        border-radius: 12px;
-        border: 2px solid rgba(255,255,255,0.3);
+        object-position: center 20%;
+        border: 1px solid rgba(255,255,255,0.1); /* Very thin divider */
+        box-sizing: border-box !important;
     }
 
-    /* Names under images */
-    [data-testid="column"] p {
-        text-align: center !important;
-        font-size: 0.8rem !important;
-        font-weight: 700 !important;
-        margin-top: -10px !important;
-    }
-
-    /* Selectbox Styling */
-    .stSelectbox { margin-top: 10px !important; margin-bottom: 30px !important; }
+    /* SMALLER TEXT IN SELECTBOX */
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
+        min-height: 35px !important; /* Slimmer box */
+    }
+    
+    /* Targets the actual text inside the dropdown */
+    div[data-baseweb="select"] div {
+        font-size: 0.85rem !important; 
         color: #000000 !important;
-        border-radius: 10px !important;
     }
-    div[data-baseweb="select"] * { color: #000000 !important; }
 
-    /* Navigation Buttons: Balanced & Sized for Mobile */
-    div.stButton > button {
-        background-color: #000000 !important; 
-        color: #ffffff !important;
-        border: 2px solid #ffffff !important;
-        border-radius: 10px;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 0.8rem !important;
+    /* BUTTON PINNING: Far Left and Far Right */
+    /* We create a specific container for the nav row */
+    .nav-row {
+        display: flex !important;
+        justify-content: space-between !important;
         width: 100% !important;
-        padding: 10px 0px !important;
+        margin-top: 20px;
     }
 
-    /* Header Styling */
-    h1 { font-size: 1.8rem !important; text-align: left !important; }
-    h2 { font-size: 1.5rem !important; }
-    label, [data-testid="stWidgetLabel"] { color: white !important; }
-    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
+    div.stButton > button {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px;
+        font-size: 0.8rem !important;
+        padding: 5px 15px !important;
+    }
+
+    /* Centering names under pictures */
+    [data-testid="column"] p {
+        text-align: center !important;
+        font-size: 0.75rem !important;
+        margin-top: 2px !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -175,7 +164,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
         
-        # This layout now respects the tight gaps defined in the CSS above
+        # Seamless Image Row
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -188,22 +177,27 @@ else:
             st.markdown("<p>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
+        
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
-        # Navigation Buttons
-        c1, c2 = st.columns(2)
-        with c1:
+
+        # NAVIGATION: Pinned to Far Left and Far Right
+        nav_col1, nav_col2 = st.columns([1, 1])
+        with nav_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-        with c2:
+        with nav_col2:
+            # Streamlit buttons in the second column naturally align left, 
+            # so we wrap this one in a right-aligned div.
+            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please select a winner!")
-
+            st.markdown("</div>", unsafe_allow_html=True)
     # STAGE: FUN AWARDS & SUBMISSION
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
