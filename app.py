@@ -24,21 +24,30 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* THE IMAGE EQUALIZER: Forces Matei and others to match perfectly */
+   /* THE IMAGE EQUALIZER: Tightened Gaps */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important; /* Forces side-by-side on mobile */
+        flex-direction: row !important;
         flex-wrap: nowrap !important;
-        justify-content: space-between !important;
-        gap: 5px !important;
+        justify-content: center !important; /* Centers the group */
+        gap: 2px !important; /* Reduced gap between pictures */
     }
 
     [data-testid="column"] {
         flex: 1 !important;
-        width: 32% !important;
+        width: 33% !important;
         min-width: 0px !important;
+        padding: 0px 2px !important; /* Reduced side padding */
     }
 
+    [data-testid="stImage"] img {
+        height: 150px !important;
+        width: 100% !important;      
+        object-fit: cover !important;
+        object-position: center 20%; 
+        border-radius: 8px; /* Slightly smaller radius looks better closer together */
+        border: 2px solid rgba(255,255,255,0.3);
+    }
     [data-testid="stImage"] img {
         height: 150px !important;    /* Uniform height for the row */
         width: 100% !important;      
@@ -166,7 +175,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
         
-        # Nominee Grid (Forced to horizontal row on phones by CSS)
+        # This layout now respects the tight gaps defined in the CSS above
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -181,7 +190,6 @@ else:
         st.divider()
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
-
         # Navigation Buttons
         c1, c2 = st.columns(2)
         with c1:
