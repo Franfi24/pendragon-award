@@ -144,7 +144,7 @@ else:
         st.divider()
         st.write("### Basketball Season Awards")
         st.write("Our coaches have selected 3 top candidates for each category.")
-        st.write("** Your job is to crown the winner**)
+        st.write("*Your job is to crown the winner*")
         
         st.write("### Fun Season Awards")
         st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
