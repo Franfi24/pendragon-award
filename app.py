@@ -79,19 +79,74 @@ st.markdown("""
     }
 
     /* NAVIGATION ALIGNMENT: Pushes Next Award to the far right */
-    /* Targets the first column's button to stay left */
+    /* Targets the first column's# --- MOBILE-OPTIMIZED VISUAL THEME ---
+st.markdown("""
+    <style>
+    /* Main App Background */
+    .stApp {
+        background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
+        color: #ffffff;
+    }
+
+    /* MOBILE IMAGE FIX: Shorter height so it fits on one screen */
+    [data-testid="stImage"] img {
+        height: 350px !important; /* Shorter for phone screens */
+        width: 100% !important;      
+        object-fit: cover !important; 
+        object-position: center 20%; 
+        border-radius: 15px;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    /* Pushes content up to avoid scrolling on small phones */
+    .stSelectbox {
+        margin-bottom: 40px !important; 
+    }
+
+    /* Selectbox Styling */
+    div[data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border-radius: 10px !important;
+    }
+
+    /* MOBILE BUTTONS: Pins them to the edges on one line */
+    div.stButton > button {
+        background-color: #000000 !important; 
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+        border-radius: 10px;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.9rem !important; /* Smaller text for phone buttons */
+        min-width: 120px !important; 
+        padding: 8px 15px !important;
+    }
+
+    /* THE MOBILE LAYOUT FIX: Ensures columns don't stack */
+    [data-testid="column"] {
+        width: 48% !important;
+        flex: 1 1 48% !important;
+        min-width: 48% !important;
+    }
+
+    [data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+
+    /* Aligning the buttons inside the row */
     [data-testid="column"]:nth-of-type(1) div.stButton {
         display: flex;
         justify-content: flex-start;
     }
-    /* Targets the second column's button to go far right */
     [data-testid="column"]:nth-of-type(2) div.stButton {
         display: flex;
         justify-content: flex-end;
     }
-    
-    /* Divider Styling */
-    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
+
+    h1 { font-size: 1.8rem !important; }
     </style>
     """, unsafe_allow_html=True)
 
