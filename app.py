@@ -73,7 +73,11 @@ st.markdown("""
 # --- PLAYER ROSTER ---
 roster = {
     "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
+    "Ladies 2": ["Agnese", "Emma", "Eva", "Ipek", "Jessica", "Jimena", "Marit", "Rita", "Stella", "Suzanne", "Weronika", "Ying"],
+    "Men's 1": ["Chris", "Don", "Elia", "Elmer", "Harlod", "Melle", "Menno", "Noah"],
+    "Men's 2": ["Akin", "Charlie", "Diego", "Jerko", "Kayvaughn", "Mattijs", "Miguel", "Vlad"],
     "Men's 3": ["Albert", "Dani", "Demir", "Eugen", "Francesco", "Gundars", "Hugo", "Jesper", "Quinn", "Rayan", "Terence", "Tuna"],
+    "Men's 4": ["AK", "Alp", "Arda", "Atakan", "Eduard-George", "Kymaru", "Milos", "Olaf", "Paul", "Raphael", "Rron", "Stefan"],
 }
 
 def get_voters():
