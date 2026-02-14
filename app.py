@@ -15,88 +15,59 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- CONSOLIDATED MOBILE-FIRST CSS ---
+# --- MOBILE-FIRST HORIZONTAL LAYOUT ---
 st.markdown("""
     <style>
-    /* Main App Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
 
-    /* UNIVERSAL IMAGE FORMATTER - MOBILE OPTIMIZED */
+    /* THE PICTURE FIX: Small, Horizontal, and Identical */
     [data-testid="stImage"] img {
-        height: 350px !important; 
-        width: 100% !important;      
-        object-fit: cover !important; 
+        height: 120px !important;    /* Small enough for phone width */
+        width: 100px !important;     /* Uniform width */
+        object-fit: cover !important; /* Crops landscape photos to fit */
         object-position: center 20%; 
-        border-radius: 15px;
-        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 12px;
+        border: 2px solid rgba(255,255,255,0.4);
     }
 
-    /* Pushes content up to avoid scrolling on small phones */
-    .stSelectbox {
-        margin-bottom: 40px !important; 
-    }
-
-    /* Selectbox Styling */
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        color: #000000 !important;
-        border-radius: 10px !important;
-    }
-    div[data-baseweb="select"] * {
-        color: #000000 !important;
-    }
-
-    /* BUTTONS: Same line, Small, and Pushed to edges */
-    div.stButton > button {
-        background-color: #000000 !important; 
-        color: #ffffff !important;
-        border: 2px solid #ffffff !important;
-        border-radius: 10px;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 0.85rem !important; 
-        min-width: 130px !important; 
-        padding: 8px 10px !important;
-    }
-
-    /* THE MOBILE LAYOUT FIX: Forces side-by-side columns */
+    /* Force columns to stay side-by-side on mobile */
     [data-testid="column"] {
-        width: 48% !important;
-        flex: 1 1 48% !important;
-        min-width: 40% !important;
+        width: 30% !important;
+        flex: 1 1 30% !important;
+        min-width: 30% !important;
+        text-align: center;
     }
 
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center !important;
+        justify-content: center !important;
+        gap: 5px !important;
     }
 
-    /* Individual Button Alignment */
-    [data-testid="column"]:nth-of-type(1) div.stButton {
-        display: flex;
-        justify-content: flex-start;
-    }
-    [data-testid="column"]:nth-of-type(2) div.stButton {
-        display: flex;
-        justify-content: flex-end;
+    /* Button Spacing for Mobile */
+    .stSelectbox { margin-bottom: 30px !important; }
+    
+    div.stButton > button {
+        background-color: #000000 !important; 
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px;
+        font-size: 0.8rem !important;
+        min-width: 100px !important;
+        padding: 5px !important;
     }
 
-    /* Header & Text Styling */
-    h1 { text-align: left !important; font-size: 1.8rem !important; }
-    label, p, [data-testid="stWidgetLabel"] {
-        color: white !important;
-        font-weight: 400 !important; 
-        font-size: 1rem !important;
-    }
-    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
+    /* Navigation button alignment */
+    [data-testid="column"]:nth-of-type(1) div.stButton { justify-content: flex-start; }
+    [data-testid="column"]:nth-of-type(2) div.stButton { justify-content: flex-end; }
+    
+    p { font-size: 0.8rem !important; margin-top: -10px; }
     </style>
     """, unsafe_allow_html=True)
-
 # --- PLAYER ROSTER ---
 roster = {
     "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
@@ -157,25 +128,25 @@ else:
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-    # STAGE: AWARD 1 - ROOKIE OF THE YEAR
-    elif st.session_state.voted_stage == "rookie_awards":
-        st.markdown("## 1. Rookie of the Year")
-        st.write("*Players that are new and showing amazing improvement.*")
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.image(os.path.join("images", "rookie1.jpeg"))
-            st.markdown("<p style='text-align: center;'>Jesper</p>", unsafe_allow_html=True)
-        with col2:
-            st.image(os.path.join("images", "rookie2.jpeg"))
-            st.markdown("<p style='text-align: center;'>Stella</p>", unsafe_allow_html=True)
-        with col3:
-            st.image(os.path.join("images", "rookie3.jpeg"))
-            st.markdown("<p style='text-align: center;'>Matei</p>", unsafe_allow_html=True)
+    # AWARD 1 - ROOKIE OF THE YEAR
+    st.markdown("## 1. Rookie of the Year")
+    
+    # Force 3 small columns for the mobile row
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.image(os.path.join("images", "rookie1.jpeg"))
+        st.markdown("Jesper")
+    with col2:
+        st.image(os.path.join("images", "rookie2.jpeg"))
+        st.markdown("Stella")
+    with col3:
+        st.image(os.path.join("images", "rookie3.jpeg"))
+        st.markdown("Matei")
 
-        st.divider()
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
-        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+    st.divider()
+    
+    rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_select")
+    st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
         # Navigation Buttons
         c1, c2 = st.columns(2) 
