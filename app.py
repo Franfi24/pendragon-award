@@ -208,7 +208,7 @@ else:
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
         st.markdown("## Defensive Player of the Year")
-        st.write("*The anchors of our defense. Hustle, intensity, technique and proud of being a good defender*")
+        st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
         
         # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
