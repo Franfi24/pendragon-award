@@ -157,14 +157,15 @@ else:
             st.rerun()
 
     # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
+    # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
         
-        st.write("***Basketball Rule selection criterion:***")
-        st.write("Every member is allowed to vote however you were not elegible during the coache's candidates selection if:"
+        st.write("***Basketball Award Eligibility:***")
+        st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for nomination if:")
         st.write("""
-        * You have been subscribed for one Semester only
-        * Have missed more than 6 or more games due to injury or other reasons 
+        * They have been a member for only one semester.
+        * They missed 6 or more games due to injury or other reasons.
         """)
         st.divider()
 
