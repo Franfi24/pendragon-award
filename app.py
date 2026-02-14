@@ -244,6 +244,127 @@ else:
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
+                    
+      # STAGE 5: BEST DRIVER
+    elif st.session_state.voted_stage == "best_driver":
+        st.markdown("## BEST DRIVER")
+        st.write("*Best drivers and finishers under the basket. These players have shown amazing finishes abilities this season*")
+        
+        # Image Strip (Matches Rookie/MIP style)
+        col1, col2, col3 = st.columns(3)
+        with col1: st.image(os.path.join("images", "BD1.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "BD2.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "BD3.jpeg"), use_container_width=True)
+
+        st.divider()
+        
+        # Dropdown
+        dpoy_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Chris", "Iris", "Eugen"], 
+            key="bd_sel"
+        )
+        st.session_state.selections['best_driver'] = best_driver_vote
+
+        # --- Navigation Buttons ---
+        st.write("") 
+        b_col, n_col = st.columns(2)
+        
+         # Back & Next Buttons on the same line
+        st.write("") # Spacer
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "defensive_player"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('best_driver'):
+                    st.session_state.voted_stage = "best_shooter"
+                    st.rerun()
+                else:
+                    st.warning("Please pick a winner!")
+    
+
+     # STAGE 6: BEST SHOOTER
+    elif st.session_state.voted_stage == "best_shooter":
+        st.markdown("## Best Shooter")
+        st.write("*Best all around shooters. These players have made any kind of shot throughout the season whether from the pass, dribble, midrange or 3 pointer*")
+        
+        # Image Strip (Matches Rookie/MIP style)
+        col1, col2, col3 = st.columns(3)
+        with col1: st.image(os.path.join("images", "BS1.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "BS2.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "BS3.jpeg"), use_container_width=True)
+
+        st.divider()
+        
+        # Dropdown
+        dpoy_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Dani", "Ilinca", "Charlie"], 
+            key="bs_sel"
+        )
+        st.session_state.selections['best_shooter'] = best_shooter_vote
+
+        # --- Navigation Buttons ---
+        st.write("") 
+        b_col, n_col = st.columns(2)
+        
+         # Back & Next Buttons on the same line
+        st.write("") # Spacer
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "defensive_driver"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('best_shooter'):
+                    st.session_state.voted_stage = "best_coach"
+                    st.rerun()
+                else:
+                    st.warning("Please pick a winner!")
+
+    # STAGE 7: BEST COACH
+    elif st.session_state.voted_stage == "best_coach":
+        st.markdown("## Best Coach")
+        st.write("*Who has shown that can lead their team the best?*")
+        
+        # Image Strip (Matches Rookie/MIP style)
+        col1, col2, col3 = st.columns(3)
+        with col1: st.image(os.path.join("images", "BC1.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "BC2.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "BC3.jpeg"), use_container_width=True)
+
+        st.divider()
+        
+        # Dropdown
+        dpoy_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Niels", "Ilinca", "KJ"], 
+            key="bc_sel"
+        )
+        st.session_state.selections['best_shooter'] = best_shooter_vote
+
+        # --- Navigation Buttons ---
+        st.write("") 
+        b_col, n_col = st.columns(2)
+        
+         # Back & Next Buttons on the same line
+        st.write("") # Spacer
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "defensive_driver"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('best_shooter'):
+                    st.session_state.voted_stage = "best_coach"
+                    st.rerun()
+                else:
+                    st.warning("Please pick a winner!")
     
     # STAGE 4: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
