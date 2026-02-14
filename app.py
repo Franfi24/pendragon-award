@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE ULTIMATE SEAMLESS STRIP CSS ---
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,46 +23,38 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Target the Streamlit Column Gap specifically */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         gap: 0px !important;
     }
 
-    /* Force columns to touch and be exactly 1/3 width */
-    [data-testid="column"] {
-        flex: 1 1 33.33% !important;
+    /* Target the columns themselves and force them to stay 33% */
+    [data-testid="column"], .stColumn {
         width: 33.33% !important;
-        min-width: 0px !important;
+        flex: 1 1 33.33% !important;
+        min-width: 0px !important; /* This stops them from stacking */
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* Bigger Images + Force Size Match */
+    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
-        height: 180px !important;     /* Height is now bigger */
-        width: 100% !important;       /* Width fills exactly 1/3 */
-        object-fit: cover !important; /* Crops to fill the box perfectly */
-        object-position: center 20%;
-        border-radius: 0px !important; /* Sharp edges make them look like one unit */
-        border: none !important;      /* Removes all spacing/borders */
-        display: block !important;
+        height: 140px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        border: none !important;
     }
 
-    /* BLACK BUTTONS */
+    /* Dropdown text size */
+    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
+
+    /* Pinning buttons to edges */
     div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px;
-        font-weight: 700;
-        min-width: 100px;
-    }
-
-    /* Centered Names */
-    [data-testid="column"] p {
-        text-align: center !important;
-        font-size: 0.75rem !important;
-        margin-top: 5px !important;
+        width: auto !important;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -146,38 +138,39 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # The 3-column strip
+        # Nominee Strip
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
-            st.markdown("<p>Jesper</p>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align:center; font-size:10px;'>Jesper</p>", unsafe_allow_html=True)
         with col2:
             st.image(os.path.join("images", "rookie2.jpeg"))
-            st.markdown("<p>Stella</p>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align:center; font-size:10px;'>Stella</p>", unsafe_allow_html=True)
         with col3:
             st.image(os.path.join("images", "rookie3.jpeg"))
-            st.markdown("<p>Matei</p>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align:center; font-size:10px;'>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
         
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_v3")
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Navigation
-        b1, b2 = st.columns(2)
-        with b1:
+        # Buttons Pinned Left and Right
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-        with b2:
+        with b_col2:
             st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    st.warning("Pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
+
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
