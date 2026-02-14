@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
+# --- THE PERFECT FIT & BLACK BUTTON CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,38 +23,47 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Target the container of the 3 columns */
+    /* 1. CONTAINER: Fits all 3 in one screen width */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
+        width: 95% !important; /* Fits perfectly on mobile screens */
+        margin: 0 auto !important;
     }
 
-    /* Target the columns themselves and force them to stay 33% */
-    [data-testid="column"], .stColumn {
-        width: 33.33% !important;
-        flex: 1 1 33.33% !important;
-        min-width: 0px !important; /* This stops them from stacking */
+    /* 2. THE EQUALIZER: Forces all 3 to be the same width */
+    [data-testid="column"] {
+        flex: 1 1 0 !important; /* This forces equal 1/3 width */
+        min-width: 0px !important;
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* Force the image to fill that 33% width perfectly */
+    /* 3. THE IMAGE FIX: Matches heights and fills width */
     [data-testid="stImage"] img {
-        height: 140px !important;
-        width: 100% !important;
-        object-fit: cover !important;
+        height: 160px !important;    /* Slightly taller for better look */
+        width: 100% !important;      /* Forces Jesper/Stella to match Matei */
+        object-fit: cover !important; /* Crops edges so they don't stretch */
         border: none !important;
+        border-radius: 0px !important;
     }
 
-    /* Dropdown text size */
-    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
-
-    /* Pinning buttons to edges */
+    /* 4. SOLID BLACK BUTTONS */
     div.stButton > button {
-        width: auto !important;
+        background-color: #000000 !important; /* Pure Black */
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px !important;
         min-width: 90px;
+    }
+
+    /* Name labels */
+    [data-testid="column"] p {
+        text-align: center !important;
+        font-size: 0.7rem !important;
+        margin-top: 5px !important;
     }
     </style>
     """, unsafe_allow_html=True)
