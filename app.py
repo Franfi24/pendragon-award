@@ -370,7 +370,7 @@ else:
                 else:
                     st.warning("Please pick a winner!")
     
-    # STAGE 8: FUN AWARDS
+   # STAGE 8: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
         st.write("*Anybody is eligible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester.*")
@@ -408,7 +408,7 @@ else:
 
         st.divider()
         
-        # --- SUBMIT SECTION ---
+        # --- NAVIGATION & SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
@@ -419,7 +419,7 @@ else:
         with f_col2:
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
                 
-                # Check if all fields are filled using the variables above
+                # Check if all fields are filled
                 fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
@@ -437,30 +437,34 @@ else:
                         "drama": s_drama,
                         "karen": s_karen,
                         "always_late": s_late,
-                        "always_forgets": s_forget  # Matches your error-prone key
+                        "always_forgets": s_forget 
                     }
                     
                     try:
+                        # Insert data into Supabase
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        st.success("Votes Submitted! See you at the awards! 🏀")
+                        
+                        # UI Feedback
                         st.balloons()
-                        st.session_state.authenticated = False
-                        st.info("Log out complete. Thank you for voting!")
-
-                        # --- THE RESET LOGIC ---
-                        # Clear session state so the app thinks nobody is logged in
+                        st.success("Votes Submitted! Your name has been removed from eligibility. 🏀")
+                        
+                        # --- THE RESET & LOCKOUT LOGIC ---
+                        # 1. Clear cache to force a fresh pull of 'voted_names' from Supabase
+                        st.cache_data.clear() 
+                        
+                        # 2. Wipe the session so the app returns to Login state
                         st.session_state.authenticated = False
                         st.session_state.voted_stage = "instructions"
                         st.session_state.selections = {}
                         
-                        # Brief pause so the user sees the success message before it flips back
+                        # 3. Brief pause so they can read the success message
                         import time
-                        time.sleep(2)
+                        time.sleep(3)
                         
-                        # Force the app to rerun - it will now hit the "Login" block
+                        # 4. Return to login
                         st.rerun()
+                        
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
                     st.warning("Please make a selection for all categories before submitting!")
-            st.markdown('</div>', unsafe_allow_html=True)
