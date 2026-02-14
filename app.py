@@ -208,7 +208,7 @@ else:
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
         st.markdown("## Defensive Player of the Year")
-        st.write("*The anchors of our defense. Steals, blocks, and hustle.*")
+        st.write("*The anchors of our defense. Hustle, intensity, technique and proud of being a good defender*")
         
         # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
@@ -230,20 +230,20 @@ else:
         st.write("") 
         b_col, n_col = st.columns(2)
         
-        with b_col:
-            if st.button("← BACK", key="dpoy_back"):
+         # Back & Next Buttons on the same line
+        st.write("") # Spacer
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
                 st.session_state.voted_stage = "most_improved_player"
                 st.rerun()
-                
-        with n_col:
-            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
-            if st.button("NEXT →", key="dpoy_next"):
+        with b_col2:
+            if st.button("NEXT →"):
                 if st.session_state.selections.get('defensive_player'):
-                    st.session_state.voted_stage = "fun_awards"
+                    st.session_state.voted_stage = "best_shooter"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-            st.markdown('</div>', unsafe_allow_html=True)
     
     # STAGE 4: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
