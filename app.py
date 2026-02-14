@@ -167,11 +167,7 @@ else:
         * They have been a member for only one semester.
         * They missed 6 or more games due to injury or other reasons.
         """)
-        st.divider()
 
-        st.write("### Cast Your Votes")
-
-        st.divider()
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("← BACK TO INFO"):
