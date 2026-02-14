@@ -22,28 +22,39 @@ st.markdown("""
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
-    /* Fixed Image Sizing Logic */
+    
+    /* FIX 1: UNIFORM IMAGE SIZING */
     [data-testid="stImage"] img {
-        height: 300px !important;
+        height: 400px !important; /* Forces all images to this height */
         width: 100% !important;
-        object-fit: cover !important;
-        border-radius: 10px;
+        object-fit: cover !important; /* Crops images to fill the box without stretching */
+        border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.2);
     }
+
+    /* FIX 2: SPACING FOR BUTTONS */
+    .stSelectbox {
+        margin-bottom: 50px !important; /* Adds space below the white bar */
+    }
+
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
         color: #000000 !important;
         border-radius: 10px !important;
     }
+    
     div[data-baseweb="select"] * {
         color: #000000 !important;
     }
+
     h1 { text-align: left !important; font-size: 2.2rem !important; }
+    
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 400 !important; 
         font-size: 1.1rem !important;
     }
+
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
@@ -51,7 +62,9 @@ st.markdown("""
         border-radius: 12px;
         text-transform: uppercase;
         font-weight: 700;
+        padding: 10px 25px !important;
     }
+    
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
@@ -127,19 +140,24 @@ else:
             st.markdown("<p style='text-align: center;'>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Nominee A", "Nominee B", "Nominee C"])
+        
+        # Selectbox with spacing fixed via CSS
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        c1, c2 = st.columns(2)
+        c1, c2 = st.columns([1,1])
         with c1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"; st.rerun()
         with c2:
+            # Aligns the next button to the right side of the column
+            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT AWARD →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"; st.rerun()
                 else:
                     st.warning("Please select a winner!")
+            st.markdown("</div>", unsafe_allow_html=True)
 
     # --- STAGE: FUN AWARDS & SUBMISSION ---
     elif st.session_state.voted_stage == "fun_awards":
