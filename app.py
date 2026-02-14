@@ -163,8 +163,8 @@ else:
         st.write("***Basketball Rule selection criterion:***")
         st.write("Every member is allowed to vote however you were not elegible during the coache's candidates selection if:"
         st.write("""
-        1. You have been subscribed for one Semester only
-        2. Have missed more than 6 or more games due to injury or other reasons 
+        * You have been subscribed for one Semester only
+        * Have missed more than 6 or more games due to injury or other reasons 
         """)
         st.divider()
 
