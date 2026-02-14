@@ -145,49 +145,46 @@ else:
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
-
-    # --- ROOKIE OF THE YEAR STAGE ---
-# --- SECTION 2: ROOKIE OF THE YEAR STAGE ---
-    if st.session_state.voted_stage == "rookie_awards":
+# --- STAGE: AWARD 1 - ROOKIE OF THE YEAR ---
+    elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
         st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
         
-    # Nominee Row (Forced Horizontal by Section 1)
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.image(os.path.join("images", "rookie1.jpeg"))
-        st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Jesper</p>", unsafe_allow_html=True)
-    with col2:
-        st.image(os.path.join("images", "rookie2.jpeg"))
-        st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Stella</p>", unsafe_allow_html=True)
-    with col3:
-        st.image(os.path.join("images", "rookie3.jpeg"))
-        st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Matei</p>", unsafe_allow_html=True)
+        # ALL OF THIS MUST BE INDENTED TO STAY INSIDE THE STAGE
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.image(os.path.join("images", "rookie1.jpeg"))
+            st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Jesper</p>", unsafe_allow_html=True)
+        with col2:
+            st.image(os.path.join("images", "rookie2.jpeg"))
+            st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Stella</p>", unsafe_allow_html=True)
+        with col3:
+            st.image(os.path.join("images", "rookie3.jpeg"))
+            st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Matei</p>", unsafe_allow_html=True)
 
-    st.divider()
-    
-    # Voting Dropdown
-    rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_select")
-    st.session_state.selections['rookie_of_the_year'] = rookie_vote
+        st.divider()
+        
+        # Voting Dropdown
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_select")
+        st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-    # Navigation: Far Left and Far Right
-    nav_left, nav_right = st.columns(2)
-    with nav_left:
-        # Pinned far left
-        if st.button("← BACK"):
-            st.session_state.voted_stage = "instructions"
-            st.rerun()
-            
-    with nav_right:
-        # Wrapper to push the 'Next' button to the far right
-        st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
-        if st.button("NEXT →"):
-            if st.session_state.selections.get('rookie_of_the_year'):
-                st.session_state.voted_stage = "fun_awards" # Update to your next stage
+        # NAVIGATION: Far Left and Far Right
+        nav_left, nav_right = st.columns(2)
+        with nav_left:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "instructions"
                 st.rerun()
-            else:
-                st.warning("Please select a winner!")
-        st.markdown("</div>", unsafe_allow_html=True)
+                
+        with nav_right:
+            # This pushes the NEXT button to the far right edge
+            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('rookie_of_the_year'):
+                    st.session_state.voted_stage = "fun_awards" 
+                    st.rerun()
+                else:
+                    st.warning("Please select a winner!")
+            st.markdown("</div>", unsafe_allow_html=True)
     # Voting Dropdown
     rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_select")
     st.session_state.selections['rookie_of_the_year'] = rookie_vote
