@@ -58,6 +58,12 @@ st.markdown("""
         font-weight: bold !important;
     }
 
+    /* ALIGN RIGHT COLUMN CONTENT TO THE END */
+    .align-right {
+        display: flex;
+        justify-content: flex-end;
+    }
+
     /* Dropdown text size */
     div[data-baseweb="select"] div { font-size: 0.8rem !important; }
 
@@ -169,20 +175,26 @@ else:
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Back & Next Buttons on the same line
-        st.write("") # Spacer
+        # --- NAVIGATION BUTTONS (HORIZONTALLY ALIGNED TO EDGES) ---
+        st.write("") 
         b_col1, b_col2 = st.columns(2)
+        
         with b_col1:
+            # Stays on the left
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
+                
         with b_col2:
+            # Pushed to the far right
+            st.markdown('<div class="align-right">', unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
+            st.markdown('</div>', unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
