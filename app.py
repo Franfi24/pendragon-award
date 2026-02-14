@@ -1,4 +1,4 @@
-import streamlit as st
+limport streamlit as st
 from supabase import create_client, Client
 import os
 
@@ -160,11 +160,11 @@ else:
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
         
-        st.write("***Rules of Engagement:***")
+        st.write("***Basketball Rule selection criterion:***")
+        st.write("Every member is allowed to vote however you were not elegible during the coache's candidates selection if:"
         st.write("""
-        1. **Coach's Selection:** You must choose one of the three candidates shortlisted by the coaches.
-        2. **One Vote:** Only one winner per category is allowed.
-        3. **Criteria:** Think about performance, dedication, and team spirit throughout the 2025-26 season.
+        1. You have been subscribed for one Semester only
+        2. Have missed more than 6 or more games due to injury or other reasons 
         """)
         st.divider()
 
