@@ -144,7 +144,7 @@ else:
         st.divider()
         st.write("### Basketball Season Awards")
         st.write("Our coaches have selected 3 top candidates for each category.")
-        st.write(f"* Your job is to crown the winner*")
+        st.write(f"** Your job is to crown the winner**")
         
         st.write("### Fun Season Awards")
         st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
@@ -157,7 +157,7 @@ else:
 
     # --- SECTION 3: BASKETBALL ELIGIBILITY RULES ---
     elif st.session_state.voted_stage == "basketball_rules":
-        st.markdown("## 🏀 Basketball Season Awards")
+        st.markdown("Basketball Season Awards ## 🏀 ")
         st.write("***Basketball Award Eligibility:***")
         st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for nomination if:")
         st.write("""
