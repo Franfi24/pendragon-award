@@ -444,10 +444,23 @@ else:
                         supabase.table(TABLE_NAME).insert(data).execute()
                         st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
-                        st.session_state.authenticated = False
-                        st.info("Log out complete. Thank you for voting!")
+                        st.session_state.voted_stage = "thank_you"
+                        st.rerun()
                     except Exception as e:
                         st.error(f"Database Error: {e}")
-                else:
-                    st.warning("Please make a selection for all categories before submitting!")
-            st.markdown('</div>', unsafe_allow_html=True)
+                # STAGE 9: THANK YOU (The "Closed" Page)
+    elif st.session_state.voted_stage == "thank_you":
+        st.markdown("<h1 style='text-align: center;'>Ballot Submitted! 🏀</h1>", unsafe_allow_html=True)
+        st.divider()
+        st.markdown(f"""
+            <div style='text-align: center;'>
+                <h3>Thank you, {st.session_state.user_name}!</h3>
+                <p>Your votes have been securely recorded.</p>
+                <p>The results will be announced at the Pendragon Awards ceremony.</p>
+                <br>
+                <p><i>You may now close this browser tab.</i></p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Optionally show a nice image
+        st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueXF4ZzRyeGZ4ZzRyeGZ4ZzRyeGZ4ZzRyeGZ4ZzRyeGZ4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaO3u/giphy.gif")
