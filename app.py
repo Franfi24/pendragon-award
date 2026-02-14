@@ -18,25 +18,27 @@ st.set_page_config(
 # --- VISUAL THEME & CSS STYLING (ORIGINAL RED) ---
 st.markdown("""
     <style>
+    /* Main App Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
     
-    /* FIX 1: UNIFORM IMAGE SIZING */
+    /* FIX: UNIFORM IMAGE SIZING & CROPPING */
     [data-testid="stImage"] img {
-        height: 400px !important; /* Forces all images to this height */
+        height: 400px !important; 
         width: 100% !important;
-        object-fit: cover !important; /* Crops images to fill the box without stretching */
+        object-fit: cover !important; 
         border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.2);
     }
 
-    /* FIX 2: SPACING FOR BUTTONS */
+    /* FIX: SPACING BELOW SELECTBOX */
     .stSelectbox {
-        margin-bottom: 50px !important; /* Adds space below the white bar */
+        margin-bottom: 60px !important; 
     }
 
+    /* Selectbox Styling */
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
         color: #000000 !important;
@@ -47,14 +49,21 @@ st.markdown("""
         color: #000000 !important;
     }
 
-    h1 { text-align: left !important; font-size: 2.2rem !important; }
+    /* Header Styling */
+    h1 { 
+        text-align: center !important; 
+        font-size: 2.2rem !important;
+        text-transform: uppercase;
+    }
     
+    /* Label and Text Styling */
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 400 !important; 
         font-size: 1.1rem !important;
     }
 
+    /* Button Styling */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
@@ -75,6 +84,7 @@ roster = {
     "Men's 3": ["Albert", "Dani", "Demir", "Eugen", "Francesco", "Gundars", "Hugo", "Jesper", "Quinn", "Rayan", "Terence", "Tuna"],
 }
 
+# --- DATABASE FETCH ---
 def get_voters():
     try:
         result = supabase.table(TABLE_NAME).select("Name").execute()
@@ -84,6 +94,7 @@ def get_voters():
 
 voted_names = get_voters()
 
+# --- STATE MANAGEMENT ---
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'voted_stage' not in st.session_state:
@@ -91,7 +102,7 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- SECTION 1: LOGIN ---
+# --- SECTION: LOGIN ---
 if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
     st.write("Official 2026 Voting Portal")
@@ -109,21 +120,25 @@ if not st.session_state.authenticated:
                 st.session_state.authenticated = True
                 st.rerun()
 
-# --- POST-LOGIN VOTING FLOW ---
+# --- SECTION: VOTING FLOW ---
 else:
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # --- STAGE: INSTRUCTIONS ---
+    # STAGE 1: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
-        st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
-        st.write("The 2026 Ballot is split into Basketball Awards and Fun Awards.")
+        st.markdown(f"<h1>WELCOME, {st.session_state.user_name.upper()}!</h1>", unsafe_allow_html=True)
+        st.write("*Information about the voting process*")
+        st.divider()
+        st.write("**The 2026 Ballot is split into two halves:**")
+        st.write("- Basketball Season Awards: Official categories with coach-selected nominees.")
+        st.write("- Fun Awards: Community categories where any member is eligible.")
         st.divider()
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-    # --- STAGE: AWARD 1 - ROOKIE OF THE YEAR ---
+    # STAGE 2: ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
         st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
@@ -141,30 +156,34 @@ else:
 
         st.divider()
         
-        # Selectbox with spacing fixed via CSS
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        c1, c2 = st.columns([1,1])
-        with c1:
+        btn_col1, btn_col2 = st.columns([1,1])
+        with btn_col1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"; st.rerun()
-        with c2:
-            # Aligns the next button to the right side of the column
+                st.session_state.voted_stage = "instructions"
+                st.rerun()
+        with btn_col2:
+            # Right-align the next button
             st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT AWARD →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"; st.rerun()
+                    st.session_state.voted_stage = "fun_awards"
+                    st.rerun()
                 else:
                     st.warning("Please select a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
 
-    # --- STAGE: FUN AWARDS & SUBMISSION ---
+    # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
+        st.write("Nominate any member except yourself.")
+        
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
         st.session_state.selections['best_dressed'] = best_dressed
 
+        st.divider()
         if st.button("🏀 SUBMIT FINAL BALLOT"):
             try:
                 submission = {
@@ -178,4 +197,4 @@ else:
                 st.session_state.clear()
                 st.rerun()
             except Exception as e:
-                st.error(f"Error: {e}")
+                st.error(f"Error submitting: {e}")
