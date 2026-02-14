@@ -127,27 +127,28 @@ else:
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
+        # STAGE: AWARD 1 - ROOKIE OF THE YEAR
+        elif st.session_state.voted_stage == "rookie_awards":
+            st.markdown("## 1. Rookie of the Year")
+            st.write("*New players showing amazing improvement.*")
+            
+        # This container + columns ensures the horizontal phone layout
+        with st.container():
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.image(os.path.join("images", "rookie1.jpeg"))
+                st.markdown("Jesper")
+            with col2:
+                st.image(os.path.join("images", "rookie2.jpeg"))
+                st.markdown("Stella")
+            with col3:
+                st.image(os.path.join("images", "rookie3.jpeg"))
+                st.markdown("Matei")
 
-    # AWARD 1 - ROOKIE OF THE YEAR
-    st.markdown("## 1. Rookie of the Year")
-    
-    # Force 3 small columns for the mobile row
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.image(os.path.join("images", "rookie1.jpeg"))
-        st.markdown("Jesper")
-    with col2:
-        st.image(os.path.join("images", "rookie2.jpeg"))
-        st.markdown("Stella")
-    with col3:
-        st.image(os.path.join("images", "rookie3.jpeg"))
-        st.markdown("Matei")
-
-    st.divider()
-    
-    rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_select")
-    st.session_state.selections['rookie_of_the_year'] = rookie_vote
-
+        st.divider()
+        
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
+        st.session_state.selections['rookie_of_the_year'] = rookie_vote
         # Navigation Buttons
         c1, c2 = st.columns(2) 
         with c1:
