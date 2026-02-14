@@ -23,32 +23,32 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. THE ROW: Zero gaps, forces images to touch */
+    /* 1. REMOVE GAPS: Forces images to touch side-by-side */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 0px !important;
+        gap: 0px !important; /* This removes the horizontal space */
         width: 100% !important;
     }
 
-    /* 2. THE COLUMNS: Mathematical thirds */
+    /* 2. EQUAL WIDTH: Forces Matei to match Jesper and Stella */
     [data-testid="column"] {
-        flex: 1 1 0% !important;
+        flex: 1 1 0% !important; 
         width: 33.33% !important;
+        max-width: 33.33% !important;
         min-width: 0px !important;
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* 3. THE IMAGES: Uniform height, fills width, no gaps */
+    /* 3. IMAGE FIX: Crops to fill the boxes perfectly */
     [data-testid="stImage"] img {
-        height: 160px !important;    /* Adjust height to fit your new pictures */
-        width: 100% !important;
-        object-fit: cover !important; /* Crops images to fit the exact 1/3 width */
-        border-radius: 0px !important;
+        height: 180px !important;    /* Uniform height */
+        width: 100% !important;      /* Uniform width */
+        object-fit: cover !important; /* Crops edges so they align */
+        border-radius: 0px !important; /* Square edges make them seamless */
         border: none !important;
-        display: block !important;
     }
 
     /* 4. SOLID BLACK BUTTONS */
@@ -57,11 +57,10 @@ st.markdown("""
         color: #ffffff !important;
         border: 1px solid #ffffff !important;
         border-radius: 8px !important;
-        font-weight: 700;
         min-width: 100px;
     }
 
-    /* Clean up any default Streamlit padding */
+    /* Clean up default Streamlit padding */
     [data-testid="stImage"] { padding: 0px !important; }
     </style>
     """, unsafe_allow_html=True)
