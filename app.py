@@ -24,16 +24,22 @@ st.markdown("""
         color: #ffffff;
     }
     
-   /* FORCE IDENTICAL IMAGE SIZING & FULL WIDTH */
-    [data-testid="stImage"] img {
-        height: 450px !important;    /* Fixed height */
-        min-height: 450px !important; 
-        width: 100% !important;      /* Forces it to fill the column width */
-        min-width: 100% !important;
-        object-fit: cover !important; /* Crops the image to fill the 450xWidth box */
-        object-position: center;      /* Keeps the player centered in the frame */
+/* FORCE IDENTICAL CARD SIZES */
+    [data-testid="stImage"] {
+        background-color: #1a1a1a !important; /* Dark card background */
         border-radius: 15px;
-        border: 2px solid rgba(255,255,255,0.2);
+        border: 2px solid rgba(255,255,255,0.3);
+        padding: 5px;
+        height: 450px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    [data-testid="stImage"] img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: contain !important; /* Shows the WHOLE photo without cropping */
     }
 
     /* FIX: SPACING BELOW SELECTBOX */
