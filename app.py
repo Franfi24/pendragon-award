@@ -15,71 +15,58 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- VISUAL THEME & CSS STYLING ---
+# --- MOBILE-FIRST CSS ---
 st.markdown("""
     <style>
+    /* Main App Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
 
-    /* THE SEAMLESS IMAGE STRIP */
+    /* THE HORIZONTAL STRIP: No Gaps, No Vertical Stacking */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important;
-        gap: 0px !important; /* Removes gaps */
+        flex-direction: row !important; /* Prevents stacking on phone */
+        gap: 0px !important;           /* Removes gaps between images */
+        width: 100% !important;
     }
 
     [data-testid="column"] {
         flex: 1 !important;
-        width: 33.33% !important;
-        padding: 0px !important; /* Removes gutters */
+        width: 33.33% !important;      /* Forces exact thirds */
+        min-width: 0px !important;
+        padding: 0px !important;       /* Removes internal column spacing */
     }
 
     [data-testid="stImage"] img {
-        height: 150px !important;
+        height: 140px !important;      /* Uniform height */
         width: 100% !important;
-        object-fit: cover !important;
+        object-fit: cover !important;  /* Crops landscape to match portrait */
         object-position: center 20%;
-        border: 1px solid rgba(255,255,255,0.1); /* Very thin divider */
+        border: 0.5px solid rgba(255,255,255,0.2);
         box-sizing: border-box !important;
     }
 
-    /* SMALLER TEXT IN SELECTBOX */
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        min-height: 35px !important; /* Slimmer box */
-    }
-    
-    /* Targets the actual text inside the dropdown */
+    /* SELECTBOX: Smaller text and slimmer profile */
     div[data-baseweb="select"] div {
-        font-size: 0.85rem !important; 
+        font-size: 0.8rem !important;
         color: #000000 !important;
     }
-
-    /* BUTTON PINNING: Far Left and Far Right */
-    /* We create a specific container for the nav row */
-    .nav-row {
-        display: flex !important;
-        justify-content: space-between !important;
-        width: 100% !important;
-        margin-top: 20px;
+    div[data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        border-radius: 8px !important;
+        min-height: 35px !important;
     }
 
+    /* NAVIGATION BUTTONS: Far Left / Far Right Styling */
     div.stButton > button {
         background-color: #000000 !important;
         color: #ffffff !important;
         border: 1px solid #ffffff !important;
         border-radius: 8px;
-        font-size: 0.8rem !important;
-        padding: 5px 15px !important;
-    }
-
-    /* Centering names under pictures */
-    [data-testid="column"] p {
-        text-align: center !important;
         font-size: 0.75rem !important;
-        margin-top: 2px !important;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -159,45 +146,49 @@ else:
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-    # STAGE: AWARD 1 - ROOKIE OF THE YEAR
-    elif st.session_state.voted_stage == "rookie_awards":
-        st.markdown("## 1. Rookie of the Year")
-        st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
-        
-        # Seamless Image Row
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.image(os.path.join("images", "rookie1.jpeg"))
-            st.markdown("<p>Jesper</p>", unsafe_allow_html=True)
-        with col2:
-            st.image(os.path.join("images", "rookie2.jpeg"))
-            st.markdown("<p>Stella</p>", unsafe_allow_html=True)
-        with col3:
-            st.image(os.path.join("images", "rookie3.jpeg"))
-            st.markdown("<p>Matei</p>", unsafe_allow_html=True)
+    # --- ROOKIE OF THE YEAR STAGE ---
+if st.session_state.voted_stage == "rookie_awards":
+    st.markdown("## 1. Rookie of the Year")
+    st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
+    
+    # Nominee Row (Forced Horizontal by Section 1)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.image(os.path.join("images", "rookie1.jpeg"))
+        st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Jesper</p>", unsafe_allow_html=True)
+    with col2:
+        st.image(os.path.join("images", "rookie2.jpeg"))
+        st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Stella</p>", unsafe_allow_html=True)
+    with col3:
+        st.image(os.path.join("images", "rookie3.jpeg"))
+        st.markdown("<p style='text-align:center; font-size:10px; margin-top:-5px;'>Matei</p>", unsafe_allow_html=True)
 
-        st.divider()
-        
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
-        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+    st.divider()
+    
+    # Voting Dropdown
+    rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_select")
+    st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # NAVIGATION: Pinned to Far Left and Far Right
-        nav_col1, nav_col2 = st.columns([1, 1])
-        with nav_col1:
-            if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"
+    # Navigation: Far Left and Far Right
+    nav_left, nav_right = st.columns(2)
+    with nav_left:
+        # Pinned far left
+        if st.button("← BACK"):
+            st.session_state.voted_stage = "instructions"
+            st.rerun()
+            
+    with nav_right:
+        # Wrapper to push the 'Next' button to the far right
+        st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
+        if st.button("NEXT →"):
+            if st.session_state.selections.get('rookie_of_the_year'):
+                st.session_state.voted_stage = "fun_awards" # Update to your next stage
                 st.rerun()
-        with nav_col2:
-            # Streamlit buttons in the second column naturally align left, 
-            # so we wrap this one in a right-aligned div.
-            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"
-                    st.rerun()
-                else:
-                    st.warning("Please select a winner!")
-            st.markdown("</div>", unsafe_allow_html=True)
+            else:
+                st.warning("Please select a winner!")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    
     # STAGE: FUN AWARDS & SUBMISSION
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
