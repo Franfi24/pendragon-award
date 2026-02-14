@@ -24,13 +24,13 @@ st.markdown("""
         color: #ffffff;
     }
     
-    /* FIX: UNIFORM IMAGE SIZING & CROPPING */
-    /* This ensures Matei's picture matches the others exactly */
+    /* FORCE IDENTICAL IMAGE SIZING */
     [data-testid="stImage"] img {
-        height: 400px !important; 
+        height: 450px !important;    /* Exact height for all portraits */
+        min-height: 450px !important; 
         width: 100% !important;
-        object-fit: cover !important; 
-        object-position: center;
+        object-fit: cover !important; /* Forces the crop to fill the 450px */
+        object-position: top;         /* Focuses the crop on the player's face */
         border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.2);
     }
