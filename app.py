@@ -403,22 +403,36 @@ else:
 
         st.divider()
         
-       # STAGE 8: FUN AWARDS
+      # STAGE 8: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
+        st.write("*Anybody is eligible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester.*")
         st.divider()
 
-        # 1-6: Award Selectboxes
+        # Award Selectboxes
         s_supporter = st.selectbox("📣 Best Supporter", options=[""] + nominees, key="fun_supporter")
+        st.write("*Cheering even when their own team isn't playing.*")
+
         s_party = st.selectbox("🍻 Party Animal", options=[""] + nominees, key="fun_party")
+        st.write("*First one at the bar, last one to leave the after-party.*")
+
         s_drama = st.selectbox("🎭 Most Dramatic", options=[""] + nominees, key="fun_drama")
+        st.write("*Every foul is a tragedy, every missed layup is a heartbreak.*")
+
         s_karen = st.selectbox("👑 The 'Karen'", options=[""] + nominees, key="fun_karen")
+        st.write("*Ready to challenge every whistle and discuss the rules.*")
+
         s_late = st.selectbox("⏰ Always Late", options=[""] + nominees, key="fun_late")
+        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
+
         s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + nominees, key="fun_forget")
+        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
 
         st.divider()
         
+        # --- SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
+        
         with f_col1:
             if st.button("← BACK", key="f_back"):
                 st.session_state.voted_stage = "best_coach"
@@ -431,32 +445,34 @@ else:
                 fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
-                    # LOWERCASE KEYS match standard Supabase behavior
-                   data = {
-                            "name": st.session_state.user_name,
-                            "team": st.session_state.user_team,
-                            "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
-                            "mip_vote": st.session_state.selections.get('most_improved_player'),
-                            "dpoy_vote": st.session_state.selections.get('defensive_player'),
-                            "best_driver": st.session_state.selections.get('best_driver'),
-                            "best_shooter": st.session_state.selections.get('best_shooter'),
-                            "best_coach": st.session_state.selections.get('best_coach'),
-                            "best_supporter": s_supporter,
-                            "party_animal": s_party,
-                            "drama": s_drama,
-                            "karen": s_karen,
-                            "always_late": s_late,
-                            "always_forgets": s_forget 
-                        }
+                    # Fixed indentation and lowercase keys for Supabase
+                    data = {
+                        "name": st.session_state.user_name,
+                        "team": st.session_state.user_team,
+                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
+                        "mip_vote": st.session_state.selections.get('most_improved_player'),
+                        "dpoy_vote": st.session_state.selections.get('defensive_player'),
+                        "best_driver": st.session_state.selections.get('best_driver'),
+                        "best_shooter": st.session_state.selections.get('best_shooter'),
+                        "best_coach": st.session_state.selections.get('best_coach'),
+                        "best_supporter": s_supporter,
+                        "party_animal": s_party,
+                        "drama": s_drama,
+                        "karen": s_karen,
+                        "always_late": s_late,
+                        "always_forgets": s_forget 
+                    }
                     
                     try:
+                        # Ensure TABLE_NAME is "Pendragon Awards" at the top of your script
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        st.success("Votes Submitted! 🏀")
+                        st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
+                        # Log out user
                         st.session_state.authenticated = False
+                        st.info("Log out complete. Thank you for voting!")
                     except Exception as e:
-                        # This will tell us EXACTLY which column is missing
                         st.error(f"Submit Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories!")
+                    st.warning("Please make a selection for all categories before submitting!")
             st.markdown('</div>', unsafe_allow_html=True)
