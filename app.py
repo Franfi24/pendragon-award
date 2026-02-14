@@ -416,12 +416,15 @@ else:
             if st.button("← BACK", key="f_back"):
                 st.session_state.voted_stage = "best_coach"
                 st.rerun()
-        with f_col2:
+       with f_col2:
+            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("SUBMIT 🏀"):
-                # Check if everything is filled (Optional: remove checks if some are optional)
-                if all(st.session_state.selections.get(k) for k in ["best_supporter", "party_animal", "drama", "karen", "always_late", "always_forgets"]):
+                # Use the local variables (s_supporter, s_party, etc.) to check for completion
+                fun_checks = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
+                
+                if all(val != "" for val in fun_checks):
                     
-                    # Prepare final data bundle for Supabase
+                    # Prepare final data bundle
                     data = {
                         "Name": st.session_state.user_name,
                         "Team": st.session_state.user_team,
@@ -430,23 +433,21 @@ else:
                         "DPOY_Vote": st.session_state.selections.get('defensive_player'),
                         "Best_Shooter": st.session_state.selections.get('best_shooter'),
                         "Best_Coach": st.session_state.selections.get('best_coach'),
-                        "Best_Supporter": st.session_state.selections.get('best_supporter'),
-                        "Party_Animal": st.session_state.selections.get('party_animal'),
-                        "Drama": st.session_state.selections.get('drama'),
-                        "Karen": st.session_state.selections.get('karen'),
-                        "Always_Late": st.session_state.selections.get('always_late'),
-                        "Always_Forgets": st.session_state.selections.get('always_forgets')
+                        "Best_Supporter": s_supporter,
+                        "Party_Animal": s_party,
+                        "Drama": s_drama,
+                        "Karen": s_karen,
+                        "Always_Late": s_late,
+                        "Always_Forgets": s_forget
                     }
                     
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
                         st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
-                        # Reset session state so they can't vote again immediately
                         st.session_state.authenticated = False 
                     except Exception as e:
                         st.error(f"Error submitting: {e}")
                 else:
                     st.warning("Please make a selection for all categories!")
             st.markdown('</div>', unsafe_allow_html=True)
-
