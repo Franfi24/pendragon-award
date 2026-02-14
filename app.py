@@ -148,83 +148,94 @@ else:
         st.markdown("## Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # The Horizontal Strip: Locked to 100% Screen Width
         col1, col2, col3 = st.columns(3)
-        with col1:
-            st.image(os.path.join("images", "rookie1.jpeg"))
-        with col2:
-            # Stella - The Middle Anchor
-            st.image(os.path.join("images", "rookie2.jpeg"))
-        with col3:
-            # AK - Forced to match Stella's width by CSS
-            st.image(os.path.join("images", "rookie3.jpeg"))
+        with col1: st.image(os.path.join("images", "rookie1.jpeg"))
+        with col2: st.image(os.path.join("images", "rookie2.jpeg"))
+        with col3: st.image(os.path.join("images", "rookie3.jpeg"))
 
         st.divider()
         
-        # Dropdown for the vote
-        rookie_vote = st.selectbox(
-            "Your Pick:", 
-            options=["", "Jesper", "Stella", "AK"], 
-            key="rookie_mobile_v8"
-        )
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "AK"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with b_col2:
+            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"
+                    st.session_state.voted_stage = "most_improved_player" # Points to next section
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
+            st.markdown('</div>', unsafe_allow_html=True)
 
-     # STAGE 3: MOST IMPROVED PLAYER
+    # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
         st.markdown("## Most Improved Player")
-        st.write("*These are the players that have improved the most from last season.*")
+        st.write("*Players that have improved the most from last season.*")
         
-        # The Horizontal Strip: Locked to 100% Screen Width
         col1, col2, col3 = st.columns(3)
-        with col1:
-            st.image(os.path.join("images", "MIP1.jpeg"))
-        with col2:
-            # Stella - The Middle Anchor
-            st.image(os.path.join("images", "MIP2.jpeg"))
-        with col3:
-            # AK - Forced to match Stella's width by CSS
-            st.image(os.path.join("images", "MIP3.jpeg"))
+        with col1: st.image(os.path.join("images", "MIP1.jpeg"))
+        with col2: st.image(os.path.join("images", "MIP2.jpeg"))
+        with col3: st.image(os.path.join("images", "MIP3.jpeg"))
 
         st.divider()
         
-        # Dropdown for the vote
-        rookie_vote = st.selectbox(
-            "Your Pick:", 
-            options=["", "Rayan", "Lise", "Elmer"], 
-            key="rookie_mobile_v8"
-        )
-        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+        mip_vote = st.selectbox("Your Pick:", options=["", "Rayan", "Lise", "Elmer"], key="mip_sel")
+        st.session_state.selections['most_improved_player'] = mip_vote
 
-        # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"
+                st.session_state.voted_stage = "rookie_awards"
                 st.rerun()
         with b_col2:
+            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("NEXT →"):
-                if st.session_state.selections.get('rookie_of_the_year'):
+                if st.session_state.selections.get('most_improved_player'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
+            st.markdown('</div>', unsafe_allow_html=True)
 
+    # STAGE 4: FUN AWARDS
+    elif st.session_state.voted_stage == "fun_awards":
+        st.markdown("## ✨ Fun Season Awards")
+        st.write("*Choose anyone from the club.*")
+        
+        best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
+        st.session_state.selections['best_dressed'] = best_dressed
+
+        st.divider()
+        
+        f_col1, f_col2 = st.columns(2)
+        with f_col1:
+            if st.button("← BACK", key="f_back"):
+                st.session_state.voted_stage = "most_improved_player"
+                st.rerun()
+        with f_col2:
+            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
+            if st.button("🏀 SUBMIT"):
+                if st.session_state.selections.get('best_dressed'):
+                    # Data to Supabase
+                    data = {
+                        "Name": st.session_state.user_name,
+                        "Team": st.session_state.user_team,
+                        "Rookie_Vote": st.session_state.selections.get('rookie_of_the_year'),
+                        "MIP_Vote": st.session_state.selections.get('most_improved_player'),
+                        "Best_Dressed": st.session_state.selections.get('best_dressed')
+                    }
+                    supabase.table(TABLE_NAME).insert(data).execute()
+                    st.success("Votes Submitted! 🏀")
+                    st.balloons()
+                else:
+                    st.warning("Please complete your votes!")
+            st.markdown('</div>', unsafe_allow_html=True)
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
