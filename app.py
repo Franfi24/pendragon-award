@@ -416,8 +416,7 @@ else:
             if st.button("← BACK", key="f_back"):
                 st.session_state.voted_stage = "best_coach"
                 st.rerun()
-       with f_col2:
-            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
+        with f_col2:
             if st.button("SUBMIT 🏀"):
                 # Use the local variables (s_supporter, s_party, etc.) to check for completion
                 fun_checks = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
