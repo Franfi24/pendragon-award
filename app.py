@@ -169,21 +169,20 @@ else:
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Black Navigation Buttons
+        # Back & Next Buttons on the same line
+        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with b_col2:
-            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-            st.markdown("</div>", unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
