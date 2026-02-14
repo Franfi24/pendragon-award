@@ -153,7 +153,7 @@ else:
         st.write("*(Note: You cannot nominate yourself!)*")
         st.divider()
 
-        if st.button("START VOTING →"):
+        if st.button("BASKETBALL SEASON AWARDS →"):
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
 
