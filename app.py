@@ -329,7 +329,7 @@ else:
     # STAGE 7: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
         st.markdown("## Best Coach")
-        st.write("*Who has shown that can lead their team the best?*")
+        st.write("*Recognizing the leader behind the bench who has best inspired their team and guided their growth this season.*")
         
         # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
@@ -370,16 +370,18 @@ else:
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
         st.write("*Choose anyone from the club.*")
+        st.write("**Anybody is elegible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester**")
         
-        best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
-        st.session_state.selections['best_dressed'] = best_dressed
+        best_supporter_in_the_stands = st.selectbox("best_supporter_in_the_stands", options=[""] + nominees)
+        st.write(f"*The heartbeat of the club. Who is always there cheering, even when their own team isn't playing?*")
+        st.session_state.selections["best_supporter_in_the_stands"] = best_supporter_in_the_stands
 
         st.divider()
         
         f_col1, f_col2 = st.columns(2)
         with f_col1:
             if st.button("← BACK", key="f_back"):
-                st.session_state.voted_stage = "most_improved_player"
+                st.session_state.voted_stage = "best_shooter"
                 st.rerun()
         with f_col2:
             st.markdown('<div class="pin-right">', unsafe_allow_html=True)
