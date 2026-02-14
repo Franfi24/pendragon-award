@@ -157,7 +157,7 @@ else:
 
     # --- SECTION 3: BASKETBALL ELIGIBILITY RULES ---
     elif st.session_state.voted_stage == "basketball_rules":
-        st.markdown("Basketball Season Awards ## 🏀 ")
+        st.markdown(" ## Basketball Season Awards 🏀 ")
         st.write("***Basketball Award Eligibility:***")
         st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for nomination if:")
         st.write("""
