@@ -376,71 +376,56 @@ else:
         st.markdown("### 📣 Best Supporter")
         s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + nominees, key="fun_supporter")
         st.write("*Cheering even when their own team isn't playing.*")
-        st.session_state.selections["best_supporter"] = s_supporter
 
         # 2. Party Animal
         st.markdown("### 🍻 Party Animal")
         s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
         st.write("*First one at the bar, last one to leave the after-party.*")
-        st.session_state.selections["party_animal"] = s_party
 
         # 3. Drama
         st.markdown("### 🎭 Most Dramatic")
         s_drama = st.selectbox("Who brings Hollywood to the hardwood?", options=[""] + nominees, key="fun_drama")
         st.write("*Every foul is a tragedy, every missed layup is a heartbreak.*")
-        st.session_state.selections["drama"] = s_drama
 
         # 4. Karen
         st.markdown("### 👑 The 'Karen'")
         s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
         st.write("*Ready to challenge every whistle and discuss the rules.*")
-        st.session_state.selections["karen"] = s_karen
 
         # 5. Always Late
         st.markdown("### ⏰ Always Late")
         s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
         st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
-        st.session_state.selections["always_late"] = s_late
 
         # 6. Forgetful One
         st.markdown("### 🎒 The Forgetful One")
         s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
         st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
-        st.session_state.selections["always_forgets"] = s_forget
 
         st.divider()
         
-       # --- SUBMIT SECTION ---
-        st.divider()
-        
-        # Use columns to keep BACK and SUBMIT on the same horizontal line
+        # --- SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
             if st.button("← BACK", key="f_back"):
-                # Points back to the last basketball award
                 st.session_state.voted_stage = "best_coach"
                 st.rerun()
                 
         with f_col2:
-            # This div pins the SUBMIT button to the far right edge
-            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
                 
-                # 1. Collect all the 'Fun Award' variables into a list for checking
+                # Check if all fields are filled using the variables above
                 fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
-                # 2. Check if all fields are filled (not empty strings)
                 if all(val != "" for val in fun_votes):
-                    
-                    # 3. Create the final data dictionary for Supabase
-                    # Use .get() for previous stages to prevent crashes
                     data = {
                         "Name": st.session_state.user_name,
                         "Team": st.session_state.user_team,
                         "Rookie_Vote": st.session_state.selections.get('rookie_of_the_year'),
                         "MIP_Vote": st.session_state.selections.get('most_improved_player'),
                         "DPOY_Vote": st.session_state.selections.get('defensive_player'),
+                        "Best_Driver": st.session_state.selections.get('best_driver'),
                         "Best_Shooter": st.session_state.selections.get('best_shooter'),
                         "Best_Coach": st.session_state.selections.get('best_coach'),
                         "Best_Supporter": s_supporter,
@@ -448,21 +433,15 @@ else:
                         "Drama": s_drama,
                         "Karen": s_karen,
                         "Always_Late": s_late,
-                        "Always_Forgets": s_forget
+                        "Always_Forgets": s_forget  # Matches your error-prone key
                     }
                     
                     try:
-                        # 4. Insert into Supabase
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        
-                        # 5. Success UI
                         st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
-                        
-                        # 6. Mark as voted and lock them out
                         st.session_state.authenticated = False
                         st.info("Log out complete. Thank you for voting!")
-                        
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
