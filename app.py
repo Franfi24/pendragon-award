@@ -76,6 +76,8 @@ if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'voted_stage' not in st.session_state:
     st.session_state.voted_stage = "instructions"
+if 'selections' not in st.session_state:
+    st.session_state.selections = {}
 
 # --- LOGIN & AUTHENTICATION INTERFACE ---
 if not st.session_state.authenticated:
@@ -100,7 +102,6 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
     if team:
-        # THE INVISIBLE LOGIC: Only show players who haven't voted yet
         available_names = [n for n in roster[team] if n not in voted_names]
         
         if not available_names:
@@ -118,7 +119,6 @@ if not st.session_state.authenticated:
 
 # --- POST-LOGIN VOTING SYSTEM ---
 else:
-    # --- NO SELF-VOTING LOGIC: GENERATE NOMINEE LIST ---
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
@@ -132,50 +132,33 @@ else:
         with t_col2:
             st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
 
-        st.write("***Here is some information about the voting process***")
+        st.write("***Information about the voting process***")
         st.divider()
-
         st.write("**The 2026 Ballot is split into two halves:**")
         st.write("""
-        * Basketball Season Awards: Official performance categories with pre-selected nominees.
-        * Fun Awards: Community-focused categories where any Pendragon member is eligible.
+        * Basketball Season Awards: Pre-selected nominees.
+        * Fun Awards: Any Pendragon member (No self-voting).
         """)
         st.divider()
         
-        st.write("***Basketball Season Awards***")
-        st.write("Our coaches have selected 3 top candidates for each of the 5 player categories and the Coach of the Year award.")
-        st.write("*Your job is to crown the winner!*")
-        st.divider()
-        
-        st.write("***Fun Season Awards***")
-        st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
-        st.write("*(Note: You cannot nominate yourself!)*")
-        st.divider()
-
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
 
-    # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
+    # --- STAGE: BASKETBALL AWARDS ---
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
-        
-        st.write("***Rules of Engagement:***")
-        st.write("""
-        1. **Coach's Selection:** You must choose one of the three candidates shortlisted by the coaches.
-        2. **One Vote:** Only one winner per category is allowed.
-        3. **Criteria:** Think about performance, dedication, and team spirit throughout the 2025-26 season.
-        """)
+        st.write("***Rules: Choose one candidate per category.***")
         st.divider()
 
-        st.write("### Cast Your Votes")
-        # Selectboxes for individual awards will go here
-        st.info("The 6 Basketball Award categories will be listed here.")
+        # Placeholder for 6 categories (e.g., MVP)
+        mvp_vote = st.selectbox("Season MVP", options=["", "Player A", "Player B", "Player C"])
+        st.session_state.selections['mvp'] = mvp_vote
 
         st.divider()
         col1, col2 = st.columns([1, 1])
         with col1:
-            if st.button("← BACK TO INFO"):
+            if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with col2:
@@ -183,16 +166,37 @@ else:
                 st.session_state.voted_stage = "fun_awards"
                 st.rerun()
 
-    # --- STAGE: FUN AWARDS (OPEN NOMINATIONS) ---
+    # --- STAGE: FUN AWARDS & FINAL SUBMISSION ---
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("These awards are open to any member of Pendragon except yourself.")
+        st.write("Nominate any fellow Pendragon!")
         st.divider()
         
-        # Uses the 'nominees' list which excludes the current user
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
+        st.session_state.selections['best_dressed'] = best_dressed
 
         st.divider()
+        
+        # --- THE FINAL BALLOT SUBMISSION ---
+        if st.button("🏀 SUBMIT FINAL BALLOT"):
+            try:
+                submission_data = {
+                    "Name": st.session_state.user_name,
+                    "Team": st.session_state.user_team,
+                    "Award": "Full Ballot",
+                    "Selection": str(st.session_state.selections)
+                }
+                supabase.table(TABLE_NAME).insert(submission_data).execute()
+                
+                st.success("Ballot Submitted Successfully!")
+                st.balloons()
+                
+                # Wipe state to lock out and return to login
+                st.session_state.clear()
+                st.rerun()
+            except Exception as e:
+                st.error(f"Error submitting ballot: {e}")
+
         if st.button("← BACK TO BASKETBALL"):
             st.session_state.voted_stage = "basketball_awards"
             st.rerun()
