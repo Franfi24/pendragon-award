@@ -170,8 +170,6 @@ else:
         st.divider()
 
         st.write("### Cast Your Votes")
-        # Placeholder for real awards
-        st.info("The 6 Basketball Award categories will be listed here.")
 
         st.divider()
         col1, col2 = st.columns([1, 1])
