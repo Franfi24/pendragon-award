@@ -36,12 +36,21 @@ st.markdown("""
         justify-content: center;
     }
 
-    [data-testid="stImage"] img {
-        height: 100% !important;
-        width: 100% !important;
-        object-fit: contain !important; /* Shows the WHOLE photo without cropping */
+    /* CLEAN GALLERY LAYOUT: NO BLACK BOXES */
+    [data-testid="stImage"] {
+        background-color: transparent !important; /* Removes the black background */
+        border: none !important; 
+        height: auto !important;
     }
 
+    [data-testid="stImage"] img {
+        height: 500px !important;    /* Fixed height for all */
+        width: 100% !important;      /* Forces full width of the column */
+        object-fit: cover !important; /* Zooms/Crops to fill the entire area */
+        object-position: 20% 20%;    /* Adjusts the crop to focus on the upper part of the photo */
+        border-radius: 15px;
+        border: 2px solid rgba(255,255,255,0.2);
+    }
     /* FIX: SPACING BELOW SELECTBOX */
     /* This stops the "Back" and "Next" buttons from touching the white bar */
     .stSelectbox {
