@@ -25,7 +25,7 @@ st.markdown("""
     }
 
     /* UNIVERSAL IMAGE FORMATTER (Matei Fix) */
-    /* This ensures all photos fill the vertical rectangle perfectly */
+    /* Forces every nominee into an identical 550px vertical card */
     [data-testid="stImage"] {
         text-align: center;
         display: flex;
@@ -55,20 +55,15 @@ st.markdown("""
         color: #000000 !important;
     }
 
-    /* Header Styling */
-    h1 { 
-        text-align: left !important; 
-        font-size: 2.2rem !important; 
-    }
-    
-    /* Label and Text Styling */
+    /* Header & Text Styling */
+    h1 { text-align: left !important; font-size: 2.2rem !important; }
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 400 !important; 
         font-size: 1.1rem !important;
     }
 
-    /* BUTTON STYLING: Same size, same line fix */
+    /* BUTTON STYLING: Smaller blocks */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
@@ -77,16 +72,22 @@ st.markdown("""
         text-transform: uppercase;
         font-weight: 700;
         
-        /* Fixed width ensures 'Back' and 'Next Award' are identical sizes */
-        min-width: 200px !important; 
-        width: 100% !important;
-        padding: 12px 0px !important;
+        /* Smaller block size */
+        min-width: 150px !important; 
+        width: auto !important;
+        padding: 10px 25px !important;
     }
 
-    /* Align buttons to the center of their columns */
-    div.stButton {
+    /* NAVIGATION ALIGNMENT: Pushes Next Award to the far right */
+    /* Targets the first column's button to stay left */
+    [data-testid="column"]:nth-of-type(1) div.stButton {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
+    }
+    /* Targets the second column's button to go far right */
+    [data-testid="column"]:nth-of-type(2) div.stButton {
+        display: flex;
+        justify-content: flex-end;
     }
     
     /* Divider Styling */
