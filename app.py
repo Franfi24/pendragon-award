@@ -370,45 +370,22 @@ else:
                 else:
                     st.warning("Please pick a winner!")
     
-   # STAGE 8: FUN AWARDS
+  # STAGE 8: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("*Anybody is eligible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester.*")
+        st.write("*Anybody is eligible for these awards!*")
         st.divider()
 
-        # 1. Best Supporter
-        st.markdown("### 📣 Best Supporter")
-        s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + nominees, key="fun_supporter")
-        st.write("*Cheering even when their own team isn't playing.*")
-
-        # 2. Party Animal
-        st.markdown("### 🍻 Party Animal")
-        s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
-        st.write("*First one at the bar, last one to leave the after-party.*")
-
-        # 3. Drama
-        st.markdown("### 🎭 Most Dramatic")
-        s_drama = st.selectbox("Who brings Hollywood to the hardwood?", options=[""] + nominees, key="fun_drama")
-        st.write("*Every foul is a tragedy, every missed layup is a heartbreak.*")
-
-        # 4. Karen
-        st.markdown("### 👑 The 'Karen'")
-        s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
-        st.write("*Ready to challenge every whistle and discuss the rules.*")
-
-        # 5. Always Late
-        st.markdown("### ⏰ Always Late")
-        s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
-        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
-
-        # 6. Forgetful One
-        st.markdown("### 🎒 The Forgetful One")
-        s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
-        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
+        # Input Selectboxes
+        s_supporter = st.selectbox("📣 Best Supporter", options=[""] + nominees, key="fun_supporter")
+        s_party = st.selectbox("🍻 Party Animal", options=[""] + nominees, key="fun_party")
+        s_drama = st.selectbox("🎭 Most Dramatic", options=[""] + nominees, key="fun_drama")
+        s_karen = st.selectbox("👑 The 'Karen'", options=[""] + nominees, key="fun_karen")
+        s_late = st.selectbox("⏰ Always Late", options=[""] + nominees, key="fun_late")
+        s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + nominees, key="fun_forget")
 
         st.divider()
         
-        # --- NAVIGATION & SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
@@ -418,13 +395,11 @@ else:
                 
         with f_col2:
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
-                
-                # Check if all fields are filled
                 fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
                     data = {
-                        "name": st.session_state.user_name,
+                        "name": st.session_state.user_name, # Saved as lowercase "name"
                         "team": st.session_state.user_team,
                         "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
                         "mip_vote": st.session_state.selections.get('most_improved_player'),
@@ -441,30 +416,29 @@ else:
                     }
                     
                     try:
-                        # Insert data into Supabase
+                        # 1. Push to Database
                         supabase.table(TABLE_NAME).insert(data).execute()
                         
-                        # UI Feedback
-                        st.balloons()
-                        st.success("Votes Submitted! Your name has been removed from eligibility. 🏀")
-                        
-                        # --- THE RESET & LOCKOUT LOGIC ---
-                        # 1. Clear cache to force a fresh pull of 'voted_names' from Supabase
+                        # 2. CLEAR THE CACHE - This is what stops the double-vote
+                        # It forces get_voters() to run again on the next load
                         st.cache_data.clear() 
                         
-                        # 2. Wipe the session so the app returns to Login state
+                        # 3. Success UI
+                        st.balloons()
+                        st.success(f"Thank you, {st.session_state.user_name}! Your votes are locked in.")
+                        
+                        # 4. Reset Session State
                         st.session_state.authenticated = False
                         st.session_state.voted_stage = "instructions"
                         st.session_state.selections = {}
                         
-                        # 3. Brief pause so they can read the success message
                         import time
                         time.sleep(3)
                         
-                        # 4. Return to login
+                        # 5. Rerun to Login
                         st.rerun()
                         
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories before submitting!")
+                    st.warning("Please make a selection for all categories!")
