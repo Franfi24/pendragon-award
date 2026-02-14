@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- VISUAL THEME & CSS STYLING (ORIGINAL RED) ---
+# --- MOBILE-FIRST CSS STYLING ---
 st.markdown("""
     <style>
     /* Main App Background */
@@ -23,60 +23,65 @@ st.markdown("""
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
-    
-    /* FIX: UNIFORM IMAGE SIZING & CROPPING */
-    /* This ensures Matei's picture matches the others exactly */
+
+    /* THE IMAGE EQUALIZER: Forces Matei and others to match perfectly */
+    [data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important; /* Forces side-by-side on mobile */
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        gap: 5px !important;
+    }
+
+    [data-testid="column"] {
+        flex: 1 !important;
+        width: 32% !important;
+        min-width: 0px !important;
+    }
+
     [data-testid="stImage"] img {
-        height: 400px !important; 
-        width: 100% !important;
-        object-fit: cover !important; 
-        object-position: center;
-        border-radius: 15px;
-        border: 2px solid rgba(255,255,255,0.2);
+        height: 150px !important;    /* Uniform height for the row */
+        width: 100% !important;      
+        object-fit: cover !important; /* Crops landscape photos to match portrait */
+        object-position: center 20%; 
+        border-radius: 12px;
+        border: 2px solid rgba(255,255,255,0.3);
     }
 
-    /* FIX: SPACING BELOW SELECTBOX */
-    /* This stops the "Back" and "Next" buttons from touching the white bar */
-    .stSelectbox {
-        margin-bottom: 60px !important; 
+    /* Names under images */
+    [data-testid="column"] p {
+        text-align: center !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        margin-top: -10px !important;
     }
 
-    /* Selectbox Styling (White background, black text) */
+    /* Selectbox Styling */
+    .stSelectbox { margin-top: 10px !important; margin-bottom: 30px !important; }
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
         color: #000000 !important;
         border-radius: 10px !important;
     }
-    
-    div[data-baseweb="select"] * {
-        color: #000000 !important;
-    }
+    div[data-baseweb="select"] * { color: #000000 !important; }
 
-    /* Header Styling */
-    h1 { 
-        text-align: left !important; 
-        font-size: 2.2rem !important; 
-    }
-    
-    /* Label and Text Styling */
-    label, p, [data-testid="stWidgetLabel"] {
-        color: white !important;
-        font-weight: 400 !important; 
-        font-size: 1.1rem !important;
-    }
-
-    /* Button Styling (Black with white border) */
+    /* Navigation Buttons: Balanced & Sized for Mobile */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
         border: 2px solid #ffffff !important;
-        border-radius: 12px;
+        border-radius: 10px;
         text-transform: uppercase;
         font-weight: 700;
-        padding: 10px 25px !important;
+        font-size: 0.8rem !important;
+        width: 100% !important;
+        padding: 10px 0px !important;
     }
-    
-    /* Divider Styling */
+
+    /* Header Styling */
+    h1 { font-size: 1.8rem !important; text-align: left !important; }
+    h2 { font-size: 1.5rem !important; }
+    label, [data-testid="stWidgetLabel"] { color: white !important; }
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
@@ -107,6 +112,13 @@ if 'selections' not in st.session_state:
 if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
     st.write("Official 2026 Voting Portal")
+    st.write("Welcome to the Pendragon Ballot!")
+    st.write("""
+    * *Anonymous Voting:* Your individual selections are private.
+    * *Eligibility:* Vote for members of any team.
+    * *No Self-Voting:* The system does not allow to vote for yourself.
+    * *One-Time Access:* Your name disappears from this list once you submit.
+    """)
     st.divider()
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     if team:
@@ -126,7 +138,7 @@ else:
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # --- STAGE: INSTRUCTIONS (FULL TEXT RESTORED) ---
+    # STAGE: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
         st.write("***Information about the voting process***")
@@ -134,63 +146,66 @@ else:
 
         st.write("**The 2026 Ballot is split into two halves:**")
         st.write("""
-        * **Basketball Season Awards:** Official performance categories with coach-selected nominees.
-        * **Fun Awards:** Community-focused categories where any Pendragon member is eligible.
+        * **Basketball Season Awards:** Official categories with coach-selected nominees.
+        * **Fun Awards:** Community-focused categories where anyone is eligible.
         """)
         
         st.divider()
         st.write("### Basketball Season Awards")
-        st.write("Our coaches have selected 3 top candidates for each category.")
-        st.write("*Your job is to crown the winner!*")
+        st.write("Our coaches have selected 3 top candidates for each category. *Your job is to crown the winner!*")
         st.write("### Fun Season Awards")
-        st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
-        st.write("*(Note: You cannot nominate yourself!)*")
+        st.write("These are open categories. You can nominate any member. *(Note: You cannot nominate yourself!)*")
         st.divider()
 
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-    # --- STAGE: AWARD 1 - ROOKIE OF THE YEAR ---
+    # STAGE: AWARD 1 - ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
         st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
         
+        # Nominee Grid (Forced to horizontal row on phones by CSS)
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
-            st.markdown("<p style='text-align: center;'>Jesper</p>", unsafe_allow_html=True)
+            st.markdown("<p>Jesper</p>", unsafe_allow_html=True)
         with col2:
             st.image(os.path.join("images", "rookie2.jpeg"))
-            st.markdown("<p style='text-align: center;'>Stella</p>", unsafe_allow_html=True)
+            st.markdown("<p>Stella</p>", unsafe_allow_html=True)
         with col3:
             st.image(os.path.join("images", "rookie3.jpeg"))
-            st.markdown("<p style='text-align: center;'>Matei</p>", unsafe_allow_html=True)
+            st.markdown("<p>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
-        
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        c1, c2 = st.columns([1,1])
+        # Navigation Buttons
+        c1, c2 = st.columns(2)
         with c1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"; st.rerun()
+                st.session_state.voted_stage = "instructions"
+                st.rerun()
         with c2:
-            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
-            if st.button("NEXT AWARD →"):
+            if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"; st.rerun()
+                    st.session_state.voted_stage = "fun_awards"
+                    st.rerun()
                 else:
                     st.warning("Please select a winner!")
-            st.markdown("</div>", unsafe_allow_html=True)
 
-    # --- STAGE: FUN AWARDS & SUBMISSION ---
+    # STAGE: FUN AWARDS & SUBMISSION
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
+        st.write("*Choose anyone from the club for these community titles.*")
+        
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
         st.session_state.selections['best_dressed'] = best_dressed
 
+        st.divider()
+        
         if st.button("🏀 SUBMIT FINAL BALLOT"):
             try:
                 submission = {
