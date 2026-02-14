@@ -48,6 +48,16 @@ st.markdown("""
         border: none !important;
     }
 
+    /* SOLID BLACK BUTTONS ON THE SAME LINE */
+    div.stButton > button {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+        font-weight: bold !important;
+    }
+
     /* Dropdown text size */
     div[data-baseweb="select"] div { font-size: 0.8rem !important; }
 
