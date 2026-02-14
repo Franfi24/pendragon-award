@@ -399,13 +399,13 @@ else:
         # 5. Always Late
         st.markdown("### ⏰ Always Late")
         s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
-        st.write("*Warm-ups are optional for this legend.*")
+        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
         st.session_state.selections["always_late"] = s_late
 
         # 6. Forgetful One
         st.markdown("### 🎒 The Forgetful One")
         s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
-        st.write("*Always forgetting water bottles, shoes, or jerseys.*")
+        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
         st.session_state.selections["always_forgets"] = s_forget
 
         st.divider()
