@@ -278,26 +278,4 @@ else:
                 else:
                     st.warning("Please complete your votes!")
             st.markdown('</div>', unsafe_allow_html=True)
-    # STAGE 3: FUN AWARDS
-    elif st.session_state.voted_stage == "fun_awards":
-        st.markdown("## ✨ Fun Season Awards")
-        st.write("*Choose anyone from the club.*")
-        
-        best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
-        st.session_state.selections['best_dressed'] = best_dressed
 
-        st.divider()
-        
-        # Navigation
-        f_col1, f_col2 = st.columns(2)
-        with f_col1:
-            if st.button("← BACK", key="f_back"):
-                st.session_state.voted_stage = "rookie_awards"
-                st.rerun()
-        with f_col2:
-            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
-            if st.button("🏀 SUBMIT"):
-                # (Your Supabase logic here)
-                st.success("Submitted!")
-                st.balloons()
-            st.markdown("</div>", unsafe_allow_html=True)
