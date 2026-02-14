@@ -380,7 +380,7 @@ else:
 
         # 2. Party Animal
         st.markdown("### 🍻 Party Animal")
-        s_party = st.selectbox("Who dominates the third half?", options=[""] + nominees, key="fun_party")
+        s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
         st.write("*First one at the bar, last one to leave the after-party.*")
         st.session_state.selections["party_animal"] = s_party
 
