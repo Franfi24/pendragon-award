@@ -23,48 +23,33 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* THE SEAMLESS IMAGE STRIP */
+    /* THE SEAMLESS IMAGE STRIP - FORCED HORIZONTAL */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important;
-        gap: 0px !important; /* Removes gaps */
+        flex-direction: row !important; /* Prevents stacking on mobile */
+        gap: 0px !important;           /* Removes horizontal gaps */
+        width: 100% !important;
     }
 
     [data-testid="column"] {
         flex: 1 !important;
-        width: 33.33% !important;
-        padding: 0px !important; /* Removes gutters */
+        width: 33.33% !important;      /* Exact thirds */
+        padding: 0px !important;       /* Removes internal column padding */
+        margin: 0px !important;
     }
 
     [data-testid="stImage"] img {
-        height: 150px !important;
+        height: 150px !important;      /* Uniform height */
         width: 100% !important;
-        object-fit: cover !important;
+        object-fit: cover !important;  /* Crops to fill the box */
         object-position: center 20%;
-        border: 1px solid rgba(255,255,255,0.1); /* Very thin divider */
+        border: none !important;       /* Removes borders for seamless look */
         box-sizing: border-box !important;
     }
 
-    /* SMALLER TEXT IN SELECTBOX */
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        min-height: 35px !important; /* Slimmer box */
-    }
-    
-    /* Targets the actual text inside the dropdown */
-    div[data-baseweb="select"] div {
-        font-size: 0.85rem !important; 
-        color: #000000 !important;
-    }
-
-    /* BUTTON PINNING: Far Left and Far Right */
-    /* We create a specific container for the nav row */
-    .nav-row {
-        display: flex !important;
-        justify-content: space-between !important;
-        width: 100% !important;
-        margin-top: 20px;
-    }
+    /* DROPDOWN & BUTTONS */
+    div[data-baseweb="select"] > div { background-color: #FFFFFF !important; min-height: 35px !important; }
+    div[data-baseweb="select"] div { font-size: 0.85rem !important; color: #000000 !important; }
 
     div.stButton > button {
         background-color: #000000 !important;
@@ -78,7 +63,7 @@ st.markdown("""
     /* Centering names under pictures */
     [data-testid="column"] p {
         text-align: center !important;
-        font-size: 0.75rem !important;
+        font-size: 0.7rem !important;
         margin-top: 2px !important;
     }
     </style>
@@ -159,12 +144,12 @@ else:
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-    # STAGE: AWARD 1 - ROOKIE OF THE YEAR
+   # STAGE: AWARD 1 - ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
         st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
         
-        # Seamless Image Row
+        # Horizontal Nominee Strip (Forced by CSS)
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -182,14 +167,12 @@ else:
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
         # NAVIGATION: Pinned to Far Left and Far Right
-        nav_col1, nav_col2 = st.columns([1, 1])
+        nav_col1, nav_col2 = st.columns(2)
         with nav_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with nav_col2:
-            # Streamlit buttons in the second column naturally align left, 
-            # so we wrap this one in a right-aligned div.
             st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
