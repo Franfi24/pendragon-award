@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE SEAMLESS NO-GAP CSS ---
+# --- MOBILE-FIRST SEAMLESS CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,48 +23,43 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. REMOVE HORIZONTAL GAPS: Forces columns to touch */
+    /* FORCE HORIZONTAL ON MOBILE */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        gap: 0px !important; 
+        flex-direction: row !important; /* Stops stacking on phones */
+        flex-wrap: nowrap !important;   /* Prevents images from moving to next line */
+        gap: 0px !important;            /* No space between pictures */
         width: 100% !important;
     }
 
-    /* 2. FORCE EQUAL WIDTH: Forces Matei to match others */
+    /* EQUAL WIDTH COLUMNS */
     [data-testid="column"] {
         flex: 1 1 0% !important; 
         width: 33.33% !important;
-        max-width: 33.33% !important;
         min-width: 0px !important;
-        padding: 0px !important; /* Removes internal space */
+        padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* 3. THE IMAGE STRIP: No gaps, uniform size */
+    /* IMAGE STRIP */
     [data-testid="stImage"] img {
-        height: 180px !important;    /* Uniform height */
-        width: 100% !important;      /* Fills the column width */
-        object-fit: cover !important; /* Crops edges so they align perfectly */
-        border-radius: 0px !important; /* Sharp edges make them look like one unit */
+        height: 140px !important;    /* Adjusted height for mobile screens */
+        width: 100% !important;      /* Forces Matei to match others */
+        object-fit: cover !important; 
+        border-radius: 0px !important;
         border: none !important;
-        display: block !important;
     }
 
-    /* 4. TRUE BLACK BUTTONS */
+    /* BLACK BUTTONS */
     div.stButton > button {
         background-color: #000000 !important;
         color: #ffffff !important;
         border: 1px solid #ffffff !important;
         border-radius: 8px !important;
-        min-width: 100px;
     }
 
-    /* Clean up default Streamlit padding around images */
-    [data-testid="stImage"] { 
-        padding: 0px !important; 
-    }
+    /* Remove default Streamlit container padding */
+    [data-testid="stImage"] { padding: 0px !important; }
     </style>
     """, unsafe_allow_html=True)
 # --- PLAYER ROSTER ---
@@ -147,7 +142,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # This strip will now be perfectly horizontal with no gaps
+        # This will now stay as a single horizontal line on your phone
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -158,12 +153,7 @@ else:
 
         st.divider()
         
-        # The dropdown for voting still contains the nominees
-        rookie_vote = st.selectbox(
-            "Select the winner from the dropdown:", 
-            options=["", "Jesper", "Stella", "Matei"], 
-            key="rookie_final_v7"
-        )
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_mobile")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
         # Black Buttons
@@ -179,7 +169,7 @@ else:
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please select a winner!")
+                    st.warning("Please pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
