@@ -96,7 +96,7 @@ if not st.session_state.authenticated:
     st.write("Official 2026 Voting Portal")
     st.write("Welcome to the Pendragon Ballot!")
     st.write("""
-    * *Anonymous Voting:* Your individual selections are private.
+    * *Private Voting:* Your individual selections are private.
     * *Eligibility:* Vote for members of any team.
     * *No Self-Voting:* The system does not allow to vote for yourself.
     * *One-Time Access:* Your name disappears from this list once you submit.
