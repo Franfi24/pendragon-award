@@ -159,7 +159,7 @@ else:
         # The Dropdown still has the names for voting
         rookie_vote = st.selectbox(
             "Select the winner:", 
-            options=["", "Jesper", "Stella", "Matei"], 
+            options=["", "Jesper", "Stella", "AK"], 
             key="rookie_vote_final"
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
