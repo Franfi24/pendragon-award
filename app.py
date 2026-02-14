@@ -137,7 +137,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # We use a wrapper div to ensure the browser sees them as one unit
+        # All columns must be shifted right (indented)
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
