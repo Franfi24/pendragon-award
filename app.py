@@ -92,9 +92,9 @@ if not st.session_state.authenticated:
     st.divider()
     st.write("Welcome to the Pendragon Ballot!")
     st.write("""
-    * *Anonymous Voting:* Your individual selections are private.
+    * *Private Voting:* Your individual selections are private.
     * *Eligibility:* Vote for members of any team.
-    * *No Self-Voting:* The system hides your name from the ballot.
+    * *No Self-Voting:* It is not possible to vote for yourself.
     * *One-Time Access:* Your name disappears from this list once you submit.
     """)
     st.divider()
