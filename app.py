@@ -442,6 +442,19 @@ else:
                         st.balloons()
                         st.session_state.authenticated = False
                         st.info("Log out complete. Thank you for voting!")
+
+                        # --- THE RESET LOGIC ---
+                        # Clear session state so the app thinks nobody is logged in
+                        st.session_state.authenticated = False
+                        st.session_state.voted_stage = "instructions"
+                        st.session_state.selections = {}
+                        
+                        # Brief pause so the user sees the success message before it flips back
+                        import time
+                        time.sleep(2)
+                        
+                        # Force the app to rerun - it will now hit the "Login" block
+                        st.rerun()
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
