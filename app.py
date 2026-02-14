@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- VISUAL THEME & CSS STYLING (ORIGINAL RED) ---
+# --- CONSOLIDATED MOBILE-FIRST CSS ---
 st.markdown("""
     <style>
     /* Main App Background */
@@ -24,73 +24,9 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* UNIVERSAL IMAGE FORMATTER (Matei Fix) */
-    /* Forces every nominee into an identical 550px vertical card */
-    [data-testid="stImage"] {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-    }
+    /* UNIVERSAL IMAGE FORMATTER - MOBILE OPTIMIZED */
     [data-testid="stImage"] img {
-        height: 550px !important;    
-        width: 100% !important;      
-        object-fit: cover !important; 
-        object-position: center 20%; 
-        border-radius: 15px;
-        border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    /* FIX: SPACING BELOW SELECTBOX */
-    .stSelectbox {
-        margin-bottom: 80px !important; 
-    }
-
-    /* Selectbox Styling (White background, black text) */
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        color: #000000 !important;
-        border-radius: 10px !important;
-    }
-    div[data-baseweb="select"] * {
-        color: #000000 !important;
-    }
-
-    /* Header & Text Styling */
-    h1 { text-align: left !important; font-size: 2.2rem !important; }
-    label, p, [data-testid="stWidgetLabel"] {
-        color: white !important;
-        font-weight: 400 !important; 
-        font-size: 1.1rem !important;
-    }
-
-    /* BUTTON STYLING: Smaller blocks */
-    div.stButton > button {
-        background-color: #000000 !important; 
-        color: #ffffff !important;
-        border: 2px solid #ffffff !important;
-        border-radius: 12px;
-        text-transform: uppercase;
-        font-weight: 700;
-        
-        /* Smaller block size */
-        min-width: 150px !important; 
-        width: auto !important;
-        padding: 10px 25px !important;
-    }
-
-    /* NAVIGATION ALIGNMENT: Pushes Next Award to the far right */
-    /* Targets the first column's# --- MOBILE-OPTIMIZED VISUAL THEME ---
-st.markdown("""
-    <style>
-    /* Main App Background */
-    .stApp {
-        background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
-        color: #ffffff;
-    }
-
-    /* MOBILE IMAGE FIX: Shorter height so it fits on one screen */
-    [data-testid="stImage"] img {
-        height: 350px !important; /* Shorter for phone screens */
+        height: 350px !important; 
         width: 100% !important;      
         object-fit: cover !important; 
         object-position: center 20%; 
@@ -109,8 +45,11 @@ st.markdown("""
         color: #000000 !important;
         border-radius: 10px !important;
     }
+    div[data-baseweb="select"] * {
+        color: #000000 !important;
+    }
 
-    /* MOBILE BUTTONS: Pins them to the edges on one line */
+    /* BUTTONS: Same line, Small, and Pushed to edges */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
@@ -118,25 +57,26 @@ st.markdown("""
         border-radius: 10px;
         text-transform: uppercase;
         font-weight: 700;
-        font-size: 0.9rem !important; /* Smaller text for phone buttons */
-        min-width: 120px !important; 
-        padding: 8px 15px !important;
+        font-size: 0.85rem !important; 
+        min-width: 130px !important; 
+        padding: 8px 10px !important;
     }
 
-    /* THE MOBILE LAYOUT FIX: Ensures columns don't stack */
+    /* THE MOBILE LAYOUT FIX: Forces side-by-side columns */
     [data-testid="column"] {
         width: 48% !important;
         flex: 1 1 48% !important;
-        min-width: 48% !important;
+        min-width: 40% !important;
     }
 
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-between !important;
+        align-items: center !important;
     }
 
-    /* Aligning the buttons inside the row */
+    /* Individual Button Alignment */
     [data-testid="column"]:nth-of-type(1) div.stButton {
         display: flex;
         justify-content: flex-start;
@@ -146,7 +86,14 @@ st.markdown("""
         justify-content: flex-end;
     }
 
-    h1 { font-size: 1.8rem !important; }
+    /* Header & Text Styling */
+    h1 { text-align: left !important; font-size: 1.8rem !important; }
+    label, p, [data-testid="stWidgetLabel"] {
+        color: white !important;
+        font-weight: 400 !important; 
+        font-size: 1rem !important;
+    }
+    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
 
@@ -195,35 +142,25 @@ else:
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # --- STAGE: INSTRUCTIONS (FULL TEXT RESTORED) ---
+    # STAGE: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
         st.write("***Information about the voting process***")
         st.divider()
-
         st.write("**The 2026 Ballot is split into two halves:**")
         st.write("""
-        * **Basketball Season Awards:** Official performance categories with coach-selected nominees.
-        * **Fun Awards:** Community-focused categories where any Pendragon member is eligible.
+        * **Basketball Season Awards:** Official categories.
+        * **Fun Awards:** Community-focused categories.
         """)
-        
         st.divider()
-        st.write("### Basketball Season Awards")
-        st.write("Our coaches have selected 3 top candidates for each category.")
-        st.write("*Your job is to crown the winner!*")
-        st.write("### Fun Season Awards")
-        st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
-        st.write("*(Note: You cannot nominate yourself!)*")
-        st.divider()
-
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-    # --- STAGE: AWARD 1 - ROOKIE OF THE YEAR ---
+    # STAGE: AWARD 1 - ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
-        st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
+        st.write("*Players that are new and showing amazing improvement.*")
         
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -237,28 +174,24 @@ else:
             st.markdown("<p style='text-align: center;'>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
-        
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-     # Navigation Buttons - Clean and Balanced
-        c1, c2 = st.columns([1, 1]) 
-        
+        # Navigation Buttons
+        c1, c2 = st.columns(2) 
         with c1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-                
         with c2:
-            # We removed the <div> here because the CSS now handles the alignment
-            if st.button("NEXT AWARD →"):
+            if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "defensive_awards" # Updated to go to next award
+                    st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please select a winner!")
 
-    # --- STAGE: FUN AWARDS & SUBMISSION ---
+    # STAGE: FUN AWARDS & SUBMISSION
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
