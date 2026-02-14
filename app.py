@@ -2,6 +2,7 @@
 import streamlit as st
 from supabase import create_client, Client
 import os
+import time
 
 
 # --- DATABASE CONNECTION (SUPABASE) ---
@@ -110,6 +111,14 @@ if not st.session_state.authenticated:
     st.divider()
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     if team:
+        st.cache_data.clear()
+        try:
+            result = supabase.table(TABLE_NAME).select("name").execute()
+            voted_names = [row['name'] for row in result.data]
+        except:
+            voted_names = []
+        
+        # Filter: Only show names NOT in the lowercase 'name' list
         available_names = [n for n in roster[team] if n not in voted_names]
         if not available_names:
             st.warning("All players on this team have already voted! 🎉")
@@ -446,6 +455,12 @@ else:
                         st.balloons()
                         st.session_state.authenticated = False
                         st.info("Log out complete. Thank you for voting!")
+                        st.session_state.user_name = None
+                        st.session_state.voted_stage = "instructions"
+                        st.session_state.selections = {}
+                        st.cache_data.clear()
+                        time.sleep(2)
+                        st.rerun()
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
