@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE ULTIMATE NO-GAP & BLACK BUTTON CSS ---
+# --- THE ULTIMATE SEAMLESS STRIP CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,64 +23,46 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* FORCED HORIZONTAL STRIP */
+    /* Target the Streamlit Column Gap specifically */
     [data-testid="stHorizontalBlock"] {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        gap: 0px !important; /* Removes horizontal gaps */
-        width: 100% !important;
+        gap: 0px !important;
     }
 
-    /* EQUAL WIDTH COLUMNS */
+    /* Force columns to touch and be exactly 1/3 width */
     [data-testid="column"] {
         flex: 1 1 33.33% !important;
         width: 33.33% !important;
         min-width: 0px !important;
-        padding: 0px !important; /* Removes gaps between photos */
+        padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* BIGGER & EQUAL SIZE IMAGES */
+    /* Bigger Images + Force Size Match */
     [data-testid="stImage"] img {
-        height: 180px !important;    /* Increased height from 140px */
-        width: 100% !important;      /* Forces same width */
-        object-fit: cover !important; /* Crops Matei to match others */
+        height: 180px !important;     /* Height is now bigger */
+        width: 100% !important;       /* Width fills exactly 1/3 */
+        object-fit: cover !important; /* Crops to fill the box perfectly */
         object-position: center 20%;
-        border-radius: 0px !important; /* Square edges for a seamless strip */
-        border: 0.5px solid rgba(255,255,255,0.2); /* Tiny divider line */
+        border-radius: 0px !important; /* Sharp edges make them look like one unit */
+        border: none !important;      /* Removes all spacing/borders */
+        display: block !important;
     }
 
-    /* TRUE BLACK BUTTONS */
+    /* BLACK BUTTONS */
     div.stButton > button {
-        background-color: #000000 !important; /* Pure Black */
+        background-color: #000000 !important;
         color: #ffffff !important;
         border: 1px solid #ffffff !important;
         border-radius: 8px;
         font-weight: 700;
-        font-size: 0.8rem !important;
         min-width: 100px;
-        opacity: 1 !important;
-    }
-    
-    /* Hover state to keep it black */
-    div.stButton > button:hover {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #D32F2F !important;
     }
 
-    /* Name labels */
+    /* Centered Names */
     [data-testid="column"] p {
         text-align: center !important;
-        font-size: 0.7rem !important;
+        font-size: 0.75rem !important;
         margin-top: 5px !important;
-    }
-
-    /* Dropdown height */
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        min-height: 40px !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -164,7 +146,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # This row is now forced to be a seamless, larger strip
+        # The 3-column strip
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -178,23 +160,23 @@ else:
 
         st.divider()
         
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_final")
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_v3")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Buttons Pinned Left and Right
-        b_col1, b_col2 = st.columns(2)
-        with b_col1:
+        # Navigation
+        b1, b2 = st.columns(2)
+        with b1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-        with b_col2:
+        with b2:
             st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Pick a winner!")
+                    st.warning("Please pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
