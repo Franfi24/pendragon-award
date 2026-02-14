@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE SEAMLESS STRIP & BLACK BUTTON CSS ---
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,46 +23,39 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. THE ROW: Zero gaps, forces images to touch */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
-        width: 100% !important;
     }
 
-    /* 2. THE COLUMNS: Mathematical thirds */
-    [data-testid="column"] {
-        flex: 1 1 0% !important;
+    /* Target the columns themselves and force them to stay 33% */
+    [data-testid="column"], .stColumn {
         width: 33.33% !important;
-        min-width: 0px !important;
+        flex: 1 1 33.33% !important;
+        min-width: 0px !important; /* This stops them from stacking */
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* 3. THE IMAGES: Uniform height, fills width, no gaps */
+    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
-        height: 160px !important;    /* Adjust height to fit your new pictures */
+        height: 140px !important;
         width: 100% !important;
-        object-fit: cover !important; /* Crops images to fit the exact 1/3 width */
-        border-radius: 0px !important;
+        object-fit: cover !important;
         border: none !important;
-        display: block !important;
     }
 
-    /* 4. SOLID BLACK BUTTONS */
+    /* Dropdown text size */
+    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
+
+    /* Pinning buttons to edges */
     div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px !important;
-        font-weight: 700;
-        min-width: 100px;
+        width: auto !important;
+        min-width: 90px;
     }
-
-    /* Clean up any default Streamlit padding */
-    [data-testid="stImage"] { padding: 0px !important; }
     </style>
     """, unsafe_allow_html=True)
 # --- PLAYER ROSTER ---
@@ -145,26 +138,24 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # This strip will now be perfectly horizontal and gapless
+        # Nominee Strip
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
+            st.markdown("<p style='text-align:center; font-size:10px;'>Jesper</p>", unsafe_allow_html=True)
         with col2:
             st.image(os.path.join("images", "rookie2.jpeg"))
+            st.markdown("<p style='text-align:center; font-size:10px;'>Stella</p>", unsafe_allow_html=True)
         with col3:
             st.image(os.path.join("images", "rookie3.jpeg"))
+            st.markdown("<p style='text-align:center; font-size:10px;'>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
         
-        # The Dropdown still has the names for voting
-        rookie_vote = st.selectbox(
-            "Select the winner:", 
-            options=["", "Jesper", "Stella", "Matei"], 
-            key="rookie_vote_final"
-        )
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Black Buttons
+        # Buttons Pinned Left and Right
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -177,7 +168,7 @@ else:
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please select a name from the dropdown!")
+                    st.warning("Pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
