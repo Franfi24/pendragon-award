@@ -180,7 +180,7 @@ else:
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with col2:
-            if st.button("NEXT: FUN AWARDS →"):
+            if st.button("CATEGORY 1→"):
                 st.session_state.voted_stage = "fun_awards"
                 st.rerun()
 
