@@ -403,9 +403,22 @@ else:
 
         st.divider()
         
-        # --- SUBMIT SECTION ---
-        f_col1, f_col2 = st.columns(2)
+       # STAGE 8: FUN AWARDS
+    elif st.session_state.voted_stage == "fun_awards":
+        st.markdown("## ✨ Fun Season Awards")
+        st.divider()
+
+        # 1-6: Award Selectboxes
+        s_supporter = st.selectbox("📣 Best Supporter", options=[""] + nominees, key="fun_supporter")
+        s_party = st.selectbox("🍻 Party Animal", options=[""] + nominees, key="fun_party")
+        s_drama = st.selectbox("🎭 Most Dramatic", options=[""] + nominees, key="fun_drama")
+        s_karen = st.selectbox("👑 The 'Karen'", options=[""] + nominees, key="fun_karen")
+        s_late = st.selectbox("⏰ Always Late", options=[""] + nominees, key="fun_late")
+        s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + nominees, key="fun_forget")
+
+        st.divider()
         
+        f_col1, f_col2 = st.columns(2)
         with f_col1:
             if st.button("← BACK", key="f_back"):
                 st.session_state.voted_stage = "best_coach"
@@ -414,35 +427,36 @@ else:
         with f_col2:
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
                 
-                # Check if all fields are filled using the variables above
+                # Check if all fields are filled
                 fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
+                    # LOWERCASE KEYS match standard Supabase behavior
                     data = {
-                        "Name": st.session_state.user_name,
-                        "Team": st.session_state.user_team,
-                        "Rookie_Vote": st.session_state.selections.get('rookie_of_the_year'),
-                        "MIP_Vote": st.session_state.selections.get('most_improved_player'),
-                        "DPOY_Vote": st.session_state.selections.get('defensive_player'),
-                        "Best_Driver": st.session_state.selections.get('best_driver'),
-                        "Best_Shooter": st.session_state.selections.get('best_shooter'),
-                        "Best_Coach": st.session_state.selections.get('best_coach'),
-                        "Best_Supporter": s_supporter,
-                        "Party_Animal": s_party,
-                        "Drama": s_drama,
-                        "Karen": s_karen,
-                        "Always_Late": s_late,
-                        "Always_Forgets": s_forget  # Matches your error-prone key
+                        "name": st.session_state.user_name,
+                        "team": st.session_state.user_team,
+                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
+                        "mip_vote": st.session_state.selections.get('most_improved_player'),
+                        "dpoy_vote": st.session_state.selections.get('defensive_player'),
+                        "best_driver": st.session_state.selections.get('best_driver'),
+                        "best_shooter": st.session_state.selections.get('best_shooter'),
+                        "best_coach": st.session_state.selections.get('best_coach'),
+                        "best_supporter": s_supporter,
+                        "party_animal": s_party,
+                        "drama": s_drama,
+                        "karen": s_karen,
+                        "always_late": s_late,
+                        "always_forgets": s_forget 
                     }
                     
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        st.success("Votes Submitted! See you at the awards! 🏀")
+                        st.success("Votes Submitted! 🏀")
                         st.balloons()
                         st.session_state.authenticated = False
-                        st.info("Log out complete. Thank you for voting!")
                     except Exception as e:
-                        st.error(f"Database Error: {e}")
+                        # This will tell us EXACTLY which column is missing
+                        st.error(f"Submit Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories before submitting!")
+                    st.warning("Please make a selection for all categories!")
             st.markdown('</div>', unsafe_allow_html=True)
