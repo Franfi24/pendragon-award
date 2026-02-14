@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE SEAMLESS STRIP & BLACK BUTTON CSS ---
+# --- THE SEAMLESS NO-GAP CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,35 +23,36 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. REMOVE GAPS: Forces images to touch side-by-side */
+    /* 1. REMOVE HORIZONTAL GAPS: Forces columns to touch */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 0px !important; /* This removes the horizontal space */
+        gap: 0px !important; 
         width: 100% !important;
     }
 
-    /* 2. EQUAL WIDTH: Forces Matei to match Jesper and Stella */
+    /* 2. FORCE EQUAL WIDTH: Forces Matei to match others */
     [data-testid="column"] {
         flex: 1 1 0% !important; 
         width: 33.33% !important;
         max-width: 33.33% !important;
         min-width: 0px !important;
-        padding: 0px !important;
+        padding: 0px !important; /* Removes internal space */
         margin: 0px !important;
     }
 
-    /* 3. IMAGE FIX: Crops to fill the boxes perfectly */
+    /* 3. THE IMAGE STRIP: No gaps, uniform size */
     [data-testid="stImage"] img {
         height: 180px !important;    /* Uniform height */
-        width: 100% !important;      /* Uniform width */
-        object-fit: cover !important; /* Crops edges so they align */
-        border-radius: 0px !important; /* Square edges make them seamless */
+        width: 100% !important;      /* Fills the column width */
+        object-fit: cover !important; /* Crops edges so they align perfectly */
+        border-radius: 0px !important; /* Sharp edges make them look like one unit */
         border: none !important;
+        display: block !important;
     }
 
-    /* 4. SOLID BLACK BUTTONS */
+    /* 4. TRUE BLACK BUTTONS */
     div.stButton > button {
         background-color: #000000 !important;
         color: #ffffff !important;
@@ -60,8 +61,10 @@ st.markdown("""
         min-width: 100px;
     }
 
-    /* Clean up default Streamlit padding */
-    [data-testid="stImage"] { padding: 0px !important; }
+    /* Clean up default Streamlit padding around images */
+    [data-testid="stImage"] { 
+        padding: 0px !important; 
+    }
     </style>
     """, unsafe_allow_html=True)
 # --- PLAYER ROSTER ---
@@ -144,7 +147,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # This strip will now be perfectly horizontal and gapless
+        # This strip will now be perfectly horizontal with no gaps
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -155,11 +158,11 @@ else:
 
         st.divider()
         
-        # The Dropdown still has the names for voting
+        # The dropdown for voting still contains the nominees
         rookie_vote = st.selectbox(
-            "Select the winner:", 
-            options=["", "Jesper", "Stella", "AK"], 
-            key="rookie_vote_final"
+            "Select the winner from the dropdown:", 
+            options=["", "Jesper", "Stella", "Matei"], 
+            key="rookie_final_v7"
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
@@ -176,7 +179,7 @@ else:
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please select a name from the dropdown!")
+                    st.warning("Please select a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
