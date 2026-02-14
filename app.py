@@ -410,20 +410,31 @@ else:
 
         st.divider()
         
-        # --- SUBMIT SECTION ---
+       # --- SUBMIT SECTION ---
+        st.divider()
+        
+        # Use columns to keep BACK and SUBMIT on the same horizontal line
         f_col1, f_col2 = st.columns(2)
+        
         with f_col1:
             if st.button("← BACK", key="f_back"):
+                # Points back to the last basketball award
                 st.session_state.voted_stage = "best_coach"
                 st.rerun()
-        with f_col2:
-            if st.button("SUBMIT 🏀"):
-                # Use the local variables (s_supporter, s_party, etc.) to check for completion
-                fun_checks = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
                 
-                if all(val != "" for val in fun_checks):
+        with f_col2:
+            # This div pins the SUBMIT button to the far right edge
+            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
+            if st.button("SUBMIT 🏀", key="final_submit_btn"):
+                
+                # 1. Collect all the 'Fun Award' variables into a list for checking
+                fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
+                
+                # 2. Check if all fields are filled (not empty strings)
+                if all(val != "" for val in fun_votes):
                     
-                    # Prepare final data bundle
+                    # 3. Create the final data dictionary for Supabase
+                    # Use .get() for previous stages to prevent crashes
                     data = {
                         "Name": st.session_state.user_name,
                         "Team": st.session_state.user_team,
@@ -441,12 +452,19 @@ else:
                     }
                     
                     try:
+                        # 4. Insert into Supabase
                         supabase.table(TABLE_NAME).insert(data).execute()
+                        
+                        # 5. Success UI
                         st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
-                        st.session_state.authenticated = False 
+                        
+                        # 6. Mark as voted and lock them out
+                        st.session_state.authenticated = False
+                        st.info("Log out complete. Thank you for voting!")
+                        
                     except Exception as e:
-                        st.error(f"Error submitting: {e}")
+                        st.error(f"Database Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories!")
+                    st.warning("Please make a selection for all categories before submitting!")
             st.markdown('</div>', unsafe_allow_html=True)
