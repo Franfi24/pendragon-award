@@ -146,7 +146,7 @@ else:
             # Stella - The Middle Anchor
             st.image(os.path.join("images", "rookie2.jpeg"))
         with col3:
-            # Matei - Forced to match Stella's width by CSS
+            # AK - Forced to match Stella's width by CSS
             st.image(os.path.join("images", "rookie3.jpeg"))
 
         st.divider()
