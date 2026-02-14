@@ -366,39 +366,88 @@ else:
                 else:
                     st.warning("Please pick a winner!")
     
-    # STAGE 4: FUN AWARDS
+    # STAGE 8: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("*Choose anyone from the club.*")
-        st.write("**Anybody is elegible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester**")
-        
-        best_supporter_in_the_stands = st.selectbox("best_supporter_in_the_stands", options=[""] + nominees)
-        st.write(f"*The heartbeat of the club. Who is always there cheering, even when their own team isn't playing?*")
-        st.session_state.selections["best_supporter_in_the_stands"] = best_supporter_in_the_stands
+        st.write("*Anybody is eligible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester.*")
+        st.divider()
+
+        # 1. Best Supporter
+        st.markdown("### 📣 Best Supporter")
+        s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + nominees, key="fun_supporter")
+        st.write("*Cheering even when their own team isn't playing.*")
+        st.session_state.selections["best_supporter"] = s_supporter
+
+        # 2. Party Animal
+        st.markdown("### 🍻 Party Animal")
+        s_party = st.selectbox("Who dominates the third half?", options=[""] + nominees, key="fun_party")
+        st.write("*First one at the bar, last one to leave the after-party.*")
+        st.session_state.selections["party_animal"] = s_party
+
+        # 3. Drama
+        st.markdown("### 🎭 Most Dramatic")
+        s_drama = st.selectbox("Who brings Hollywood to the hardwood?", options=[""] + nominees, key="fun_drama")
+        st.write("*Every foul is a tragedy, every missed layup is a heartbreak.*")
+        st.session_state.selections["drama"] = s_drama
+
+        # 4. Karen
+        st.markdown("### 👑 The 'Karen'")
+        s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
+        st.write("*Ready to challenge every whistle and discuss the rules.*")
+        st.session_state.selections["karen"] = s_karen
+
+        # 5. Always Late
+        st.markdown("### ⏰ Always Late")
+        s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
+        st.write("*Warm-ups are optional for this legend.*")
+        st.session_state.selections["always_late"] = s_late
+
+        # 6. Forgetful One
+        st.markdown("### 🎒 The Forgetful One")
+        s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
+        st.write("*Always forgetting water bottles, shoes, or jerseys.*")
+        st.session_state.selections["always_forgets"] = s_forget
 
         st.divider()
         
+        # --- SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
         with f_col1:
             if st.button("← BACK", key="f_back"):
-                st.session_state.voted_stage = "best_shooter"
+                st.session_state.voted_stage = "best_coach"
                 st.rerun()
         with f_col2:
             st.markdown('<div class="pin-right">', unsafe_allow_html=True)
             if st.button("🏀 SUBMIT"):
-                if st.session_state.selections.get('best_dressed'):
-                    # Data to Supabase
+                # Check if everything is filled (Optional: remove checks if some are optional)
+                if all(st.session_state.selections.get(k) for k in ["best_supporter", "party_animal", "drama", "karen", "always_late", "always_forgets"]):
+                    
+                    # Prepare final data bundle for Supabase
                     data = {
                         "Name": st.session_state.user_name,
                         "Team": st.session_state.user_team,
                         "Rookie_Vote": st.session_state.selections.get('rookie_of_the_year'),
                         "MIP_Vote": st.session_state.selections.get('most_improved_player'),
-                        "Best_Dressed": st.session_state.selections.get('best_dressed')
+                        "DPOY_Vote": st.session_state.selections.get('defensive_player'),
+                        "Best_Shooter": st.session_state.selections.get('best_shooter'),
+                        "Best_Coach": st.session_state.selections.get('best_coach'),
+                        "Best_Supporter": st.session_state.selections.get('best_supporter'),
+                        "Party_Animal": st.session_state.selections.get('party_animal'),
+                        "Drama": st.session_state.selections.get('drama'),
+                        "Karen": st.session_state.selections.get('karen'),
+                        "Always_Late": st.session_state.selections.get('always_late'),
+                        "Always_Forgets": st.session_state.selections.get('always_forgets')
                     }
-                    supabase.table(TABLE_NAME).insert(data).execute()
-                    st.success("Votes Submitted! 🏀")
-                    st.balloons()
+                    
+                    try:
+                        supabase.table(TABLE_NAME).insert(data).execute()
+                        st.success("Votes Submitted! See you at the awards! 🏀")
+                        st.balloons()
+                        # Reset session state so they can't vote again immediately
+                        st.session_state.authenticated = False 
+                    except Exception as e:
+                        st.error(f"Error submitting: {e}")
                 else:
-                    st.warning("Please complete your votes!")
+                    st.warning("Please make a selection for all categories!")
             st.markdown('</div>', unsafe_allow_html=True)
 
