@@ -18,25 +18,30 @@ st.set_page_config(
 # --- VISUAL THEME & CSS STYLING (ORIGINAL RED) ---
 st.markdown("""
     <style>
+    /* Main App Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
     
     /* FIX: UNIFORM IMAGE SIZING & CROPPING */
+    /* This ensures Matei's picture matches the others exactly */
     [data-testid="stImage"] img {
         height: 400px !important; 
         width: 100% !important;
         object-fit: cover !important; 
+        object-position: center;
         border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.2);
     }
 
-    /* FIX: SPACING BELOW SELECTBOX AND ABOVE BUTTONS */
+    /* FIX: SPACING BELOW SELECTBOX */
+    /* This stops the "Back" and "Next" buttons from touching the white bar */
     .stSelectbox {
         margin-bottom: 60px !important; 
     }
 
+    /* Selectbox Styling (White background, black text) */
     div[data-baseweb="select"] > div {
         background-color: #FFFFFF !important;
         color: #000000 !important;
@@ -47,14 +52,20 @@ st.markdown("""
         color: #000000 !important;
     }
 
-    h1 { text-align: left !important; font-size: 2.2rem !important; }
+    /* Header Styling */
+    h1 { 
+        text-align: left !important; 
+        font-size: 2.2rem !important; 
+    }
     
+    /* Label and Text Styling */
     label, p, [data-testid="stWidgetLabel"] {
         color: white !important;
         font-weight: 400 !important; 
         font-size: 1.1rem !important;
     }
 
+    /* Button Styling (Black with white border) */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
@@ -65,6 +76,7 @@ st.markdown("""
         padding: 10px 25px !important;
     }
     
+    /* Divider Styling */
     hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
@@ -128,8 +140,8 @@ else:
         
         st.divider()
         st.write("### Basketball Season Awards")
-        st.write("Our coaches have selected 3 top candidates for each category. Your job is to crown the winner!")
-        
+        st.write("Our coaches have selected 3 top candidates for each category.")
+        st.write("*Your job is to crown the winner!*")
         st.write("### Fun Season Awards")
         st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
         st.write("*(Note: You cannot nominate yourself!)*")
