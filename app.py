@@ -259,7 +259,7 @@ else:
         st.divider()
         
         # Dropdown
-        dpoy_vote = st.selectbox(
+        best_driver_vote = st.selectbox(
             "Your Pick:", 
             options=["", "Chris", "Iris", "Eugen"], 
             key="bd_sel"
@@ -300,7 +300,7 @@ else:
         st.divider()
         
         # Dropdown
-        dpoy_vote = st.selectbox(
+        best_shooter_vote = st.selectbox(
             "Your Pick:", 
             options=["", "Dani", "Ilinca", "Charlie"], 
             key="bs_sel"
@@ -340,7 +340,7 @@ else:
         st.divider()
         
         # Dropdown
-        dpoy_vote = st.selectbox(
+        best_coach_vote = st.selectbox(
             "Your Pick:", 
             options=["", "Niels", "Ilinca", "KJ"], 
             key="bc_sel"
