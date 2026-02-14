@@ -454,7 +454,6 @@ else:
                         st.success("Votes Submitted! See you at the awards! 🏀")
                         st.balloons()
                         st.session_state.authenticated = False
-                        st.info("Log out complete. Thank you for voting!")
                         st.session_state.user_name = None
                         st.session_state.voted_stage = "instructions"
                         st.session_state.selections = {}
