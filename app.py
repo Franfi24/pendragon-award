@@ -15,59 +15,72 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- MOBILE-FIRST HORIZONTAL LAYOUT ---
+# --- VISUAL THEME & CSS STYLING (ORIGINAL RED) ---
 st.markdown("""
     <style>
+    /* Main App Background */
     .stApp {
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
-
-    /* THE PICTURE FIX: Small, Horizontal, and Identical */
-    [data-testid="stImage"] img {
-        height: 120px !important;    /* Small enough for phone width */
-        width: 100px !important;     /* Uniform width */
-        object-fit: cover !important; /* Crops landscape photos to fit */
-        object-position: center 20%; 
-        border-radius: 12px;
-        border: 2px solid rgba(255,255,255,0.4);
-    }
-
-    /* Force columns to stay side-by-side on mobile */
-    [data-testid="column"] {
-        width: 30% !important;
-        flex: 1 1 30% !important;
-        min-width: 30% !important;
-        text-align: center;
-    }
-
-    [data-testid="stHorizontalBlock"] {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        gap: 5px !important;
-    }
-
-    /* Button Spacing for Mobile */
-    .stSelectbox { margin-bottom: 30px !important; }
     
+    /* FIX: UNIFORM IMAGE SIZING & CROPPING */
+    /* This ensures Matei's picture matches the others exactly */
+    [data-testid="stImage"] img {
+        height: 400px !important; 
+        width: 100% !important;
+        object-fit: cover !important; 
+        object-position: center;
+        border-radius: 15px;
+        border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    /* FIX: SPACING BELOW SELECTBOX */
+    /* This stops the "Back" and "Next" buttons from touching the white bar */
+    .stSelectbox {
+        margin-bottom: 60px !important; 
+    }
+
+    /* Selectbox Styling (White background, black text) */
+    div[data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border-radius: 10px !important;
+    }
+    
+    div[data-baseweb="select"] * {
+        color: #000000 !important;
+    }
+
+    /* Header Styling */
+    h1 { 
+        text-align: left !important; 
+        font-size: 2.2rem !important; 
+    }
+    
+    /* Label and Text Styling */
+    label, p, [data-testid="stWidgetLabel"] {
+        color: white !important;
+        font-weight: 400 !important; 
+        font-size: 1.1rem !important;
+    }
+
+    /* Button Styling (Black with white border) */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px;
-        font-size: 0.8rem !important;
-        min-width: 100px !important;
-        padding: 5px !important;
+        border: 2px solid #ffffff !important;
+        border-radius: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 10px 25px !important;
     }
-
-    /* Navigation button alignment */
-    [data-testid="column"]:nth-of-type(1) div.stButton { justify-content: flex-start; }
-    [data-testid="column"]:nth-of-type(2) div.stButton { justify-content: flex-end; }
     
-    p { font-size: 0.8rem !important; margin-top: -10px; }
+    /* Divider Styling */
+    hr { border-top: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
     """, unsafe_allow_html=True)
+
 # --- PLAYER ROSTER ---
 roster = {
     "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
@@ -113,57 +126,66 @@ else:
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # STAGE: INSTRUCTIONS
+    # --- STAGE: INSTRUCTIONS (FULL TEXT RESTORED) ---
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
         st.write("***Information about the voting process***")
         st.divider()
+
         st.write("**The 2026 Ballot is split into two halves:**")
         st.write("""
-        * **Basketball Season Awards:** Official categories.
-        * **Fun Awards:** Community-focused categories.
+        * **Basketball Season Awards:** Official performance categories with coach-selected nominees.
+        * **Fun Awards:** Community-focused categories where any Pendragon member is eligible.
         """)
+        
         st.divider()
+        st.write("### Basketball Season Awards")
+        st.write("Our coaches have selected 3 top candidates for each category.")
+        st.write("*Your job is to crown the winner!*")
+        st.write("### Fun Season Awards")
+        st.write("These are open categories. You can nominate any Pendragon member you feel fits the title.")
+        st.write("*(Note: You cannot nominate yourself!)*")
+        st.divider()
+
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
-        # STAGE: AWARD 1 - ROOKIE OF THE YEAR
-        elif st.session_state.voted_stage == "rookie_awards":
-            st.markdown("## 1. Rookie of the Year")
-            st.write("*New players showing amazing improvement.*")
-            
-        # This container + columns ensures the horizontal phone layout
-        with st.container():
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.image(os.path.join("images", "rookie1.jpeg"))
-                st.markdown("Jesper")
-            with col2:
-                st.image(os.path.join("images", "rookie2.jpeg"))
-                st.markdown("Stella")
-            with col3:
-                st.image(os.path.join("images", "rookie3.jpeg"))
-                st.markdown("Matei")
+
+    # --- STAGE: AWARD 1 - ROOKIE OF THE YEAR ---
+    elif st.session_state.voted_stage == "rookie_awards":
+        st.markdown("## 1. Rookie of the Year")
+        st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.image(os.path.join("images", "rookie1.jpeg"))
+            st.markdown("<p style='text-align: center;'>Jesper</p>", unsafe_allow_html=True)
+        with col2:
+            st.image(os.path.join("images", "rookie2.jpeg"))
+            st.markdown("<p style='text-align: center;'>Stella</p>", unsafe_allow_html=True)
+        with col3:
+            st.image(os.path.join("images", "rookie3.jpeg"))
+            st.markdown("<p style='text-align: center;'>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
         
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
-        # Navigation Buttons
-        c1, c2 = st.columns(2) 
+
+        c1, c2 = st.columns([1,1])
         with c1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"
-                st.rerun()
+                st.session_state.voted_stage = "instructions"; st.rerun()
         with c2:
-            if st.button("NEXT →"):
+            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
+            if st.button("NEXT AWARD →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"
-                    st.rerun()
+                    st.session_state.voted_stage = "fun_awards"; st.rerun()
                 else:
                     st.warning("Please select a winner!")
+            st.markdown("</div>", unsafe_allow_html=True)
 
-    # STAGE: FUN AWARDS & SUBMISSION
+    # --- STAGE: FUN AWARDS & SUBMISSION ---
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
