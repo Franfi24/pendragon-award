@@ -432,22 +432,22 @@ else:
                 
                 if all(val != "" for val in fun_votes):
                     # LOWERCASE KEYS match standard Supabase behavior
-                    data = {
-                        "name": st.session_state.user_name,
-                        "team": st.session_state.user_team,
-                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
-                        "mip_vote": st.session_state.selections.get('most_improved_player'),
-                        "dpoy_vote": st.session_state.selections.get('defensive_player'),
-                        "best_driver": st.session_state.selections.get('best_driver'),
-                        "best_shooter": st.session_state.selections.get('best_shooter'),
-                        "best_coach": st.session_state.selections.get('best_coach'),
-                        "best_supporter": s_supporter,
-                        "party_animal": s_party,
-                        "drama": s_drama,
-                        "karen": s_karen,
-                        "always_late": s_late,
-                        "always_forgets": s_forget 
-                    }
+                   data = {
+                            "name": st.session_state.user_name,
+                            "team": st.session_state.user_team,
+                            "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
+                            "mip_vote": st.session_state.selections.get('most_improved_player'),
+                            "dpoy_vote": st.session_state.selections.get('defensive_player'),
+                            "best_driver": st.session_state.selections.get('best_driver'),
+                            "best_shooter": st.session_state.selections.get('best_shooter'),
+                            "best_coach": st.session_state.selections.get('best_coach'),
+                            "best_supporter": s_supporter,
+                            "party_animal": s_party,
+                            "drama": s_drama,
+                            "karen": s_karen,
+                            "always_late": s_late,
+                            "always_forgets": s_forget 
+                        }
                     
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
