@@ -244,7 +244,7 @@ else:
         with b_col2:
             if st.button("NEXT →"):
                 if st.session_state.selections.get('defensive_player'):
-                    st.session_state.voted_stage = "best_shooter"
+                    st.session_state.voted_stage = "best_driver"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
