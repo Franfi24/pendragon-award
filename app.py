@@ -51,6 +51,31 @@ st.markdown("""
         border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.2);
     }
+
+
+    /* FORCE EVERY IMAGE INTO THE EXACT SAME VERTICAL RECTANGLE */
+    [data-testid="stImage"] {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    [data-testid="stImage"] img {
+        /* This creates the uniform 'Card' size */
+        height: 550px !important;    
+        width: 100% !important;      
+        
+        /* This removes the black boxes by zooming/cropping to fill */
+        object-fit: cover !important; 
+        
+        /* This ensures they are centered so nobody is cut off strangely */
+        object-position: center 20%; 
+        
+        border-radius: 15px;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    
     /* FIX: SPACING BELOW SELECTBOX */
     /* This stops the "Back" and "Next" buttons from touching the white bar */
     .stSelectbox {
