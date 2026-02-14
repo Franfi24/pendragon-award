@@ -79,7 +79,7 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- SECTION 1: LOGIN & AUTHENTICATION ---
+# --- SECTION: LOGIN & AUTHENTICATION ---
 if not st.session_state.authenticated:
     st.markdown("""
         <div style='display: flex; align-items: center; white-space: nowrap;'>
@@ -122,7 +122,7 @@ else:
     all_players = [player for team_list in roster.values() for player in team_list]
     nominees = [p for p in all_players if p != st.session_state.user_name]
 
-    # --- SECTION 2: VOTING INSTRUCTIONS ---
+    # --- SECTION: VOTING INSTRUCTIONS ---
     if st.session_state.voted_stage == "instructions":
         t_col1, t_col2 = st.columns([1, 5])
         with t_col1:
@@ -142,13 +142,12 @@ else:
         st.divider()
         
         if st.button("START VOTING →"):
-            st.session_state.voted_stage = "basketball_awards"
+            st.session_state.voted_stage = "basketball_rules"
             st.rerun()
 
-    # --- SECTION 3: BASKETBALL AWARDS & ELIGIBILITY RULES ---
-    elif st.session_state.voted_stage == "basketball_awards":
+    # --- SECTION: BASKETBALL ELIGIBILITY RULES ---
+    elif st.session_state.voted_stage == "basketball_rules":
         st.markdown("## 🏀 Basketball Season Awards")
-        
         st.write("***Basketball Award Eligibility:***")
         st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for nomination if:")
         st.write("""
@@ -157,32 +156,52 @@ else:
         """)
         st.divider()
 
-        st.write("### Cast Your Votes")
+        if st.button("PROCEED TO AWARDS →"):
+            st.session_state.voted_stage = "rookie_awards"
+            st.rerun()
 
-        # --- AWARD: ROOKIE OF THE YEAR ---
-        st.write("**1. Rookie of the Year**")
-        st.write("*Players who are new to Pendragon and have shown amazing improvement, commitment, and growth this season.*")
-        
-        # Replace these placeholders with your actual 3 nominees
-        rookie_nominees = ["", "Nominee A", "Nominee B", "Nominee C"]
-        rookie_vote = st.selectbox("Select your Rookie of the Year:", options=rookie_nominees, key="rookie_select")
-        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+    # --- SECTION: AWARD 1 - ROOKIE OF THE YEAR ---
+    elif st.session_state.voted_stage == "rookie_awards":
+        st.markdown("## 1. Rookie of the Year")
+        st.write("*Players that are new to Pendragon and have shown amazing improvement, commitment, and growth this season.*")
+        st.divider()
+
+        # Nominee Display (3 Photos Side-by-Side)
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            # Change 'rookie1.jpg' to your actual file names
+            st.image(os.path.join("images", "rookie1.jpg"), use_container_width=True)
+            st.markdown("<p style='text-align: center;'>NOMINEE A</p>", unsafe_allow_html=True)
+        with col2:
+            st.image(os.path.join("images", "rookie2.jpg"), use_container_width=True)
+            st.markdown("<p style='text-align: center;'>NOMINEE B</p>", unsafe_allow_html=True)
+        with col3:
+            st.image(os.path.join("images", "rookie3.jpg"), use_container_width=True)
+            st.markdown("<p style='text-align: center;'>NOMINEE C</p>", unsafe_allow_html=True)
 
         st.divider()
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            if st.button("← BACK TO INFO"):
-                st.session_state.voted_stage = "instructions"
+
+        # Selection Dropdown
+        rookie_nominees = ["", "Nominee A", "Nominee B", "Nominee C"]
+        rookie_vote = st.selectbox("Select your Rookie of the Year:", options=rookie_nominees)
+        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+
+        # Navigation
+        nav_col1, nav_col2 = st.columns(2)
+        with nav_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "basketball_rules"
                 st.rerun()
-        with col2:
-            if st.button("NEXT: FUN AWARDS →"):
+        with nav_col2:
+            if st.button("NEXT AWARD →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
+                    # Temporarily skipping to fun awards until next category is built
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please make a selection for Rookie of the Year!")
+                    st.warning("Please select a winner!")
 
-    # --- SECTION 4: FUN AWARDS & SUBMISSION ---
+    # --- SECTION: FUN AWARDS & FINAL SUBMISSION ---
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
         st.write("These awards are open to any member of Pendragon except yourself.")
@@ -196,7 +215,7 @@ else:
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "basketball_awards"
+                st.session_state.voted_stage = "rookie_awards"
                 st.rerun()
         with col2:
              if st.button("🏀 SUBMIT FINAL BALLOT"):
