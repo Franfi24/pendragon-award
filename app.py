@@ -15,6 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -22,41 +23,39 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* FORCES IMAGE STRIP TO BE SIDE-BY-SIDE ON ONE SCREEN */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
-        width: 100% !important;
     }
 
-    [data-testid="column"] {
-        flex: 1 1 33.33% !important;
+    /* Target the columns themselves and force them to stay 33% */
+    [data-testid="column"], .stColumn {
         width: 33.33% !important;
-        min-width: 0px !important;
+        flex: 1 1 33.33% !important;
+        min-width: 0px !important; /* This stops them from stacking */
         padding: 0px !important;
+        margin: 0px !important;
     }
 
+    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
         height: 140px !important;
         width: 100% !important;
         object-fit: cover !important;
-        border-radius: 0px !important;
+        border: none !important;
     }
 
-    /* SOLID BLACK BUTTONS ON THE SAME LINE */
+    /* Dropdown text size */
+    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
+
+    /* Pinning buttons to edges */
     div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px !important;
-        width: 100% !important;
-        font-weight: bold !important;
+        width: auto !important;
+        min-width: 90px;
     }
-
-    /* Fix for dropdown text visibility */
-    div[data-baseweb="select"] div { font-size: 0.9rem !important; }
     </style>
     """, unsafe_allow_html=True)
 # --- PLAYER ROSTER ---
@@ -139,35 +138,42 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # Seamless Image Row
+        # The Horizontal Strip: Locked to 100% Screen Width
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "rookie1.jpeg"))
-        with col2: st.image(os.path.join("images", "rookie2.jpeg"))
-        with col3: st.image(os.path.join("images", "rookie3.jpeg"))
+        with col1:
+            st.image(os.path.join("images", "rookie1.jpeg"))
+        with col2:
+            # Stella - The Middle Anchor
+            st.image(os.path.join("images", "rookie2.jpeg"))
+        with col3:
+            # AK - Forced to match Stella's width by CSS
+            st.image(os.path.join("images", "rookie3.jpeg"))
 
         st.divider()
         
+        # Dropdown for the vote
         rookie_vote = st.selectbox(
             "Your Pick:", 
-            options=["", "Jesper", "Stella", "Matei"], 
-            key="rookie_vote_final"
+            options=["", "Jesper", "Stella", "AK"], 
+            key="rookie_mobile_v8"
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Back & Next Buttons on the same line
-        st.write("") # Spacer
+        # Black Navigation Buttons
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with b_col2:
+            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
+            st.markdown("</div>", unsafe_allow_html=True)
 
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
