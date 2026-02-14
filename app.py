@@ -140,11 +140,11 @@ else:
         st.divider()
 
         if st.button("START VOTING →"):
-            st.session_state.voted_stage = "rookie_awards"
+            st.session_state.voted_stage = "rookie_of_the_year"
             st.rerun()
 
     # STAGE 2: ROOKIE OF THE YEAR
-    elif st.session_state.voted_stage == "rookie_awards":
+    elif st.session_state.voted_stage == "rookie_of_the_year":
         st.markdown("## Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
