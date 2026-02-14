@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- MOBILE-FIRST SEAMLESS CSS ---
+# --- THE NO-SCROLL MOBILE STRIP CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,34 +23,37 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* FORCE HORIZONTAL ON MOBILE */
+    /* 1. THE ROW: Force it to fit the screen width exactly */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important; /* Stops stacking on phones */
-        flex-wrap: nowrap !important;   /* Prevents images from moving to next line */
-        gap: 0px !important;            /* No space between pictures */
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 0px !important;
         width: 100% !important;
+        overflow: hidden !important; /* Prevents horizontal scrolling */
     }
 
-    /* EQUAL WIDTH COLUMNS */
+    /* 2. THE COLUMNS: Strict 1/3rd locking */
     [data-testid="column"] {
         flex: 1 1 0% !important; 
         width: 33.33% !important;
+        max-width: 33.33% !important;
         min-width: 0px !important;
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* IMAGE STRIP */
+    /* 3. THE IMAGES: Force them to shrink to fit the column */
     [data-testid="stImage"] img {
-        height: 140px !important;    /* Adjusted height for mobile screens */
-        width: 100% !important;      /* Forces Matei to match others */
+        height: 140px !important;    
+        width: 100% !important;      
         object-fit: cover !important; 
         border-radius: 0px !important;
         border: none !important;
+        display: block !important;
     }
 
-    /* BLACK BUTTONS */
+    /* 4. SOLID BLACK BUTTONS */
     div.stButton > button {
         background-color: #000000 !important;
         color: #ffffff !important;
@@ -58,8 +61,10 @@ st.markdown("""
         border-radius: 8px !important;
     }
 
-    /* Remove default Streamlit container padding */
-    [data-testid="stImage"] { padding: 0px !important; }
+    /* Remove Streamlit default container padding */
+    [data-testid="stImage"], [data-testid="column"] { 
+        padding: 0px !important; 
+    }
     </style>
     """, unsafe_allow_html=True)
 # --- PLAYER ROSTER ---
@@ -142,7 +147,7 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # This will now stay as a single horizontal line on your phone
+        # This row is now locked to the screen width
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
@@ -153,7 +158,8 @@ else:
 
         st.divider()
         
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_mobile")
+        # Dropdown for voting
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_no_scroll")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
         # Black Buttons
