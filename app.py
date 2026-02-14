@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- VISUAL THEME & CSS STYLING ---
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,52 +23,41 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* THE SEAMLESS IMAGE STRIP - FORCED HORIZONTAL */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important; /* Prevents stacking on mobile */
-        gap: 0px !important;           /* Removes horizontal gaps */
-        width: 100% !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 0px !important;
     }
 
-    [data-testid="column"] {
-        flex: 1 !important;
-        width: 33.33% !important;      /* Exact thirds */
-        padding: 0px !important;       /* Removes internal column padding */
+    /* Target the columns themselves and force them to stay 33% */
+    [data-testid="column"], .stColumn {
+        width: 33.33% !important;
+        flex: 1 1 33.33% !important;
+        min-width: 0px !important; /* This stops them from stacking */
+        padding: 0px !important;
         margin: 0px !important;
     }
 
+    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
-        height: 150px !important;      /* Uniform height */
+        height: 140px !important;
         width: 100% !important;
-        object-fit: cover !important;  /* Crops to fill the box */
-        object-position: center 20%;
-        border: none !important;       /* Removes borders for seamless look */
-        box-sizing: border-box !important;
+        object-fit: cover !important;
+        border: none !important;
     }
 
-    /* DROPDOWN & BUTTONS */
-    div[data-baseweb="select"] > div { background-color: #FFFFFF !important; min-height: 35px !important; }
-    div[data-baseweb="select"] div { font-size: 0.85rem !important; color: #000000 !important; }
+    /* Dropdown text size */
+    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
 
+    /* Pinning buttons to edges */
     div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px;
-        font-size: 0.8rem !important;
-        padding: 5px 15px !important;
-    }
-
-    /* Centering names under pictures */
-    [data-testid="column"] p {
-        text-align: center !important;
-        font-size: 0.7rem !important;
-        margin-top: 2px !important;
+        width: auto !important;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
-
 # --- PLAYER ROSTER ---
 roster = {
     "Ladies 1": ["Ida", "Ilinca", "Imke", "Iris", "Janne", "Lise", "Margherita", "Rachne", "Susanna", "Zey", "Zeynep", "Zoë"],
@@ -144,43 +133,44 @@ else:
             st.session_state.voted_stage = "rookie_awards"
             st.rerun()
 
-   # STAGE: AWARD 1 - ROOKIE OF THE YEAR
-    elif st.session_state.voted_stage == "rookie_awards":
+  elif st.session_state.voted_stage == "rookie_awards":
         st.markdown("## 1. Rookie of the Year")
-        st.write("*Players that are new to Pendragon and have shown amazing improvement.*")
+        st.write("*New players showing amazing improvement.*")
         
-        # Horizontal Nominee Strip (Forced by CSS)
+        # We use a wrapper div to ensure the browser sees them as one unit
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
-            st.markdown("<p>Jesper</p>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align:center; font-size:10px;'>Jesper</p>", unsafe_allow_html=True)
         with col2:
             st.image(os.path.join("images", "rookie2.jpeg"))
-            st.markdown("<p>Stella</p>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align:center; font-size:10px;'>Stella</p>", unsafe_allow_html=True)
         with col3:
             st.image(os.path.join("images", "rookie3.jpeg"))
-            st.markdown("<p>Matei</p>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align:center; font-size:10px;'>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
         
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # NAVIGATION: Pinned to Far Left and Far Right
-        nav_col1, nav_col2 = st.columns(2)
-        with nav_col1:
+        # Buttons Pinned Left and Right
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
             if st.button("← BACK"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-        with nav_col2:
+        with b_col2:
             st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
             if st.button("NEXT →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please select a winner!")
+                    st.warning("Pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
+
+
     # STAGE: FUN AWARDS & SUBMISSION
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
