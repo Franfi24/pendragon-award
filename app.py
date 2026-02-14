@@ -158,20 +158,21 @@ else:
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "AK"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        b_col1, b_col2 = st.columns(2)
-        with b_col1:
-            if st.button("← BACK"):
+        # --- BUTTONS ON SAME LINE ---
+        b_col, n_col = st.columns(2)
+        with b_col:
+            if st.button("← BACK", key="btn_rookie_back"):
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
-        with b_col2:
+        with n_col:
             st.markdown('<div class="pin-right">', unsafe_allow_html=True)
-            if st.button("NEXT →"):
+            if st.button("NEXT →", key="btn_rookie_next"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "most_improved_player" # Points to next section
+                    st.session_state.voted_stage = "most_improved_player"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True))
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
@@ -188,21 +189,22 @@ else:
         mip_vote = st.selectbox("Your Pick:", options=["", "Rayan", "Lise", "Elmer"], key="mip_sel")
         st.session_state.selections['most_improved_player'] = mip_vote
 
-        b_col1, b_col2 = st.columns(2)
-        with b_col1:
-            if st.button("← BACK"):
+        # --- BUTTONS ON SAME LINE ---
+        b_col, n_col = st.columns(2)
+        with b_col:
+            if st.button("← BACK", key="btn_mip_back"):
                 st.session_state.voted_stage = "rookie_awards"
                 st.rerun()
-        with b_col2:
+        with n_col:
             st.markdown('<div class="pin-right">', unsafe_allow_html=True)
-            if st.button("NEXT →"):
+            if st.button("NEXT →", key="btn_mip_next"):
                 if st.session_state.selections.get('most_improved_player'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
             st.markdown('</div>', unsafe_allow_html=True)
-
+            
     # STAGE 4: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
