@@ -23,63 +23,26 @@ st.markdown("""
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
-    
-/* FORCE IDENTICAL CARD SIZES */
-    [data-testid="stImage"] {
-        background-color: #1a1a1a !important; /* Dark card background */
-        border-radius: 15px;
-        border: 2px solid rgba(255,255,255,0.3);
-        padding: 5px;
-        height: 450px !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 
-    /* CLEAN GALLERY LAYOUT: NO BLACK BOXES */
-    [data-testid="stImage"] {
-        background-color: transparent !important; /* Removes the black background */
-        border: none !important; 
-        height: auto !important;
-    }
-
-    [data-testid="stImage"] img {
-        height: 500px !important;    /* Fixed height for all */
-        width: 100% !important;      /* Forces full width of the column */
-        object-fit: cover !important; /* Zooms/Crops to fill the entire area */
-        object-position: 20% 20%;    /* Adjusts the crop to focus on the upper part of the photo */
-        border-radius: 15px;
-        border: 2px solid rgba(255,255,255,0.2);
-    }
-
-
-    /* FORCE EVERY IMAGE INTO THE EXACT SAME VERTICAL RECTANGLE */
+    /* UNIVERSAL IMAGE FORMATTER (Matei Fix) */
+    /* This ensures all photos fill the vertical rectangle perfectly */
     [data-testid="stImage"] {
         text-align: center;
         display: flex;
         justify-content: center;
     }
-
     [data-testid="stImage"] img {
-        /* This creates the uniform 'Card' size */
         height: 550px !important;    
         width: 100% !important;      
-        
-        /* This removes the black boxes by zooming/cropping to fill */
         object-fit: cover !important; 
-        
-        /* This ensures they are centered so nobody is cut off strangely */
         object-position: center 20%; 
-        
         border-radius: 15px;
         border: 2px solid rgba(255,255,255,0.3);
     }
 
-    
     /* FIX: SPACING BELOW SELECTBOX */
-    /* This stops the "Back" and "Next" buttons from touching the white bar */
     .stSelectbox {
-        margin-bottom: 60px !important; 
+        margin-bottom: 80px !important; 
     }
 
     /* Selectbox Styling (White background, black text) */
@@ -88,7 +51,6 @@ st.markdown("""
         color: #000000 !important;
         border-radius: 10px !important;
     }
-    
     div[data-baseweb="select"] * {
         color: #000000 !important;
     }
@@ -106,7 +68,7 @@ st.markdown("""
         font-size: 1.1rem !important;
     }
 
-    /* Button Styling (Black with white border) */
+    /* BUTTON STYLING: Same size, same line fix */
     div.stButton > button {
         background-color: #000000 !important; 
         color: #ffffff !important;
@@ -114,7 +76,17 @@ st.markdown("""
         border-radius: 12px;
         text-transform: uppercase;
         font-weight: 700;
-        padding: 10px 25px !important;
+        
+        /* Fixed width ensures 'Back' and 'Next Award' are identical sizes */
+        min-width: 200px !important; 
+        width: 100% !important;
+        padding: 12px 0px !important;
+    }
+
+    /* Align buttons to the center of their columns */
+    div.stButton {
+        display: flex;
+        justify-content: center;
     }
     
     /* Divider Styling */
@@ -213,18 +185,22 @@ else:
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"])
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        c1, c2 = st.columns([1,1])
+     # Navigation Buttons - Clean and Balanced
+        c1, c2 = st.columns([1, 1]) 
+        
         with c1:
             if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"; st.rerun()
+                st.session_state.voted_stage = "instructions"
+                st.rerun()
+                
         with c2:
-            st.markdown("<div style='text-align: right;'>", unsafe_allow_html=True)
+            # We removed the <div> here because the CSS now handles the alignment
             if st.button("NEXT AWARD →"):
                 if st.session_state.selections.get('rookie_of_the_year'):
-                    st.session_state.voted_stage = "fun_awards"; st.rerun()
+                    st.session_state.voted_stage = "defensive_awards" # Updated to go to next award
+                    st.rerun()
                 else:
                     st.warning("Please select a winner!")
-            st.markdown("</div>", unsafe_allow_html=True)
 
     # --- STAGE: FUN AWARDS & SUBMISSION ---
     elif st.session_state.voted_stage == "fun_awards":
