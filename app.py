@@ -1,4 +1,4 @@
-limport streamlit as st
+import streamlit as st
 from supabase import create_client, Client
 import os
 
@@ -76,6 +76,8 @@ if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 if 'voted_stage' not in st.session_state:
     st.session_state.voted_stage = "instructions"
+if 'selections' not in st.session_state:
+    st.session_state.selections = {}
 
 # --- LOGIN & AUTHENTICATION INTERFACE ---
 if not st.session_state.authenticated:
@@ -100,7 +102,6 @@ if not st.session_state.authenticated:
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     
     if team:
-        # THE INVISIBLE LOGIC: Only show players who haven't voted yet
         available_names = [n for n in roster[team] if n not in voted_names]
         
         if not available_names:
@@ -157,7 +158,6 @@ else:
             st.rerun()
 
     # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
-    # --- STAGE: BASKETBALL AWARDS & VOTING RULES ---
     elif st.session_state.voted_stage == "basketball_awards":
         st.markdown("## 🏀 Basketball Season Awards")
         
@@ -170,7 +170,7 @@ else:
         st.divider()
 
         st.write("### Cast Your Votes")
-        # Selectboxes for individual awards will go here
+        # Placeholder for real awards
         st.info("The 6 Basketball Award categories will be listed here.")
 
         st.divider()
@@ -192,8 +192,16 @@ else:
         
         # Uses the 'nominees' list which excludes the current user
         best_dressed = st.selectbox("Best Dressed", options=[""] + nominees)
+        st.session_state.selections['best_dressed'] = best_dressed
 
         st.divider()
-        if st.button("← BACK TO BASKETBALL"):
-            st.session_state.voted_stage = "basketball_awards"
-            st.rerun()
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            if st.button("← BACK TO BASKETBALL"):
+                st.session_state.voted_stage = "basketball_awards"
+                st.rerun()
+        with col2:
+             if st.button("🏀 SUBMIT FINAL BALLOT"):
+                # Logic for database insertion would go here
+                st.success("Ballot Submitted!")
+                st.balloons()
