@@ -200,11 +200,51 @@ else:
         with b_col2:
             if st.button("NEXT →"):
                 if st.session_state.selections.get('most_improved_player'):
+                    st.session_state.voted_stage = "defensive_player"
+                    st.rerun()
+                else:
+                    st.warning("Please pick a winner!")
+                    
+    # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
+    elif st.session_state.voted_stage == "defensive_player":
+        st.markdown("## Defensive Player of the Year")
+        st.write("*The anchors of our defense. Steals, blocks, and hustle.*")
+        
+        # Image Strip (Matches Rookie/MIP style)
+        col1, col2, col3 = st.columns(3)
+        with col1: st.image(os.path.join("images", "DPY1.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "DPY2.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "DPY3.jpeg"), use_container_width=True)
+
+        st.divider()
+        
+        # Dropdown
+        dpoy_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Atakan", "Ida", "Miguel"], 
+            key="dpoy_sel"
+        )
+        st.session_state.selections['defensive_player'] = dpoy_vote
+
+        # --- Navigation Buttons ---
+        st.write("") 
+        b_col, n_col = st.columns(2)
+        
+        with b_col:
+            if st.button("← BACK", key="dpoy_back"):
+                st.session_state.voted_stage = "most_improved_player"
+                st.rerun()
+                
+        with n_col:
+            st.markdown('<div class="pin-right">', unsafe_allow_html=True)
+            if st.button("NEXT →", key="dpoy_next"):
+                if st.session_state.selections.get('defensive_player'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-
+            st.markdown('</div>', unsafe_allow_html=True)
+    
     # STAGE 4: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
