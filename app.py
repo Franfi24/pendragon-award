@@ -419,20 +419,20 @@ else:
                 
                 if all(val != "" for val in fun_votes):
                     data = {
-                        "Name": st.session_state.user_name,
-                        "Team": st.session_state.user_team,
-                        "Rookie_Vote": st.session_state.selections.get('rookie_of_the_year'),
-                        "MIP_Vote": st.session_state.selections.get('most_improved_player'),
-                        "DPOY_Vote": st.session_state.selections.get('defensive_player'),
-                        "Best_Driver": st.session_state.selections.get('best_driver'),
-                        "Best_Shooter": st.session_state.selections.get('best_shooter'),
-                        "Best_Coach": st.session_state.selections.get('best_coach'),
-                        "Best_Supporter": s_supporter,
-                        "Party_Animal": s_party,
-                        "Drama": s_drama,
-                        "Karen": s_karen,
-                        "Always_Late": s_late,
-                        "Always_Forgets": s_forget  # Matches your error-prone key
+                        "name": st.session_state.user_name,
+                        "team": st.session_state.user_team,
+                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
+                        "mip_vote": st.session_state.selections.get('most_improved_player'),
+                        "dpoy_vote": st.session_state.selections.get('defensive_player'),
+                        "best_driver": st.session_state.selections.get('best_driver'),
+                        "best_shooter": st.session_state.selections.get('best_shooter'),
+                        "best_coach": st.session_state.selections.get('best_coach'),
+                        "best_supporter": s_supporter,
+                        "party_animal": s_party,
+                        "drama": s_drama,
+                        "karen": s_karen,
+                        "always_late": s_late,
+                        "always_forgets": s_forget  # Matches your error-prone key
                     }
                     
                     try:
