@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE CENTERED STRIP & BLACK BUTTON CSS ---
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,47 +23,38 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* 1. CENTERED ROW: Controls the overall width of the 3-picture block */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
-        width: 90% !important; /* Adjust this % to make the whole set wider or narrower */
-        margin: 0 auto !important; /* Centers the whole block */
     }
 
-    /* 2. EQUAL COLUMNS: No gaps, strictly 1/3 of the row */
-    [data-testid="column"] {
-        flex: 1 1 0 !important;
+    /* Target the columns themselves and force them to stay 33% */
+    [data-testid="column"], .stColumn {
         width: 33.33% !important;
-        min-width: 0px !important;
+        flex: 1 1 33.33% !important;
+        min-width: 0px !important; /* This stops them from stacking */
         padding: 0px !important;
         margin: 0px !important;
     }
 
-    /* 3. IMAGE LOCK: Forces Matei to match Stella and Jesper */
+    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
-        height: 180px !important;     /* Keep the height you liked */
-        width: 100% !important;       /* Fills the 1/3 column perfectly */
-        object-fit: cover !important; /* Crops edges to fit the box */
-        border-radius: 0px !important;
+        height: 140px !important;
+        width: 100% !important;
+        object-fit: cover !important;
         border: none !important;
     }
 
-    /* 4. TRUE BLACK BUTTONS */
-    div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
-        border-radius: 8px;
-        font-weight: 700;
-    }
+    /* Dropdown text size */
+    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
 
-    [data-testid="column"] p {
-        text-align: center !important;
-        font-size: 0.75rem !important;
-        margin-top: 5px !important;
+    /* Pinning buttons to edges */
+    div.stButton > button {
+        width: auto !important;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
