@@ -162,7 +162,7 @@ else:
         st.markdown("## 🏀 Basketball Season Awards")
         
         st.write("***Basketball Award Eligibility:***")
-        st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for nomination if:")
+        st.write("Every member is encouraged to vote! However, per coaching staff regulations, players were not eligible for the basketball award nomination if:")
         st.write("""
         * They have been a member for only one semester.
         * They missed 6 or more games due to injury or other reasons.
