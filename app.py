@@ -15,7 +15,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
+# --- THE ULTIMATE NO-GAP & BLACK BUTTON CSS ---
 st.markdown("""
     <style>
     .stApp {
@@ -23,38 +23,64 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Target the container of the 3 columns */
+    /* FORCED HORIZONTAL STRIP */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 0px !important;
+        gap: 0px !important; /* Removes horizontal gaps */
+        width: 100% !important;
     }
 
-    /* Target the columns themselves and force them to stay 33% */
-    [data-testid="column"], .stColumn {
-        width: 33.33% !important;
+    /* EQUAL WIDTH COLUMNS */
+    [data-testid="column"] {
         flex: 1 1 33.33% !important;
-        min-width: 0px !important; /* This stops them from stacking */
-        padding: 0px !important;
+        width: 33.33% !important;
+        min-width: 0px !important;
+        padding: 0px !important; /* Removes gaps between photos */
         margin: 0px !important;
     }
 
-    /* Force the image to fill that 33% width perfectly */
+    /* BIGGER & EQUAL SIZE IMAGES */
     [data-testid="stImage"] img {
-        height: 140px !important;
-        width: 100% !important;
-        object-fit: cover !important;
-        border: none !important;
+        height: 180px !important;    /* Increased height from 140px */
+        width: 100% !important;      /* Forces same width */
+        object-fit: cover !important; /* Crops Matei to match others */
+        object-position: center 20%;
+        border-radius: 0px !important; /* Square edges for a seamless strip */
+        border: 0.5px solid rgba(255,255,255,0.2); /* Tiny divider line */
     }
 
-    /* Dropdown text size */
-    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
-
-    /* Pinning buttons to edges */
+    /* TRUE BLACK BUTTONS */
     div.stButton > button {
-        width: auto !important;
-        min-width: 90px;
+        background-color: #000000 !important; /* Pure Black */
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.8rem !important;
+        min-width: 100px;
+        opacity: 1 !important;
+    }
+    
+    /* Hover state to keep it black */
+    div.stButton > button:hover {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border: 1px solid #D32F2F !important;
+    }
+
+    /* Name labels */
+    [data-testid="column"] p {
+        text-align: center !important;
+        font-size: 0.7rem !important;
+        margin-top: 5px !important;
+    }
+
+    /* Dropdown height */
+    div[data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        min-height: 40px !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -138,21 +164,21 @@ else:
         st.markdown("## 1. Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
-        # Nominee Strip
+        # This row is now forced to be a seamless, larger strip
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image(os.path.join("images", "rookie1.jpeg"))
-            st.markdown("<p style='text-align:center; font-size:10px;'>Jesper</p>", unsafe_allow_html=True)
+            st.markdown("<p>Jesper</p>", unsafe_allow_html=True)
         with col2:
             st.image(os.path.join("images", "rookie2.jpeg"))
-            st.markdown("<p style='text-align:center; font-size:10px;'>Stella</p>", unsafe_allow_html=True)
+            st.markdown("<p>Stella</p>", unsafe_allow_html=True)
         with col3:
             st.image(os.path.join("images", "rookie3.jpeg"))
-            st.markdown("<p style='text-align:center; font-size:10px;'>Matei</p>", unsafe_allow_html=True)
+            st.markdown("<p>Matei</p>", unsafe_allow_html=True)
 
         st.divider()
         
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_sel")
+        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "Matei"], key="rookie_final")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
         # Buttons Pinned Left and Right
@@ -170,7 +196,6 @@ else:
                 else:
                     st.warning("Pick a winner!")
             st.markdown("</div>", unsafe_allow_html=True)
-
     # STAGE 3: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
