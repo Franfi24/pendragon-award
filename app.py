@@ -145,7 +145,7 @@ else:
 
     # STAGE 2: ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_awards":
-        st.markdown("## 1. Rookie of the Year")
+        st.markdown("## Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
         # The Horizontal Strip: Locked to 100% Screen Width
@@ -165,6 +165,47 @@ else:
         rookie_vote = st.selectbox(
             "Your Pick:", 
             options=["", "Jesper", "Stella", "AK"], 
+            key="rookie_mobile_v8"
+        )
+        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+
+        # Back & Next Buttons on the same line
+        st.write("") # Spacer
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "instructions"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('rookie_of_the_year'):
+                    st.session_state.voted_stage = "fun_awards"
+                    st.rerun()
+                else:
+                    st.warning("Please pick a winner!")
+
+     # STAGE 3: MOST IMPROVED PLAYER
+    elif st.session_state.voted_stage == "most_improved_player":
+        st.markdown("## Most Improved Player")
+        st.write("*These are the players that have improved the most from last season.*")
+        
+        # The Horizontal Strip: Locked to 100% Screen Width
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.image(os.path.join("images", "MIP1.jpeg"))
+        with col2:
+            # Stella - The Middle Anchor
+            st.image(os.path.join("images", "MIP2.jpeg"))
+        with col3:
+            # AK - Forced to match Stella's width by CSS
+            st.image(os.path.join("images", "MIP3.jpeg"))
+
+        st.divider()
+        
+        # Dropdown for the vote
+        rookie_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Rayan", "Lise", "Elmer"], 
             key="rookie_mobile_v8"
         )
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
