@@ -1,4 +1,3 @@
-
 import streamlit as st
 from supabase import create_client, Client
 import os
@@ -193,7 +192,7 @@ else:
         rookie_nominees = ["Jesper", "Stella", "AK"]
         filtered_rookie_options = [p for p in rookie_nominees if p != st.session_state.user_name]
 
-        rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "AK"], key="rookie_sel")
+        rookie_vote = st.selectbox("Your Pick:", options=[""]+filtered_rookie_options, key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
         # Back & Next Buttons on the same line
