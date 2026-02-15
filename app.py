@@ -341,7 +341,7 @@ else:
 
     # STAGE 7: BEST REBOUNDER
     elif st.session_state.voted_stage == "best_rebounder":
-        st.markdown("## 🗑️ Best Rebounder")
+        st.markdown("## 🪟 Best Rebounder")
         st.write("*The glass cleaners. Box out with grit, and ensure the team gets every second-chance opportunity.*")
         
         # Image Strip (Matches Rookie/MIP style)
