@@ -18,6 +18,40 @@ st.set_page_config(
 
 # --- UNIVERSAL AUTO-SCROLL SCRIPT ---
 # This executes at the start of every rerun to snap the view to the top
+
+def trigger_blue_warning():
+    st.components.v1.html(
+        """
+        <script>
+        const container = window.parent.document.createElement('div');
+        container.style.position = 'fixed';
+        container.style.top = '0'; container.style.left = '0';
+        container.style.width = '100vw'; container.style.height = '100vh';
+        container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
+        window.parent.document.body.appendChild(container);
+
+        for(let i=0; i<30; i++) {
+            const text = window.parent.document.createElement('div');
+            text.innerHTML = 'FILL IN!';
+            text.style.position = 'absolute';
+            text.style.left = Math.random() * 100 + 'vw';
+            text.style.top = '100vh';
+            text.style.color = '#0000FF'; // Blue
+            text.style.fontWeight = 'bold';
+            text.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            text.style.transition = 'transform ' + (Math.random() * 1 + 1.5) + 's ease-out, opacity 1.5s';
+            container.appendChild(text);
+
+            setTimeout(() => {
+                text.style.transform = 'translateY(-110vh) rotate(' + (Math.random() * 40 - 20) + 'deg)';
+                text.style.opacity = '0';
+            }, 100);
+        }
+        </script>
+        """,
+        height=0,
+    )
+
 st.components.v1.html(
     """
     <script>
@@ -223,7 +257,7 @@ else:
                     st.session_state.voted_stage = "most_improved_player"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
@@ -253,7 +287,7 @@ else:
                     st.session_state.voted_stage = "defensive_player"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
                     
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
@@ -283,7 +317,7 @@ else:
                     st.session_state.voted_stage = "best_driver"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
                     
     # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
@@ -312,7 +346,7 @@ else:
                     st.session_state.voted_stage = "best_shooter"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
 
     # STAGE 6: BEST SHOOTER
     elif st.session_state.voted_stage == "best_shooter":
@@ -342,7 +376,7 @@ else:
                     st.session_state.voted_stage = "best_rebounder"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
 
     # STAGE 7: BEST REBOUNDER
     elif st.session_state.voted_stage == "best_rebounder":
@@ -372,7 +406,7 @@ else:
                     st.session_state.voted_stage = "best_coach"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
 
     # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
@@ -402,7 +436,7 @@ else:
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
-                    st.warning("Please pick a winner!")
+                    trigger_blue_warning()
     
     # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
@@ -456,7 +490,7 @@ else:
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories!")
+                    trigger_blue_warning()
 
     # --- NEW STAGE: AWARD NIGHT DETAILS ---
     elif st.session_state.voted_stage == "event_details":
