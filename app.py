@@ -32,66 +32,66 @@ st.components.v1.html(
     height=0,
 )
 
-# --- THE ULTIMATE NO-GAP HORIZONTAL CSS WITH PULSE GRADIENT ---
+# --- THE ULTIMATE PULSE & GLASSMORPHISM CSS ---
 st.markdown("""
     <style>
-    /* 1. DEFINE THE PULSE ANIMATION */
-    @keyframes gradientPulse {
+    /* 1. THE ANIMATION KEYFRAMES */
+    @keyframes pulse {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
 
-    /* 2. APPLY TO APP BACKGROUND */
+    /* 2. UNIVERSAL APP BACKGROUND */
     .stApp {
-        background: linear-gradient(-45deg, #600000, #8B0000, #D32F2F, #911a1a);
-        background-size: 400% 400%;
-        animation: gradientPulse 15s ease infinite;
+        /* High contrast: Deep Black-Red to Bright Crimson */
+        background: linear-gradient(-45deg, #2e0000, #8B0000, #D32F2F, #4b0000);
+        background-size: 300% 300% !important;
+        animation: pulse 10s ease infinite !important;
         color: #ffffff;
     }
 
-    /* Target the container of the 3 columns */
+    /* 3. GLASSMORPHISM (Makes the pulse visible behind content) */
+    [data-testid="stVerticalBlock"] > div {
+        background: rgba(255, 255, 255, 0.03); /* Subtle white tint */
+        backdrop-filter: blur(5px);           /* Frosted glass effect */
+        border-radius: 15px;
+        padding: 10px;
+    }
+
+    /* 4. THE 3-COLUMN IMAGE SETUP */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
-        flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 0px !important;
+        background: transparent !important; /* Keep images clear */
     }
 
-    /* Target the columns themselves and force them to stay 33% */
-    [data-testid="column"], .stColumn {
+    [data-testid="column"] {
         width: 33.33% !important;
         flex: 1 1 33.33% !important;
-        min-width: 0px !important; 
+        min-width: 0px !important;
         padding: 0px !important;
-        margin: 0px !important;
     }
 
-    /* Force the image to fill that 33% width perfectly */
     [data-testid="stImage"] img {
         height: 140px !important;
         width: 100% !important;
         object-fit: cover !important;
-        border: none !important;
+        border-radius: 4px;
     }
 
-    /* SOLID BLACK BUTTONS */
+    /* 5. BUTTONS & INPUTS */
     div.stButton > button {
         background-color: #000000 !important;
         color: #ffffff !important;
         border: 1px solid #ffffff !important;
         border-radius: 8px !important;
-        width: auto !important;
-        min-width: 110px;
     }
 
-    /* Dropdown text size */
-    div[data-baseweb="select"] div { font-size: 0.8rem !important; }
-
-    /* Pinning buttons to edges */
-    div.stButton > button {
-        width: auto !important;
-        min-width: 90px;
+    div[data-baseweb="select"] {
+        background-color: rgba(0,0,0,0.5) !important;
+        border-radius: 8px;
     }
     </style>
     """, unsafe_allow_html=True)
