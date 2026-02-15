@@ -223,7 +223,7 @@ else:
         # Dropdown 2
         with st.expander("BASKETBALL SEASON AWARDS"):
             st.write("**Official categories featuring coach-selected nominees.**")
-            st.write("Note: A player can only win one Basketball Season Award.")
+            st.write("Note: A player can only be nominated in one Basketball Season Award.")
             st.write("Players are **not eligible** for these specific awards if they:")
             st.markdown("""
             * Have only been a member of Pendragon for a single semester.
