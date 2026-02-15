@@ -115,7 +115,7 @@ if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
     
     # 1. Define the options correctly including the Admin Panel
-    team_options = [""] + list(roster.keys()) + ["ADMIN PANEL"]
+    team_options = [""] + list(roster.keys()) + ["ADMIN"]
     
     st.write("Official 2026 Voting Portal")
     st.write("Welcome to the Pendragon Ballot!")
@@ -124,7 +124,7 @@ if not st.session_state.authenticated:
     # 2. Use 'team_options' variable here so "ADMIN PANEL" actually appears
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=team_options)
 
-    if team == "ADMIN PANEL":
+    if team == "ADMIN":
         admin_pass = st.text_input("ENTER ADMIN PASSWORD", type="password")
         if st.button("LOGIN AS ADMIN"):
             if admin_pass == "Pendragon2026": 
