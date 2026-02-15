@@ -209,34 +209,35 @@ else:
     # STAGE 1: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}! 🏀")
-        st.write("Click the categories below to see the voting rules.")
+        st.write("HAve a look at the voting rules before proceeding.")
         
         # Dropdown 1
-        with st.expander("THE VOTING PROCESS"):
-            st.write("""
-            * *Private Voting:* Your individual selections are private.
-            * *Eligibility:* Vote for members of any team.
-            * *No Self-Voting:* The system does not allow to vote for yourself.
-            * *One-Time Access:* Your name disappears from this list once you submit.
-                    """)
+        with st.expander("THE VOTING RULES"):
+            st.markdown("""
+            * **Private Voting:** All individual selections are strictly confidential.
+            * **Eligibility:** You may vote for members from any team.
+            * **Self-Voting Guard:** The system automatically prevents self-voting.
+            * **Single Entry:** Once you submit your ballot, your name is removed from the login list.
+            """)
 
         # Dropdown 2
         with st.expander("BASKETBALL SEASON AWARDS"):
-            st.write("Official categories with coach-selected nominees")
-            st.write("A player can be nominated only for 1 Basketball Season Award")
-            st.write(f"Players are not elgible for these awards if: ")
-            st.write("""
-            * Have been only part of Pendragon for a semester
-            * Have missed 6 or more games because of injuries or other reasons
-                    """)
+            st.write("**Official categories featuring coach-selected nominees.**")
+            st.write("Note: A player can only win one Basketball Season Award.")
+            st.write("---")
+            st.write("Players are **not eligible** for these specific awards if they:")
+            st.markdown("""
+            * Have only been a member of Pendragon for a single semester.
+            * Have missed 6 or more games due to injury or other absences.
+            """)
             
         # Dropdown 3
         with st.expander("FUN SEASON AWARDS"):
-            st.write("These are open categories. Any member can be voted!")
-            st.write("""
-            * A player can be nominated for multiple Fun Season Awards.
-            * It does not matter if you have been part of Pendragon for only 1 semester or for a week. Anybody can be nominated for these awards!
-                    """)
+            st.write("**Open categories where every member is a potential nominee!**")
+            st.markdown("""
+            * **Unlimited Nominations:** Players can be nominated for multiple Fun Season Awards.
+            * **No Restrictions:** Tenure doesn't matter. Whether you joined last year or last week, everyone is eligible!
+            """)
         st.divider()
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_of_the_year"
