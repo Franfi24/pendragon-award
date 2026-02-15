@@ -98,17 +98,11 @@ if 'voted_stage' not in st.session_state:
 if 'selections' not in st.session_state:
     st.session_state.selections = {}
 
-# --- SECTION 1: LOGIN ---hey
+# --- SECTION 1: LOGIN ---
 if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
     st.write("Official 2026 Voting Portal")
     st.write("Welcome to the Pendragon Ballot!")
-    st.write("""
-    * *Private Voting:* Your individual selections are private.
-    * *Eligibility:* Vote for members of any team.
-    * *No Self-Voting:* The system does not allow to vote for yourself.
-    * *One-Time Access:* Your name disappears from this list once you submit.
-    """)
     st.divider()
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
     if team:
@@ -142,17 +136,39 @@ else:
         st.write("***Information about the voting process***")
         st.divider()
 
-        st.write("**The 2026 Ballot is split into two halves:**")
-        st.write("""
-        * **Basketball Season Awards:** Official categories with coach-selected nominees.
-        * **Fun Awards:** Community-focused categories where anyone is eligible.
-        """)
-        
+        s# STAGE 1: INSTRUCTIONS
+    if st.session_state.voted_stage == "instructions":
+        st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}! 🏀")
+        st.write("Click the categories below to see the voting rules.")
         st.divider()
-        st.write("### Basketball Season Awards")
-        st.write("Our coaches have selected 3 top candidates for each category.")
-        st.write("### Fun Season Awards")
-        st.write("These are open categories. You can nominate any member.")
+
+        # Dropdown 1
+        with st.expander("THE VOTING PROCESS"):
+            st.write("""
+            * *Private Voting:* Your individual selections are private.
+            * *Eligibility:* Vote for members of any team.
+            * *No Self-Voting:* The system does not allow to vote for yourself.
+            * *One-Time Access:* Your name disappears from this list once you submit.
+                    """)
+
+        # Dropdown 2
+        with st.expander("BASKETBALL SEASON AWARDS"):
+            st.write("**Official categories with coach-selected nominees")
+            st.write("** A player can be nominated only for 1 Basketball Season Award**")
+            st.write("**Players are not elgible for these awards if: ")
+            st.write("""
+            * Have been only part of Pendragon for a semester
+            * Have missed 6 or more games because of injuries or other reasons
+                    """)
+            
+        # Dropdown 3
+        with st.expander("FUN SEASON AWARDS"):
+            st.write("**THese are open categories. Any member can be voted!")
+            st.write("""
+            * A player can be nominated for multiple Fun Season Awards.
+            * It does not matter if you have been part of Pendragon for only 1 semester or for a week. Anybody can be nominated for these awards!
+                    """)
+        
         st.divider()
 
         if st.button("START VOTING →"):
