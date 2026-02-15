@@ -21,31 +21,31 @@ st.set_page_config(
 
 
 def trigger_basketball_gif(gif_type):
-    # Mapping for your specific requests
-    # The master dictionary for your Pendragon Awards GIFs
-gifs = {
-    # 1. THE ERROR (Technical Foul)
-    "error": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lXkx9x8OTM1rwY/giphy.gif",
-    
-    # 2. ROOKIE OF THE YEAR (Gym Training)
-    "rookie": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlPtb37mC0n5LJS/giphy.gif",
-    
-    # 3. MOST IMPROVED (Gym Training / Practice)
-    "improved": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxf837vXis8/giphy.gif",
-    
-    # 4. BEST SHOOTER (Swish)
-    "shooter": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3oAt20560Snc7KzHj2/giphy.gif",
-    
-    # 5. BEST DEFENDER (Defense/Block)
-    "defender": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlTfbH522K9I1W0/giphy.gif",
-    
-    # 6. BEST COACH (Leadership/Clapping)
-    "coach": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l2SpXzEYXUIg83EAg/giphy.gif",
-    
-    # 7. EVERYTHING ELSE (The Slam Dunk)
-    "dunk": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKP9Xh7h1P9iXis/giphy.gif"
-}
-    
+    # This dictionary must be indented 4 spaces to be "inside" the function
+    gifs = {
+        # 1. THE ERROR (Technical Foul)
+        "error": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lXkx9x8OTM1rwY/giphy.gif",
+        
+        # 2. ROOKIE OF THE YEAR (Gym Training)
+        "rookie": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlPtb37mC0n5LJS/giphy.gif",
+        
+        # 3. MOST IMPROVED (Gym Training / Practice)
+        "improved": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxf837vXis8/giphy.gif",
+        
+        # 4. BEST SHOOTER (Swish)
+        "shooter": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3oAt20560Snc7KzHj2/giphy.gif",
+        
+        # 5. BEST DEFENDER (Defense/Block)
+        "defender": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlTfbH522K9I1W0/giphy.gif",
+        
+        # 6. BEST COACH (Leadership/Clapping)
+        "coach": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l2SpXzEYXUIg83EAg/giphy.gif",
+        
+        # 7. EVERYTHING ELSE (The Slam Dunk)
+        "dunk": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKP9Xh7h1P9iXis/giphy.gif"
+    }
+
+    # The rest of the function must also stay indented!
     selected_gif = gifs.get(gif_type, gifs["dunk"])
     unique_id = f"gif_{int(time.time() * 1000)}"
     
@@ -61,7 +61,6 @@ gifs = {
         gifContainer.style.zIndex = '10000';
         gifContainer.style.pointerEvents = 'none';
         
-        // Clean look: No border, sharp shadow to pop against the red background
         gifContainer.innerHTML = `<img src="{selected_gif}" style="width: 320px; border-radius: 12px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);">`;
         
         window.parent.document.body.appendChild(gifContainer);
@@ -70,7 +69,7 @@ gifs = {
             gifContainer.style.opacity = '0';
             gifContainer.style.transition = 'opacity 0.4s ease';
             setTimeout(() => {{ gifContainer.remove(); }}, 400);
-        }}, 2200); // Quick 2.2 second burst
+        }}, 2200); 
         </script>
         """,
         height=0
