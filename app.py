@@ -485,7 +485,7 @@ else:
         """, unsafe_allow_html=True)
 
         st.write("")
-        if st.button("LOGOUT / NEXT VOTER"):
+        if st.button("LOGOUT"):
             st.session_state.authenticated = False
             st.session_state.voted_stage = "instructions"
             st.session_state.selections = {}
