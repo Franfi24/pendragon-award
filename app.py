@@ -21,18 +21,16 @@ st.set_page_config(
 
 import time # Ensure this is at the top of your script
 
+import time
+
 def trigger_blue_warning():
-    # Generate a unique ID for this specific trigger
     unique_id = f"warning_{int(time.time() * 1000)}" 
-    
-    # We use a placeholder to ensure the component is tied to a specific spot
     placeholder = st.empty()
     
     with placeholder:
         st.components.v1.html(
             f"""
             <script>
-            // Use a unique variable name to avoid conflicts if triggered multiple times
             const container_{unique_id} = window.parent.document.createElement('div');
             container_{unique_id}.style.position = 'fixed';
             container_{unique_id}.style.top = '0'; 
@@ -43,35 +41,35 @@ def trigger_blue_warning():
             container_{unique_id}.style.zIndex = '9999';
             window.parent.document.body.appendChild(container_{unique_id});
 
-            for(let i=0; i<10; i++) {{
+            for(let i=0; i<8; i++) {{
                 const text = window.parent.document.createElement('div');
                 text.innerHTML = 'FILL IN!';
                 text.style.position = 'absolute';
                 
-                const centerOffset = (Math.random() * 30) - 15;
+                const centerOffset = (Math.random() * 20) - 10;
                 text.style.left = (50 + centerOffset) + 'vw'; 
                 text.style.transform = 'translateX(-50%)';
                 
                 text.style.top = '100vh';
-                text.style.color = '#7DF9FF'; 
-                text.style.textShadow = '0 0 10px #0000FF';
+                text.style.color = '#002366'; // ROYAL BLUE
+                text.style.textShadow = '0 0 5px rgba(255,255,255,0.3)'; // Tiny glow for visibility
                 text.style.fontWeight = '900';
-                text.style.fontSize = '35px';
+                text.style.fontSize = '32px';
                 text.style.fontFamily = 'Arial Black, sans-serif';
                 
-                // Slow float
-                text.style.transition = 'transform ' + (Math.random() * 1 + 6) + 's ease-out, opacity 5s';
+                // SPEED ADJUSTMENT: Reduced from 6s to 3.5s for a snappier feel
+                text.style.transition = 'transform ' + (Math.random() * 0.5 + 3.5) + 's ease-in, opacity 2.5s';
                 
                 container_{unique_id}.appendChild(text);
 
                 setTimeout(() => {{
-                    text.style.transform = 'translate(-50%, -110vh)';
+                    text.style.transform = 'translate(-50%, -115vh)';
                     text.style.opacity = '0';
-                }}, i * 400);
+                }}, i * 250); // Faster staggering
             }}
             
-            // Clean up the DOM after animation
-            setTimeout(() => {{ container_{unique_id}.remove(); }}, 12000);
+            // Cleanup happens sooner now (6 seconds instead of 12)
+            setTimeout(() => {{ container_{unique_id}.remove(); }}, 6000);
             </script>
             """,
             height=0
