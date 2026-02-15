@@ -4,7 +4,7 @@ from supabase import create_client, Client
 import os
 import time
 
-
+`
 # --- DATABASE CONNECTION (SUPABASE) ---
 SUPABASE_URL = "https://gkrkdujyuzcdoneuoakr.supabase.co"
 SUPABASE_KEY = "sb_publishable_R20QEdVZMJuy8AiPBETy0g_R62okepN"
@@ -189,6 +189,9 @@ else:
         with col1: st.image(os.path.join("images", "rookie1.jpeg"))
         with col2: st.image(os.path.join("images", "rookie2.jpeg"))
         with col3: st.image(os.path.join("images", "rookie3.jpeg"))
+
+        rookie_nominees = ["Jesper", "Stella", "AK"]
+        filtered_rookie_options = [p for p in rookie_nominees if p != st.session_state.user_name]
 
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "AK"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
