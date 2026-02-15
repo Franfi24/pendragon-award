@@ -18,6 +18,20 @@ st.set_page_config(
     layout="centered"
 )
 
+# --- UNIVERSAL AUTO-SCROLL SCRIPT ---
+# This executes at the start of every rerun to snap the view to the top
+st.components.v1.html(
+    """
+    <script>
+        var mainContent = window.parent.document.querySelector('section.main');
+        if (mainContent) {
+            mainContent.scrollTo({top: 0, behavior: 'auto'});
+        }
+    </script>
+    """,
+    height=0,
+)
+
 # --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
     <style>
@@ -25,17 +39,8 @@ st.markdown("""
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
-# This goes near your other st.markdown(..., unsafe_allow_html=True) calls
-st.markdown("""
-    <script>
-        var body = window.parent.document.querySelector(".main");
-        console.log(body);
-        body.scrollTop = 0;
-    </script>
-""", unsafe_allow_html=True)
-    
 
-    /* Target the container of the 3 columns */
+        /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
