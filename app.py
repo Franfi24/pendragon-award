@@ -209,7 +209,7 @@ else:
     # STAGE 1: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}! 🏀")
-        st.write("HAve a look at the voting rules before proceeding.")
+        st.write("Have a look at the voting rules before proceeding.")
         
         # Dropdown 1
         with st.expander("THE VOTING RULES"):
