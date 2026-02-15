@@ -19,63 +19,48 @@ st.set_page_config(
 # --- UNIVERSAL AUTO-SCROLL SCRIPT ---
 # This executes at the start of every rerun to snap the view to the top
 
-import time # Ensure this is at the top of your script
 
-def trigger_blue_warning():
-    # Generate a unique ID for this specific trigger
-    unique_id = f"warning_{int(time.time() * 1000)}" 
+def trigger_basketball_gif(gif_type):
+    # Mapping for your specific requests
+    gifs = {
+        "error": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lXkx9x8OTM1rwY/giphy.gif", # Ref Tech Foul
+        "rookie": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnYycWlxZzR6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlPtb37mC0n5LJS/giphy.gif", # Gym Training
+        "improved": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxf837vXis8/giphy.gif", # Practice
+        "shooter": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3oAt20560Snc7KzHj2/giphy.gif", # Swish
+        "defender": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlTfbH522K9I1W0/giphy.gif", # Block/Defense
+        "dunk": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKP9Xh7h1P9iXis/giphy.gif" # The "Rest" - Slam Dunk
+        "coach": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l2SpXzEYXUIg83EAg/giphy.gif" # Coach celebrating/clapping
+    }
     
-    # We use a placeholder to ensure the component is tied to a specific spot
-    placeholder = st.empty()
+    selected_gif = gifs.get(gif_type, gifs["dunk"])
+    unique_id = f"gif_{int(time.time() * 1000)}"
     
-    with placeholder:
-        st.components.v1.html(
-            f"""
-            <script>
-            // Use a unique variable name to avoid conflicts if triggered multiple times
-            const container_{unique_id} = window.parent.document.createElement('div');
-            container_{unique_id}.style.position = 'fixed';
-            container_{unique_id}.style.top = '0'; 
-            container_{unique_id}.style.left = '0';
-            container_{unique_id}.style.width = '100vw'; 
-            container_{unique_id}.style.height = '100vh';
-            container_{unique_id}.style.pointerEvents = 'none'; 
-            container_{unique_id}.style.zIndex = '9999';
-            window.parent.document.body.appendChild(container_{unique_id});
+    st.components.v1.html(
+        f"""
+        <script>
+        const gifContainer = window.parent.document.createElement('div');
+        gifContainer.id = '{unique_id}';
+        gifContainer.style.position = 'fixed';
+        gifContainer.style.top = '50%';
+        gifContainer.style.left = '50%';
+        gifContainer.style.transform = 'translate(-50%, -50%)';
+        gifContainer.style.zIndex = '10000';
+        gifContainer.style.pointerEvents = 'none';
+        
+        // Clean look: No border, sharp shadow to pop against the red background
+        gifContainer.innerHTML = `<img src="{selected_gif}" style="width: 320px; border-radius: 12px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);">`;
+        
+        window.parent.document.body.appendChild(gifContainer);
 
-            for(let i=0; i<10; i++) {{
-                const text = window.parent.document.createElement('div');
-                text.innerHTML = 'FILL IN!';
-                text.style.position = 'absolute';
-                
-                const centerOffset = (Math.random() * 30) - 15;
-                text.style.left = (50 + centerOffset) + 'vw'; 
-                text.style.transform = 'translateX(-50%)';
-                
-                text.style.top = '100vh';
-                text.style.color = '#7DF9FF'; 
-                text.style.textShadow = '0 0 10px #0000FF';
-                text.style.fontWeight = '900';
-                text.style.fontSize = '35px';
-                text.style.fontFamily = 'Arial Black, sans-serif';
-                
-                // Slow float
-                text.style.transition = 'transform ' + (Math.random() * 1 + 6) + 's ease-out, opacity 5s';
-                
-                container_{unique_id}.appendChild(text);
-
-                setTimeout(() => {{
-                    text.style.transform = 'translate(-50%, -110vh)';
-                    text.style.opacity = '0';
-                }}, i * 400);
-            }}
-            
-            // Clean up the DOM after animation
-            setTimeout(() => {{ container_{unique_id}.remove(); }}, 12000);
-            </script>
-            """,
-            height=0
-        )
+        setTimeout(() => {{
+            gifContainer.style.opacity = '0';
+            gifContainer.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => {{ gifContainer.remove(); }}, 400);
+        }}, 2200); // Quick 2.2 second burst
+        </script>
+        """,
+        height=0
+    )
 
 # --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
@@ -265,12 +250,15 @@ else:
                 st.session_state.voted_stage = "instructions"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('rookie_of_the_year') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "most_improved_player"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+            if st.button("NEXT →", key="btn_rookie"):
+    if st.session_state.selections.get('rookie_of_the_year'):
+        trigger_basketball_gif("rookie")  # Gym training GIF
+        time.sleep(1.5) 
+        st.session_state.voted_stage = "most_improved_player"
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error")   # Technical Foul GIF
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
@@ -291,16 +279,15 @@ else:
         st.write("") 
         b_col1, b_col2 = st.columns(2)
         with b_col1:
-            if st.button("← BACK"):
-                st.session_state.voted_stage = "rookie_of_the_year"
-                st.rerun()
-        with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('most_improved_player') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "defensive_player"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+            if st.button("NEXT →", key="btn_improved"):
+    if st.session_state.selections.get('most_improved'):
+        trigger_basketball_gif("improved") # Practice GIF
+        time.sleep(1.5)
+        st.session_state.voted_stage = "best_shooter"
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error")
                     
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
@@ -325,12 +312,15 @@ else:
                 st.session_state.voted_stage = "most_improved_player"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('defensive_player') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "best_driver"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+            if st.button("NEXT →", key="btn_defender"):
+    if st.session_state.selections.get('best_defender'):
+        trigger_basketball_gif("defender") # Block/Defense GIF
+        time.sleep(1.5)
+        st.session_state.voted_stage = "fun_awards" # Transition to the rest
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error")
                     
     # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
@@ -354,12 +344,15 @@ else:
                 st.session_state.voted_stage = "defensive_player"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('best_driver') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "best_shooter"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+            if st.button("NEXT →", key="btn_generic"):
+    if st.session_state.selections.get('current_category_key'):
+        trigger_basketball_gif("dunk") # Slam Dunk GIF
+        time.sleep(1.5)
+        st.session_state.voted_stage = "next_category_name"
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error")
 
     # STAGE 6: BEST SHOOTER
     elif st.session_state.voted_stage == "best_shooter":
@@ -380,16 +373,15 @@ else:
         st.write("") 
         b_col1, b_col2 = st.columns(2)
         with b_col1:
-            if st.button("← BACK"):
-                st.session_state.voted_stage = "best_driver"
-                st.rerun()
-        with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('best_shooter') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "best_rebounder"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+          if st.button("NEXT →", key="btn_shooter"):
+    if st.session_state.selections.get('best_shooter'):
+        trigger_basketball_gif("shooter")  # Swish GIF
+        time.sleep(1.5)
+        st.session_state.voted_stage = "best_defender"
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error")
 
     # STAGE 7: BEST REBOUNDER
     elif st.session_state.voted_stage == "best_rebounder":
@@ -414,12 +406,15 @@ else:
                 st.session_state.voted_stage = "best_shooter"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('best_rebounder') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "best_coach"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+            if st.button("NEXT →", key="btn_generic"):
+    if st.session_state.selections.get('current_category_key'):
+        trigger_basketball_gif("dunk") # Slam Dunk GIF
+        time.sleep(1.5)
+        st.session_state.voted_stage = "next_category_name"
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error")
 
     # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
@@ -444,12 +439,16 @@ else:
                 st.session_state.voted_stage = "best_rebounder"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('best_coach') or st.session_state.get('is_admin'):
-                    st.session_state.voted_stage = "fun_awards"
-                    st.rerun()
-                else:
-                    trigger_blue_warning()
+           if st.button("NEXT →", key="btn_coach"):
+    if st.session_state.selections.get('best_coach'):
+        trigger_basketball_gif("coach") # Coach celebration GIF
+        time.sleep(1.5)
+        # Change 'final_review' to whatever your next stage is
+        st.session_state.voted_stage = "final_review" 
+        st.rerun()
+    else:
+        trigger_blue_warning()
+        trigger_basketball_gif("error") # Technical Foul
     
     # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
