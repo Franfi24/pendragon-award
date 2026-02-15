@@ -30,26 +30,27 @@ def trigger_blue_warning():
         container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
         window.parent.document.body.appendChild(container);
 
-        for(let i=0; i<25; i++) {
+        // Lowered count to 12 for a cleaner, less crowded look
+        for(let i=0; i<12; i++) {
             const text = window.parent.document.createElement('div');
             text.innerHTML = 'FILL IN!';
             text.style.position = 'absolute';
-            text.style.left = Math.random() * 100 + 'vw';
+            text.style.left = (10 + Math.random() * 80) + 'vw'; // Keep away from extreme edges
             text.style.top = '100vh';
-            text.style.color = '#00BFFF'; // Deep Sky Blue (easier to read on red)
+            text.style.color = '#00BFFF'; 
             text.style.fontWeight = 'bold';
-            text.style.fontSize = (Math.random() * 15 + 25) + 'px';
+            text.style.fontSize = '30px'; // Consistent size for better readability
             
-            // INCREASED DURATION: Changed to 4 seconds for a slower float
-            text.style.transition = 'transform ' + (Math.random() * 1 + 4) + 's ease-out, opacity 3s';
+            // Slower, smoother float (5 seconds)
+            text.style.transition = 'transform ' + (Math.random() * 1 + 5) + 's ease-out, opacity 4s';
             
             container.appendChild(text);
 
+            // staggered start so they don't all appear at the exact same time
             setTimeout(() => {
-                // REDUCED LIFT: Only goes to -105vh so it stays on screen longer
-                text.style.transform = 'translateY(-105vh) rotate(' + (Math.random() * 20 - 10) + 'deg)';
+                text.style.transform = 'translateY(-105vh)';
                 text.style.opacity = '0';
-            }, 100);
+            }, i * 200); // 200ms delay between each word
         }
         </script>
         """,
