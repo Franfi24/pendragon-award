@@ -113,11 +113,23 @@ if 'selections' not in st.session_state:
 # --- SECTION 1: LOGIN ---
 if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
+    team_options = [""] + list(roster.keys()) + ["ADMIN PANEL"]
     st.write("Official 2026 Voting Portal")
     st.write("Welcome to the Pendragon Ballot!")
     st.divider()
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
-    if team:
+    if team == "ADMIN PANEL":
+        admin_pass = st.text_input("ENTER ADMIN PASSWORD", type="password")
+        if st.button("LOGIN AS ADMIN"):
+            if admin_pass == "Pendragon2026": # Set your password here
+                st.session_state.user_name = "ADMIN"
+                st.session_state.user_team = "MANAGEMENT"
+                st.session_state.is_admin = True # Special flag
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("Incorrect Password")
+    elif team:
         st.cache_data.clear()
         try:
             result = supabase.table(TABLE_NAME).select("name").execute()
