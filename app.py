@@ -25,6 +25,7 @@ st.markdown("""
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
+# This goes near your other st.markdown(..., unsafe_allow_html=True) calls
 st.markdown("""
     <script>
         var body = window.parent.document.querySelector(".main");
