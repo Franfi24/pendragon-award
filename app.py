@@ -451,7 +451,7 @@ else:
                     
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        st.success("Votes Submitted! See you at the awards! 🏀")
+                        st.success("Votes Submitted!🏀")
                         st.balloons()
                         st.session_state.authenticated = False
                         st.session_state.user_name = None
