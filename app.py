@@ -215,7 +215,6 @@ else:
         with st.expander("GENERAL INFORMATION"):
             st.markdown("""
             * **Private Voting:** All individual selections are strictly confidential.
-            * **Eligibility:** You may vote for members from any team.
             * **Self-Voting Guard:** The system automatically prevents self-voting.
             * **Single Entry:** Once you submit your ballot, your name is removed from the login list.
             """)
