@@ -25,6 +25,14 @@ st.markdown("""
         background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
         color: #ffffff;
     }
+st.markdown("""
+    <script>
+        var body = window.parent.document.querySelector(".main");
+        console.log(body);
+        body.scrollTop = 0;
+    </script>
+""", unsafe_allow_html=True)
+    
 
     /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
