@@ -30,20 +30,24 @@ def trigger_blue_warning():
         container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
         window.parent.document.body.appendChild(container);
 
-        for(let i=0; i<30; i++) {
+        for(let i=0; i<25; i++) {
             const text = window.parent.document.createElement('div');
             text.innerHTML = 'FILL IN!';
             text.style.position = 'absolute';
             text.style.left = Math.random() * 100 + 'vw';
             text.style.top = '100vh';
-            text.style.color = '#0000FF'; // Blue
+            text.style.color = '#00BFFF'; // Deep Sky Blue (easier to read on red)
             text.style.fontWeight = 'bold';
-            text.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            text.style.transition = 'transform ' + (Math.random() * 1 + 1.5) + 's ease-out, opacity 1.5s';
+            text.style.fontSize = (Math.random() * 15 + 25) + 'px';
+            
+            // INCREASED DURATION: Changed to 4 seconds for a slower float
+            text.style.transition = 'transform ' + (Math.random() * 1 + 4) + 's ease-out, opacity 3s';
+            
             container.appendChild(text);
 
             setTimeout(() => {
-                text.style.transform = 'translateY(-110vh) rotate(' + (Math.random() * 40 - 20) + 'deg)';
+                // REDUCED LIFT: Only goes to -105vh so it stays on screen longer
+                text.style.transform = 'translateY(-105vh) rotate(' + (Math.random() * 20 - 10) + 'deg)';
                 text.style.opacity = '0';
             }, 100);
         }
