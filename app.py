@@ -30,44 +30,39 @@ def trigger_blue_warning():
         container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
         window.parent.document.body.appendChild(container);
 
-        // 10 items for a very clean look
+        // 8-10 items is perfect for a clean, centered look
         for(let i=0; i<10; i++) {
             const text = window.parent.document.createElement('div');
             text.innerHTML = 'FILL IN!';
             text.style.position = 'absolute';
-            text.style.left = (15 + Math.random() * 70) + 'vw'; 
-            text.style.top = '100vh';
-            text.style.color = '#0047AB'; // Royal Blue - Darker and more professional
-            text.style.fontWeight = '900'; // Extra bold for readability
-            text.style.fontSize = '32px';
-            text.style.fontFamily = 'sans-serif';
             
-            // 5.5 second float - very easy to track with the eyes
-            text.style.transition = 'transform ' + (Math.random() * 1 + 5.5) + 's ease-out, opacity 4s';
+            // CENTER LOGIC: Start at 50vw (middle) and add a small random offset (-15 to +15)
+            const centerOffset = (Math.random() * 30) - 15;
+            text.style.left = (50 + centerOffset) + 'vw'; 
+            text.style.transform = 'translateX(-50%)'; // Ensure the text itself is centered on its point
+            
+            text.style.top = '100vh';
+            text.style.color = '#7DF9FF'; // Electric Blue
+            text.style.textShadow = '0 0 10px #0000FF'; // Subtle blue glow to help readability on red
+            text.style.fontWeight = '900';
+            text.style.fontSize = '35px';
+            text.style.fontFamily = 'Arial Black, sans-serif';
+            
+            // Slow, deliberate float (6 seconds)
+            text.style.transition = 'transform ' + (Math.random() * 1 + 6) + 's ease-out, opacity 5s';
             
             container.appendChild(text);
 
             setTimeout(() => {
-                text.style.transform = 'translateY(-110vh)';
+                // Move straight up the center
+                text.style.transform = 'translate(-50%, -110vh)';
                 text.style.opacity = '0';
-            }, i * 300); // Slightly more delay between words
+            }, i * 400); // Very clear, staggered timing
         }
         </script>
         """,
         height=0,
     )
-
-st.components.v1.html(
-    """
-    <script>
-        var mainContent = window.parent.document.querySelector('section.main');
-        if (mainContent) {
-            mainContent.scrollTo({top: 0, behavior: 'auto'});
-        }
-    </script>
-    """,
-    height=0,
-)
 
 # --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
