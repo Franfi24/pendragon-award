@@ -113,22 +113,29 @@ if 'selections' not in st.session_state:
 # --- SECTION 1: LOGIN ---
 if not st.session_state.authenticated:
     st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
+    
+    # 1. Define the options correctly including the Admin Panel
     team_options = [""] + list(roster.keys()) + ["ADMIN PANEL"]
+    
     st.write("Official 2026 Voting Portal")
     st.write("Welcome to the Pendragon Ballot!")
     st.divider()
-    team = st.selectbox("WHICH TEAM ARE YOU IN?", options=[""] + list(roster.keys()))
+
+    # 2. Use 'team_options' variable here so "ADMIN PANEL" actually appears
+    team = st.selectbox("WHICH TEAM ARE YOU IN?", options=team_options)
+
     if team == "ADMIN PANEL":
         admin_pass = st.text_input("ENTER ADMIN PASSWORD", type="password")
         if st.button("LOGIN AS ADMIN"):
-            if admin_pass == "Pendragon2026": # Set your password here
+            if admin_pass == "Pendragon2026": 
                 st.session_state.user_name = "ADMIN"
                 st.session_state.user_team = "MANAGEMENT"
-                st.session_state.is_admin = True # Special flag
+                st.session_state.is_admin = True # Enables the skip feature
                 st.session_state.authenticated = True
                 st.rerun()
             else:
                 st.error("Incorrect Password")
+                
     elif team:
         st.cache_data.clear()
         try:
@@ -137,7 +144,6 @@ if not st.session_state.authenticated:
         except:
             voted_names = []
         
-        # Filter: Only show names NOT in the lowercase 'name' list
         available_names = [n for n in roster[team] if n not in voted_names]
         if not available_names:
             st.warning("All players on this team have already voted! 🎉")
@@ -146,9 +152,9 @@ if not st.session_state.authenticated:
             if name and st.button("VERIFY & ENTER"):
                 st.session_state.user_name = name
                 st.session_state.user_team = team
+                st.session_state.is_admin = False # Explicitly not an admin
                 st.session_state.authenticated = True
                 st.rerun()
-
 # --- POST-LOGIN VOTING FLOW ---
 else:
     all_players = [player for team_list in roster.values() for player in team_list]
