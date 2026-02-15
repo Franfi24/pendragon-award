@@ -395,11 +395,11 @@ else:
         s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
         st.write("*First one at the bar, last one to leave the after-party.*")
 
-        # 3. Drama
-        st.markdown("### 🎭 Most Dramatic")
-        s_drama = st.selectbox("Who brings Hollywood to the hardwood?", options=[""] + nominees, key="fun_drama")
-        st.write("*Every foul is a tragedy, every missed layup is a heartbreak.*")
-
+        # 3. Energy
+        st.markdown("### ⚡ Best Energy")
+        s_energy = st.selectbox("Who brings the best energy on the court or bench?", options=[""] + nominees, key="fun_energy")
+        st.write("*Whether they are diving for a loose ball or leading the chants from the sidelines, their enthusiasm is contagious.*")
+      
         # 4. Karen
         st.markdown("### 👑 The 'Karen'")
         s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
