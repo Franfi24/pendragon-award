@@ -22,51 +22,60 @@ st.set_page_config(
 import time # Ensure this is at the top of your script
 
 def trigger_blue_warning():
-    # Adding a unique timestamp as the 'key' ensures Streamlit 
-    # renders a fresh explosion every time the button is clicked.
-    unique_id = f"warning_{time.time()}" 
+    # Generate a unique ID for this specific trigger
+    unique_id = f"warning_{int(time.time() * 1000)}" 
     
-    st.components.v1.html(
-        f"""
-        <script>
-        const container = window.parent.document.createElement('div');
-        container.style.position = 'fixed';
-        container.style.top = '0'; container.style.left = '0';
-        container.style.width = '100vw'; container.style.height = '100vh';
-        container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
-        window.parent.document.body.appendChild(container);
+    # We use a placeholder to ensure the component is tied to a specific spot
+    placeholder = st.empty()
+    
+    with placeholder:
+        st.components.v1.html(
+            f"""
+            <script>
+            // Use a unique variable name to avoid conflicts if triggered multiple times
+            const container_{unique_id} = window.parent.document.createElement('div');
+            container_{unique_id}.style.position = 'fixed';
+            container_{unique_id}.style.top = '0'; 
+            container_{unique_id}.style.left = '0';
+            container_{unique_id}.style.width = '100vw'; 
+            container_{unique_id}.style.height = '100vh';
+            container_{unique_id}.style.pointerEvents = 'none'; 
+            container_{unique_id}.style.zIndex = '9999';
+            window.parent.document.body.appendChild(container_{unique_id});
 
-        for(let i=0; i<10; i++) {{
-            const text = window.parent.document.createElement('div');
-            text.innerHTML = 'FILL IN!';
-            text.style.position = 'absolute';
-            
-            const centerOffset = (Math.random() * 30) - 15;
-            text.style.left = (50 + centerOffset) + 'vw'; 
-            text.style.transform = 'translateX(-50%)';
-            
-            text.style.top = '100vh';
-            text.style.color = '#7DF9FF'; 
-            text.style.textShadow = '0 0 10px #0000FF';
-            text.style.fontWeight = '900';
-            text.style.fontSize = '35px';
-            text.style.fontFamily = 'Arial Black, sans-serif';
-            text.style.transition = 'transform ' + (Math.random() * 1 + 6) + 's ease-out, opacity 5s';
-            
-            container.appendChild(text);
+            for(let i=0; i<10; i++) {{
+                const text = window.parent.document.createElement('div');
+                text.innerHTML = 'FILL IN!';
+                text.style.position = 'absolute';
+                
+                const centerOffset = (Math.random() * 30) - 15;
+                text.style.left = (50 + centerOffset) + 'vw'; 
+                text.style.transform = 'translateX(-50%)';
+                
+                text.style.top = '100vh';
+                text.style.color = '#7DF9FF'; 
+                text.style.textShadow = '0 0 10px #0000FF';
+                text.style.fontWeight = '900';
+                text.style.fontSize = '35px';
+                text.style.fontFamily = 'Arial Black, sans-serif';
+                
+                // Slow float
+                text.style.transition = 'transform ' + (Math.random() * 1 + 6) + 's ease-out, opacity 5s';
+                
+                container_{unique_id}.appendChild(text);
 
-            setTimeout(() => {{
-                text.style.transform = 'translate(-50%, -110vh)';
-                text.style.opacity = '0';
-            }}, i * 400);
-        }}
-        // Clean up the container from the DOM after the animation is done
-        setTimeout(() => {{ container.remove(); }}, 12000);
-        </script>
-        """,
-        height=0,
-        key=unique_id # This is the magic fix
-    )
+                setTimeout(() => {{
+                    text.style.transform = 'translate(-50%, -110vh)';
+                    text.style.opacity = '0';
+                }}, i * 400);
+            }}
+            
+            // Clean up the DOM after animation
+            setTimeout(() => {{ container_{unique_id}.remove(); }}, 12000);
+            </script>
+            """,
+            height=0
+        )
 
 # --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
 st.markdown("""
