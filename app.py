@@ -476,9 +476,9 @@ else:
         st.markdown("""
             <div style="background-color: rgba(0,0,0,0.3); padding: 25px; border-radius: 15px; border: 1px solid #ffffff; text-align: center;">
                 <h3 style="color: #FFD700; margin-top: 0;">🏆 Pendragon Awards Night</h3>
-                <p style="font-size: 1.2rem;"><b>DATE:</b> Friday, June 12th, 2026</p>
-                <p style="font-size: 1.2rem;"><b>TIME:</b> 20:00 - Late</p>
-                <p style="font-size: 1.2rem;"><b>LOCATION:</b> The Pendragon Clubhouse</p>
+                <p style="font-size: 1.2rem;"><b>DATE:</b> TBD, TBD, 2026</p>
+                <p style="font-size: 1.2rem;"><b>TIME:</b> TBD - Late</p>
+                <p style="font-size: 1.2rem;"><b>LOCATION:</b> Sportcetner Cafe </p>
                 <hr style="border-color: rgba(255,255,255,0.2);">
                 <p><i>Bring your best energy!</i></p>
             </div>
