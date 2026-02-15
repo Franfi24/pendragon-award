@@ -190,8 +190,6 @@ else:
         with col2: st.image(os.path.join("images", "rookie2.jpeg"))
         with col3: st.image(os.path.join("images", "rookie3.jpeg"))
 
-        st.divider()
-        
         rookie_vote = st.selectbox("Your Pick:", options=["", "Jesper", "Stella", "AK"], key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
@@ -219,8 +217,6 @@ else:
         with col1: st.image(os.path.join("images", "MIP1.jpeg"))
         with col2: st.image(os.path.join("images", "MIP2.jpeg"))
         with col3: st.image(os.path.join("images", "MIP3.jpeg"))
-
-        st.divider()
         
         mip_vote = st.selectbox("Your Pick:", options=["", "Rayan", "Lise", "Elmer"], key="mip_sel")
         st.session_state.selections['most_improved_player'] = mip_vote
@@ -250,8 +246,6 @@ else:
         with col1: st.image(os.path.join("images", "DPY1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "DPY2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "DPY3.jpeg"), use_container_width=True)
-
-        st.divider()
         
         # Dropdown
         dpoy_vote = st.selectbox(
@@ -291,7 +285,6 @@ else:
         with col2: st.image(os.path.join("images", "BD2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BD3.jpeg"), use_container_width=True)
 
-        st.divider()
         
         # Dropdown
         best_driver_vote = st.selectbox(
@@ -332,8 +325,7 @@ else:
         with col2: st.image(os.path.join("images", "BS2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BS3.jpeg"), use_container_width=True)
 
-        st.divider()
-        
+
         # Dropdown
         best_shooter_vote = st.selectbox(
             "Your Pick:", 
@@ -371,8 +363,6 @@ else:
         with col1: st.image(os.path.join("images", "BR1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "BR2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BR3.jpeg"), use_container_width=True)
-
-        st.divider()
         
         # Dropdown
         best_rebounder_vote = st.selectbox(
@@ -412,7 +402,6 @@ else:
         with col2: st.image(os.path.join("images", "BC2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BC3.jpeg"), use_container_width=True)
 
-        st.divider()
         
         # Dropdown
         best_coach_vote = st.selectbox(
