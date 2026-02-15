@@ -30,27 +30,27 @@ def trigger_blue_warning():
         container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
         window.parent.document.body.appendChild(container);
 
-        // Lowered count to 12 for a cleaner, less crowded look
-        for(let i=0; i<12; i++) {
+        // 10 items for a very clean look
+        for(let i=0; i<10; i++) {
             const text = window.parent.document.createElement('div');
             text.innerHTML = 'FILL IN!';
             text.style.position = 'absolute';
-            text.style.left = (10 + Math.random() * 80) + 'vw'; // Keep away from extreme edges
+            text.style.left = (15 + Math.random() * 70) + 'vw'; 
             text.style.top = '100vh';
-            text.style.color = '#00BFFF'; 
-            text.style.fontWeight = 'bold';
-            text.style.fontSize = '30px'; // Consistent size for better readability
+            text.style.color = '#0047AB'; // Royal Blue - Darker and more professional
+            text.style.fontWeight = '900'; // Extra bold for readability
+            text.style.fontSize = '32px';
+            text.style.fontFamily = 'sans-serif';
             
-            // Slower, smoother float (5 seconds)
-            text.style.transition = 'transform ' + (Math.random() * 1 + 5) + 's ease-out, opacity 4s';
+            // 5.5 second float - very easy to track with the eyes
+            text.style.transition = 'transform ' + (Math.random() * 1 + 5.5) + 's ease-out, opacity 4s';
             
             container.appendChild(text);
 
-            // staggered start so they don't all appear at the exact same time
             setTimeout(() => {
-                text.style.transform = 'translateY(-105vh)';
+                text.style.transform = 'translateY(-110vh)';
                 text.style.opacity = '0';
-            }, i * 200); // 200ms delay between each word
+            }, i * 300); // Slightly more delay between words
         }
         </script>
         """,
