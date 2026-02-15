@@ -22,15 +22,29 @@ st.set_page_config(
 
 def trigger_basketball_gif(gif_type):
     # Mapping for your specific requests
-    gifs = {
-        "error": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lXkx9x8OTM1rwY/giphy.gif", # Ref Tech Foul
-        "rookie": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnYycWlxZzR6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlPtb37mC0n5LJS/giphy.gif", # Gym Training
-        "improved": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxf837vXis8/giphy.gif", # Practice
-        "shooter": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3oAt20560Snc7KzHj2/giphy.gif", # Swish
-        "defender": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlTfbH522K9I1W0/giphy.gif", # Block/Defense
-        "dunk": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKP9Xh7h1P9iXis/giphy.gif" # The "Rest" - Slam Dunk
-        "coach": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l2SpXzEYXUIg83EAg/giphy.gif" # Coach celebrating/clapping
-    }
+    # The master dictionary for your Pendragon Awards GIFs
+gifs = {
+    # 1. THE ERROR (Technical Foul)
+    "error": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lXkx9x8OTM1rwY/giphy.gif",
+    
+    # 2. ROOKIE OF THE YEAR (Gym Training)
+    "rookie": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlPtb37mC0n5LJS/giphy.gif",
+    
+    # 3. MOST IMPROVED (Gym Training / Practice)
+    "improved": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxf837vXis8/giphy.gif",
+    
+    # 4. BEST SHOOTER (Swish)
+    "shooter": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3oAt20560Snc7KzHj2/giphy.gif",
+    
+    # 5. BEST DEFENDER (Defense/Block)
+    "defender": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l0HlTfbH522K9I1W0/giphy.gif",
+    
+    # 6. BEST COACH (Leadership/Clapping)
+    "coach": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnV6Z3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l2SpXzEYXUIg83EAg/giphy.gif",
+    
+    # 7. EVERYTHING ELSE (The Slam Dunk)
+    "dunk": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxZ3RreHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKP9Xh7h1P9iXis/giphy.gif"
+}
     
     selected_gif = gifs.get(gif_type, gifs["dunk"])
     unique_id = f"gif_{int(time.time() * 1000)}"
