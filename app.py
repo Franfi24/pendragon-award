@@ -429,43 +429,64 @@ else:
                     
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
-                        st.success("Votes Submitted!🏀")
-                        st.components.v1.html(
-                            """
-                            <script>
-                            const confetti = window.parent.document.createElement('div');
-                            confetti.style.position = 'fixed';
-                            confetti.style.top = '0';
-                            confetti.style.left = '0';
-                            confetti.style.width = '100vw';
-                            confetti.style.height = '100vh';
-                            confetti.style.pointerEvents = 'none';
-                            confetti.style.zIndex = '9999';
-                            window.parent.document.body.appendChild(confetti);
-
-                            for(let i=0; i<50; i++) {
-                                const trophy = window.parent.document.createElement('div');
-                                trophy.innerHTML = '🏆';
-                                trophy.style.position = 'absolute';
-                                trophy.style.left = Math.random() * 100 + 'vw';
-                                trophy.style.top = '100vh';
-                                trophy.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                                trophy.style.transition = 'transform ' + (Math.random() * 2 + 2) + 's linear, opacity 2s';
-                                confetti.appendChild(trophy);
-
-                                setTimeout(() => {
-                                    trophy.style.transform = 'translateY(-120vh) rotate(' + (Math.random() * 360) + 'deg)';
-                                    trophy.style.opacity = '0';
-                                }, 100);
-                            }
-                            </script>
-                            """,
-                            height=0,
-                        )
-                        time.sleep(2)
-                        st.session_state.authenticated = False
+                        # Move to the new event details page
+                        st.session_state.voted_stage = "event_details"
                         st.rerun()
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
                     st.warning("Please make a selection for all categories!")
+
+    # --- NEW STAGE: AWARD NIGHT DETAILS ---
+    elif st.session_state.voted_stage == "event_details":
+        # The Trophy Celebration script triggers as soon as they land here
+        st.components.v1.html(
+            """
+            <script>
+            const confetti = window.parent.document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.top = '0'; confetti.style.left = '0';
+            confetti.style.width = '100vw'; confetti.style.height = '100vh';
+            confetti.style.pointerEvents = 'none'; confetti.style.zIndex = '9999';
+            window.parent.document.body.appendChild(confetti);
+
+            for(let i=0; i<50; i++) {
+                const trophy = window.parent.document.createElement('div');
+                trophy.innerHTML = '🏆';
+                trophy.style.position = 'absolute';
+                trophy.style.left = Math.random() * 100 + 'vw';
+                trophy.style.top = '100vh';
+                trophy.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                trophy.style.transition = 'transform ' + (Math.random() * 2 + 2) + 's linear, opacity 2s';
+                confetti.appendChild(trophy);
+
+                setTimeout(() => {
+                    trophy.style.transform = 'translateY(-120vh) rotate(' + (Math.random() * 360) + 'deg)';
+                    trophy.style.opacity = '0';
+                }, 100);
+            }
+            </script>
+            """,
+            height=0,
+        )
+
+        st.markdown("<h2 style='text-align: center;'>VOTES SUBMITTED! 🏀</h2>", unsafe_allow_html=True)
+        
+        # Award Night Details Box
+        st.markdown("""
+            <div style="background-color: rgba(0,0,0,0.3); padding: 25px; border-radius: 15px; border: 1px solid #ffffff; text-align: center;">
+                <h3 style="color: #FFD700; margin-top: 0;">🏆 Pendragon Awards Night</h3>
+                <p style="font-size: 1.2rem;"><b>DATE:</b> Friday, June 12th, 2026</p>
+                <p style="font-size: 1.2rem;"><b>TIME:</b> 20:00 - Late</p>
+                <p style="font-size: 1.2rem;"><b>LOCATION:</b> The Pendragon Clubhouse</p>
+                <hr style="border-color: rgba(255,255,255,0.2);">
+                <p><i>Bring your best energy!</i></p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.write("")
+        if st.button("LOGOUT / NEXT VOTER"):
+            st.session_state.authenticated = False
+            st.session_state.voted_stage = "instructions"
+            st.session_state.selections = {}
+            st.rerun()
