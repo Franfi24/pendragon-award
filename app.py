@@ -430,19 +430,19 @@ else:
                     data = {
                         "name": st.session_state.user_name,
                         "team": st.session_state.user_team,
-                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
-                        "mip_vote": st.session_state.selections.get('most_improved_player'),
-                        "dpoy_vote": st.session_state.selections.get('defensive_player'),
-                        "best_driver": st.session_state.selections.get('best_driver'),
-                        "best_shooter": st.session_state.selections.get('best_shooter'),
-                        "best_rebounder": st.session_state.selections.get('best_rebounder'),
-                        "best_coach": st.session_state.selections.get('best_coach'),
-                        "best_supporter": s_supporter,
-                        "party_animal": s_party,
-                        "energy": s_energy,
-                        "karen": s_karen,
-                        "always_late": s_late,
-                        "always_forgets": s_forget 
+                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year') or st.session_state.get('is_admin'),
+                        "mip_vote": st.session_state.selections.get('most_improved_player') or st.session_state.get('is_admin'),
+                        "dpoy_vote": st.session_state.selections.get('defensive_player') or st.session_state.get('is_admin'),
+                        "best_driver": st.session_state.selections.get('best_driver') or st.session_state.get('is_admin'),
+                        "best_shooter": st.session_state.selections.get('best_shooter') or st.session_state.get('is_admin'),
+                        "best_rebounder": st.session_state.selections.get('best_rebounder') or st.session_state.get('is_admin'),
+                        "best_coach": st.session_state.selections.get('best_coach') or st.session_state.get('is_admin'),
+                        "best_supporter": s_supporter or st.session_state.get('is_admin'),
+                        "party_animal": s_party or st.session_state.get('is_admin'),
+                        "energy": s_energy or st.session_state.get('is_admin'),
+                        "karen": s_karen or st.session_state.get('is_admin'),
+                        "always_late": s_late or st.session_state.get('is_admin'),
+                        "always_forgets": s_forget or st.session_state.get('is_admin')
                     }
                     
                     try:
