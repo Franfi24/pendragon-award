@@ -3,7 +3,6 @@ from supabase import create_client, Client
 import os
 import time
 
-`
 # --- DATABASE CONNECTION (SUPABASE) ---
 SUPABASE_URL = "https://gkrkdujyuzcdoneuoakr.supabase.co"
 SUPABASE_KEY = "sb_publishable_R20QEdVZMJuy8AiPBETy0g_R62okepN"
