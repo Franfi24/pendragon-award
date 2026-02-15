@@ -91,7 +91,7 @@ roster = {
     "Men's 2": ["Akin", "Charlie", "Diego", "Jerko", "Kayvaughn", "Mattijs", "Miguel", "Vlad"],
     "Men's 3": ["Albert", "Dani", "Demir", "Eugen", "Francesco", "Gundars", "Hugo", "Jesper", "Quinn", "Rayan", "Terence", "Tuna"],
     "Men's 4": ["AK", "Alp", "Arda", "Atakan", "Eduard-George", "Kymaru", "Milos", "Olaf", "Paul", "Raphael", "Rron", "Stefan"],
-    "Coach only": ["Niels", "Jerswin", "KJ"],
+    "COACH ONLY": ["Niels", "Jerswin", "KJ"],
 }
 
 def get_voters():
