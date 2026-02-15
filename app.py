@@ -455,7 +455,6 @@ else:
         st.markdown("## ✨ Fun Awards")
 
         # All selectboxes here use the filtered 'universal_nominees' list
-        
         s_supporter = st.selectbox("📣 Best Supporter", options=[""] + universal_nominees, key="fun_supporter")
         st.write("*Cheering even when their own team isn't playing.*")
         s_party = st.selectbox("🍻 Party Animal", options=[""] + universal_nominees, key="fun_party")
@@ -470,7 +469,6 @@ else:
         st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
         
         f_col1, f_col2 = st.columns(2)
-        
         with f_col1:
             if st.button("← BACK", key="f_back"):
                 st.session_state.voted_stage = "best_coach"
