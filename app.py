@@ -132,12 +132,6 @@ else:
 
     # STAGE 1: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
-        st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}!")
-        st.write("***Information about the voting process***")
-        st.divider()
-
-        s# STAGE 1: INSTRUCTIONS
-    if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}! 🏀")
         st.write("Click the categories below to see the voting rules.")
         st.divider()
