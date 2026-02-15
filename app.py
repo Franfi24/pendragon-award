@@ -455,19 +455,20 @@ else:
         st.markdown("## ✨ Fun Awards")
 
         # All selectboxes here use the filtered 'universal_nominees' list
-        st.write("*Cheering even when their own team isn't playing.*")
+        
         s_supporter = st.selectbox("📣 Best Supporter", options=[""] + universal_nominees, key="fun_supporter")
-        st.write("*First one at the bar, last one to leave the after-party.*")
+        st.write("*Cheering even when their own team isn't playing.*")
         s_party = st.selectbox("🍻 Party Animal", options=[""] + universal_nominees, key="fun_party")
-        st.write("*Whether they are diving for a loose ball or leading the chants from the sidelines, their enthusiasm is contagious.*")
+        st.write("*First one at the bar, last one to leave the after-party.*")
         s_energy = st.selectbox("⚡ Best Energy", options=[""] + universal_nominees, key="fun_energy")
-        st.write("*Ready to challenge every whistle and discuss the rules.*")
+        st.write("*Whether they are diving for a loose ball or leading the chants from the sidelines, their enthusiasm is contagious.*")
         s_karen = st.selectbox("👑 The 'Karen'", options=[""] + universal_nominees, key="fun_karen")
-        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
+        st.write("*Ready to challenge every whistle and discuss the rules.*")
         s_late = st.selectbox("⏰ Always Late", options=[""] + universal_nominees, key="fun_late")
-        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
+        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
         s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + universal_nominees, key="fun_forget")
-
+        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
+        
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
