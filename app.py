@@ -430,7 +430,38 @@ else:
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
                         st.success("Votes Submitted!🏀")
-                        st.balloons()
+                        st.components.v1.html(
+                            """
+                            <script>
+                            const confetti = window.parent.document.createElement('div');
+                            confetti.style.position = 'fixed';
+                            confetti.style.top = '0';
+                            confetti.style.left = '0';
+                            confetti.style.width = '100vw';
+                            confetti.style.height = '100vh';
+                            confetti.style.pointerEvents = 'none';
+                            confetti.style.zIndex = '9999';
+                            window.parent.document.body.appendChild(confetti);
+
+                            for(let i=0; i<50; i++) {
+                                const trophy = window.parent.document.createElement('div');
+                                trophy.innerHTML = '🏆';
+                                trophy.style.position = 'absolute';
+                                trophy.style.left = Math.random() * 100 + 'vw';
+                                trophy.style.top = '100vh';
+                                trophy.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                                trophy.style.transition = 'transform ' + (Math.random() * 2 + 2) + 's linear, opacity 2s';
+                                confetti.appendChild(trophy);
+
+                                setTimeout(() => {
+                                    trophy.style.transform = 'translateY(-120vh) rotate(' + (Math.random() * 360) + 'deg)';
+                                    trophy.style.opacity = '0';
+                                }, 100);
+                            }
+                            </script>
+                            """,
+                            height=0,
+                        )
                         time.sleep(2)
                         st.session_state.authenticated = False
                         st.rerun()
