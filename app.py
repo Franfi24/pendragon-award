@@ -157,7 +157,7 @@ else:
             
         # Dropdown 3
         with st.expander("FUN SEASON AWARDS"):
-            st.write("**THese are open categories. Any member can be voted!")
+            st.write("These are open categories. Any member can be voted!")
             st.write("""
             * A player can be nominated for multiple Fun Season Awards.
             * It does not matter if you have been part of Pendragon for only 1 semester or for a week. Anybody can be nominated for these awards!
