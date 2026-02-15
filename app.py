@@ -237,7 +237,6 @@ else:
             * **Unlimited Nominations:** Players can be nominated for multiple Fun Season Awards.
             * **No Restrictions:** Time with the club doesn't matter. Whether you joined last year or last week, everyone is eligible!
             """)
-        st.divider()
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_of_the_year"
             st.rerun()
