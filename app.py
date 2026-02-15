@@ -147,9 +147,9 @@ else:
 
         # Dropdown 2
         with st.expander("BASKETBALL SEASON AWARDS"):
-            st.write("**Official categories with coach-selected nominees")
-            st.write("** A player can be nominated only for 1 Basketball Season Award**")
-            st.write("**Players are not elgible for these awards if: ")
+            st.write("Official categories with coach-selected nominees")
+            st.write("A player can be nominated only for 1 Basketball Season Award**")
+            st.write(f"Players are not elgible for these awards if: ")
             st.write("""
             * Have been only part of Pendragon for a semester
             * Have missed 6 or more games because of injuries or other reasons
