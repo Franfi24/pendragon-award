@@ -32,15 +32,25 @@ st.components.v1.html(
     height=0,
 )
 
-# --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
+# --- THE ULTIMATE NO-GAP HORIZONTAL CSS WITH PULSE GRADIENT ---
 st.markdown("""
     <style>
+    /* 1. DEFINE THE PULSE ANIMATION */
+    @keyframes gradientPulse {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* 2. APPLY TO APP BACKGROUND */
     .stApp {
-        background: linear-gradient(180deg, #8B0000 0%, #D32F2F 100%);
+        background: linear-gradient(-45deg, #600000, #8B0000, #D32F2F, #911a1a);
+        background-size: 400% 400%;
+        animation: gradientPulse 15s ease infinite;
         color: #ffffff;
     }
 
-        /* Target the container of the 3 columns */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
@@ -52,7 +62,7 @@ st.markdown("""
     [data-testid="column"], .stColumn {
         width: 33.33% !important;
         flex: 1 1 33.33% !important;
-        min-width: 0px !important; /* This stops them from stacking */
+        min-width: 0px !important; 
         padding: 0px !important;
         margin: 0px !important;
     }
