@@ -134,8 +134,7 @@ else:
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}! 🏀")
         st.write("Click the categories below to see the voting rules.")
-        st.divider()
-
+        
         # Dropdown 1
         with st.expander("THE VOTING PROCESS"):
             st.write("""
