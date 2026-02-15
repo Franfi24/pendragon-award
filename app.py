@@ -161,7 +161,7 @@ else:
             * A player can be nominated for multiple Fun Season Awards.
             * It does not matter if you have been part of Pendragon for only 1 semester or for a week. Anybody can be nominated for these awards!
                     """)
-
+        st.divider()
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_of_the_year"
             st.rerun()
