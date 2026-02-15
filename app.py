@@ -257,7 +257,6 @@ else:
                     st.session_state.voted_stage = "most_improved_player"
                     st.rerun()
                 else:
-                    trigger_blue_warning()
                     trigger_basketball_gif("error")   # Technical Foul GIF
 
     # STAGE 3: MOST IMPROVED PLAYER
@@ -286,7 +285,6 @@ else:
                     st.session_state.voted_stage = "defensive_player"
                     st.rerun()
                 else:
-                    trigger_blue_warning()
                     trigger_basketball_gif("error")
                     
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
@@ -319,7 +317,6 @@ else:
                     st.session_state.voted_stage = "best_driver" # Transition to next
                     st.rerun()
                 else:
-                    trigger_blue_warning()
                     trigger_basketball_gif("error")
                     
     # STAGE 5: BEST DRIVER
@@ -351,7 +348,6 @@ else:
                     st.session_state.voted_stage = "best_shooter"
                     st.rerun()
                 else:
-                    trigger_blue_warning()
                     trigger_basketball_gif("error")
 
     # STAGE 6: BEST SHOOTER
@@ -384,7 +380,7 @@ else:
                     st.session_state.voted_stage = "best_rebounder"
                     st.rerun()
                 else:
-                    trigger_blue_warning()
+                   
                     trigger_basketball_gif("error")
 
     # STAGE 7: BEST REBOUNDER
@@ -417,7 +413,7 @@ else:
                     st.session_state.voted_stage = "best_coach"
                     st.rerun()
                 else:
-                    trigger_blue_warning()
+          
                     trigger_basketball_gif("error")
 
     # STAGE 8: BEST COACH
@@ -450,7 +446,7 @@ else:
                     st.session_state.voted_stage = "fun_awards" 
                     st.rerun()
                 else:
-                    trigger_blue_warning()
+                    
                     trigger_basketball_gif("error") # Technical Foul
     
     # STAGE 9: FUN AWARDS
