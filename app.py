@@ -227,7 +227,7 @@ else:
             st.write("Players are **not eligible** for these specific awards if they:")
             st.markdown("""
             * Have only been a member of Pendragon for a single semester.
-            * Have missed 6 or more games due to injury or other absences.
+            * Have missed more  than 6 games due to injury or other absences.
             """)
             
         # Dropdown 3
@@ -235,7 +235,7 @@ else:
             st.write("**Open categories where every member is a potential nominee!**")
             st.markdown("""
             * **Unlimited Nominations:** Players can be nominated for multiple Fun Season Awards.
-            * **No Restrictions:** Tenure doesn't matter. Whether you joined last year or last week, everyone is eligible!
+            * **No Restrictions:** Time with the club doesn't matter. Whether you joined last year or last week, everyone is eligible!
             """)
         st.divider()
         if st.button("START VOTING →"):
