@@ -264,14 +264,14 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →", key="btn_rookie"):
-    if st.session_state.selections.get('rookie_of_the_year'):
-        trigger_basketball_gif("rookie")  # Gym training GIF
-        time.sleep(1.5) 
-        st.session_state.voted_stage = "most_improved_player"
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error")   # Technical Foul GIF
+                if st.session_state.selections.get('rookie_of_the_year'):
+                    trigger_basketball_gif("rookie")  # Gym training GIF
+                    time.sleep(1.5) 
+                    st.session_state.voted_stage = "most_improved_player"
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error")   # Technical Foul GIF
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
@@ -293,14 +293,14 @@ else:
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("NEXT →", key="btn_improved"):
-    if st.session_state.selections.get('most_improved'):
-        trigger_basketball_gif("improved") # Practice GIF
-        time.sleep(1.5)
-        st.session_state.voted_stage = "best_shooter"
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error")
+                if st.session_state.selections.get('most_improved_player'):
+                    trigger_basketball_gif("improved") # Practice GIF
+                    time.sleep(1.5)
+                    st.session_state.voted_stage = "defensive_player"
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error")
                     
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
@@ -326,14 +326,14 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →", key="btn_defender"):
-    if st.session_state.selections.get('best_defender'):
-        trigger_basketball_gif("defender") # Block/Defense GIF
-        time.sleep(1.5)
-        st.session_state.voted_stage = "fun_awards" # Transition to the rest
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error")
+                if st.session_state.selections.get('defensive_player'):
+                    trigger_basketball_gif("defender") # Block/Defense GIF
+                    time.sleep(1.5)
+                    st.session_state.voted_stage = "best_driver" # Transition to next
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error")
                     
     # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
@@ -357,15 +357,15 @@ else:
                 st.session_state.voted_stage = "defensive_player"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →", key="btn_generic"):
-    if st.session_state.selections.get('current_category_key'):
-        trigger_basketball_gif("dunk") # Slam Dunk GIF
-        time.sleep(1.5)
-        st.session_state.voted_stage = "next_category_name"
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error")
+            if st.button("NEXT →", key="btn_bd"):
+                if st.session_state.selections.get('best_driver'):
+                    trigger_basketball_gif("dunk") # Slam Dunk GIF
+                    time.sleep(1.5)
+                    st.session_state.voted_stage = "best_shooter"
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error")
 
     # STAGE 6: BEST SHOOTER
     elif st.session_state.voted_stage == "best_shooter":
@@ -386,15 +386,19 @@ else:
         st.write("") 
         b_col1, b_col2 = st.columns(2)
         with b_col1:
-          if st.button("NEXT →", key="btn_shooter"):
-    if st.session_state.selections.get('best_shooter'):
-        trigger_basketball_gif("shooter")  # Swish GIF
-        time.sleep(1.5)
-        st.session_state.voted_stage = "best_defender"
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error")
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "best_driver"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →", key="btn_shooter"):
+                if st.session_state.selections.get('best_shooter'):
+                    trigger_basketball_gif("shooter")  # Swish GIF
+                    time.sleep(1.5)
+                    st.session_state.voted_stage = "best_rebounder"
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error")
 
     # STAGE 7: BEST REBOUNDER
     elif st.session_state.voted_stage == "best_rebounder":
@@ -419,15 +423,15 @@ else:
                 st.session_state.voted_stage = "best_shooter"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →", key="btn_generic"):
-    if st.session_state.selections.get('current_category_key'):
-        trigger_basketball_gif("dunk") # Slam Dunk GIF
-        time.sleep(1.5)
-        st.session_state.voted_stage = "next_category_name"
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error")
+            if st.button("NEXT →", key="btn_br"):
+                if st.session_state.selections.get('best_rebounder'):
+                    trigger_basketball_gif("dunk") # Slam Dunk GIF
+                    time.sleep(1.5)
+                    st.session_state.voted_stage = "best_coach"
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error")
 
     # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
@@ -441,7 +445,7 @@ else:
 
         bc_nominees = ["Niels", "Ilinca", "KJ"]
         filtered_bc = [p for p in bc_nominees if p != st.session_state.user_name]
-         
+          
         best_coach_vote = st.selectbox("Your Pick:", options=[""] + filtered_bc, key="bc_sel")
         st.session_state.selections['best_coach'] = best_coach_vote
 
@@ -452,68 +456,25 @@ else:
                 st.session_state.voted_stage = "best_rebounder"
                 st.rerun()
         with b_col2:
-           if st.button("NEXT →", key="btn_coach"):
-    if st.session_state.selections.get('best_coach'):
-        trigger_basketball_gif("coach") # Coach celebration GIF
-        time.sleep(1.5)
-        # Change 'final_review' to whatever your next stage is
-        st.session_state.voted_stage = "final_review" 
-        st.rerun()
-    else:
-        trigger_blue_warning()
-        trigger_basketball_gif("error") # Technical Foul
+            if st.button("NEXT →", key="btn_coach"):
+                if st.session_state.selections.get('best_coach'):
+                    trigger_basketball_gif("coach") # Coach celebration GIF
+                    time.sleep(1.5)
+                    st.session_state.voted_stage = "fun_awards" 
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
+                    trigger_basketball_gif("error") # Technical Foul
     
     # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
 
-        # All selectboxes here use the filtered 'universal_nominees' list
         s_supporter = st.selectbox("📣 Best Supporter", options=[""] + universal_nominees, key="fun_supporter")
         s_party = st.selectbox("🍻 Party Animal", options=[""] + universal_nominees, key="fun_party")
         s_energy = st.selectbox("⚡ Best Energy", options=[""] + universal_nominees, key="fun_energy")
         s_karen = st.selectbox("👑 The 'Karen'", options=[""] + universal_nominees, key="fun_karen")
-        s_late = st.selectbox("⏰ Always Late", options=[""] + universal_nominees, key="fun_late")
-        s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + universal_nominees, key="fun_forget")
-
-        f_col1, f_col2 = st.columns(2)
-        
-        with f_col1:
-            if st.button("← BACK", key="f_back"):
-                st.session_state.voted_stage = "best_coach"
-                st.rerun()
-                
-        with f_col2:
-            if st.button("SUBMIT 🏀", key="final_submit_btn"):
-                fun_votes = [s_supporter, s_party, s_energy, s_karen, s_late, s_forget]
-                
-                if all(val != "" for val in fun_votes) or st.session_state.get('is_admin'):
-                    data = {
-                        "name": st.session_state.user_name,
-                        "team": st.session_state.user_team,
-                        "rookie_vote": st.session_state.selections.get('rookie_of_the_year'),
-                        "mip_vote": st.session_state.selections.get('most_improved_player'),
-                        "dpoy_vote": st.session_state.selections.get('defensive_player'),
-                        "best_driver": st.session_state.selections.get('best_driver'),
-                        "best_shooter": st.session_state.selections.get('best_shooter'),
-                        "best_rebounder": st.session_state.selections.get('best_rebounder'),
-                        "best_coach": st.session_state.selections.get('best_coach'),
-                        "best_supporter": s_supporter,
-                        "party_animal": s_party,
-                        "energy": s_energy,
-                        "karen": s_karen,
-                        "always_late": s_late,
-                        "always_forgets": s_forget
-                    }
-                    
-                    try:
-                        supabase.table(TABLE_NAME).insert(data).execute()
-                        # Move to the new event details page
-                        st.session_state.voted_stage = "event_details"
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Database Error: {e}")
-                else:
-                    trigger_blue_warning()
+        s_late = st
 
     # --- NEW STAGE: AWARD NIGHT DETAILS ---
     elif st.session_state.voted_stage == "event_details":
