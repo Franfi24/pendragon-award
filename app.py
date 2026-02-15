@@ -213,7 +213,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('rookie_of_the_year'):
+                if st.session_state.selections.get('rookie_of_the_year') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "most_improved_player"
                     st.rerun()
                 else:
@@ -243,7 +243,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('most_improved_player'):
+                if st.session_state.selections.get('most_improved_player') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "defensive_player"
                     st.rerun()
                 else:
@@ -273,7 +273,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('defensive_player'):
+                if st.session_state.selections.get('defensive_player') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "best_driver"
                     st.rerun()
                 else:
@@ -302,7 +302,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('best_driver'):
+                if st.session_state.selections.get('best_driver') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "best_shooter"
                     st.rerun()
                 else:
@@ -331,7 +331,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('best_shooter'):
+                if st.session_state.selections.get('best_shooter') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "best_rebounder"
                     st.rerun()
                 else:
@@ -360,7 +360,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('best_rebounder'):
+                if st.session_state.selections.get('best_rebounder') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "best_coach"
                     st.rerun()
                 else:
@@ -389,7 +389,7 @@ else:
                 st.rerun()
         with b_col2:
             if st.button("NEXT →"):
-                if st.session_state.selections.get('best_coach'):
+                if st.session_state.selections.get('best_coach') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
                 else:
