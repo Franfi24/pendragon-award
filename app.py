@@ -160,7 +160,7 @@ else:
 
     # STAGE 2: ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_of_the_year":
-        st.markdown("## Rookie of the Year")
+        st.markdown("## 👶 Rookie of the Year")
         st.write("*New players showing amazing improvement.*")
         
         col1, col2, col3 = st.columns(3)
@@ -190,7 +190,7 @@ else:
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
-        st.markdown("## Most Improved Player")
+        st.markdown("## 📈 Most Improved Player")
         st.write("*Players that have improved the most from last season.*")
         
         col1, col2, col3 = st.columns(3)
@@ -220,7 +220,7 @@ else:
                     
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
-        st.markdown("## Defensive Player of the Year")
+        st.markdown("## 🛡️ Defensive Player of the Year")
         st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
         
         # Image Strip (Matches Rookie/MIP style)
@@ -260,7 +260,7 @@ else:
                     
       # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
-        st.markdown("## BEST DRIVER")
+        st.markdown("## 🏎️ BEST DRIVER")
         st.write("*Best drivers and finishers under the basket. These players have shown amazing finishes abilities this season*")
         
         # Image Strip (Matches Rookie/MIP style)
@@ -301,7 +301,7 @@ else:
 
      # STAGE 6: BEST SHOOTER
     elif st.session_state.voted_stage == "best_shooter":
-        st.markdown("## Best Shooter")
+        st.markdown("## 🎯 Best Shooter")
         st.write("*Best all around shooters. These players have made any kind of shot throughout the season whether from the pass, dribble, midrange or 3 pointer*")
         
         # Image Strip (Matches Rookie/MIP style)
@@ -339,9 +339,49 @@ else:
                 else:
                     st.warning("Please pick a winner!")
 
-    # STAGE 7: BEST COACH
+    # STAGE 7: BEST REBOUNDER
+    elif st.session_state.voted_stage == "best_rebounder":
+        st.markdown("## 🗑️ Best Rebounder")
+        st.write("*The glass cleaners. Box out with grit, and ensure the team gets every second-chance opportunity.*")
+        
+        # Image Strip (Matches Rookie/MIP style)
+        col1, col2, col3 = st.columns(3)
+        with col1: st.image(os.path.join("images", "BR1.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "BR2.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "BR3.jpeg"), use_container_width=True)
+
+        st.divider()
+        
+        # Dropdown
+        best_rebounder_vote = st.selectbox(
+            "Your Pick:", 
+            options=["", "Harlod", "Rachne", "Akin"], 
+            key="br_sel"
+        )
+        st.session_state.selections['best_rebounder'] = best_rebounder_vote
+
+        # --- Navigation Buttons ---
+        st.write("") 
+        b_col, n_col = st.columns(2)
+        
+         # Back & Next Buttons on the same line
+        st.write("") # Spacer
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "best_shooter"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('best_rebounder'):
+                    st.session_state.voted_stage = "best_coach"
+                    st.rerun()
+                else:
+                    st.warning("Please pick a winner!")
+
+    # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
-        st.markdown("## Best Coach")
+        st.markdown("## 📋 Best Coach")
         st.write("*Recognizing the leader behind the bench who has best inspired their team and guided their growth this season.*")
         
         # Image Strip (Matches Rookie/MIP style)
@@ -440,6 +480,7 @@ else:
                         "dpoy_vote": st.session_state.selections.get('defensive_player'),
                         "best_driver": st.session_state.selections.get('best_driver'),
                         "best_shooter": st.session_state.selections.get('best_shooter'),
+                        "best_rebounder": st.session_state.selections.get('best_rebounder'),
                         "best_coach": st.session_state.selections.get('best_coach'),
                         "best_supporter": s_supporter,
                         "party_animal": s_party,
