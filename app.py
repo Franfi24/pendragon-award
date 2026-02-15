@@ -237,6 +237,7 @@ else:
             * **Unlimited Nominations:** Players can be nominated for multiple Fun Season Awards.
             * **No Restrictions:** Time with the club doesn't matter. Whether you joined last year or last week, everyone is eligible!
             """)
+        st.divider()
         if st.button("START VOTING →"):
             st.session_state.voted_stage = "rookie_of_the_year"
             st.rerun()
@@ -453,7 +454,6 @@ else:
     # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.divider()
 
         # All selectboxes here use the filtered 'universal_nominees' list
         s_supporter = st.selectbox("📣 Best Supporter", options=[""] + universal_nominees, key="fun_supporter")
@@ -463,7 +463,6 @@ else:
         s_late = st.selectbox("⏰ Always Late", options=[""] + universal_nominees, key="fun_late")
         s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + universal_nominees, key="fun_forget")
 
-        st.divider()
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
