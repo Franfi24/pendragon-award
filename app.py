@@ -189,13 +189,12 @@ else:
         with col3: st.image(os.path.join("images", "rookie3.jpeg"))
 
         rookie_nominees = ["Jesper", "Stella", "AK"]
-        filtered_rookie_options = [p for p in rookie_nominees if p != st.session_state.user_name]
+        filtered_rookie = [p for p in rookie_nominees if p != st.session_state.user_name]
 
-        rookie_vote = st.selectbox("Your Pick:", options=[""]+filtered_rookie_options, key="rookie_sel")
+        rookie_vote = st.selectbox("Your Pick:", options=[""] + filtered_rookie, key="rookie_sel")
         st.session_state.selections['rookie_of_the_year'] = rookie_vote
 
-        # Back & Next Buttons on the same line
-        st.write("") # Spacer
+        st.write("") 
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -220,13 +219,12 @@ else:
         with col3: st.image(os.path.join("images", "MIP3.jpeg"))
 
         mip_nominees = ["Rayan", "Lise", "Elmer"]
-        filtered_mip_options = [p for p in mip_nominees if p != st.session_state.user_name]
+        filtered_mip = [p for p in mip_nominees if p != st.session_state.user_name]
         
-        mip_vote = st.selectbox("Your Pick:", options=[""]+mip_nominees, key="mip_sel")
+        mip_vote = st.selectbox("Your Pick:", options=[""] + filtered_mip, key="mip_sel")
         st.session_state.selections['most_improved_player'] = mip_vote
 
-         # Back & Next Buttons on the same line
-        st.write("") # Spacer
+        st.write("") 
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -243,32 +241,20 @@ else:
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
         st.markdown("## 🛡️ Defensive Player of the Year")
-        st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
-
-        # Image Strip (Matches Rookie/MIP style)
+        st.write("*The anchors of our defense.*")
+        
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "DPY1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "DPY2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "DPY3.jpeg"), use_container_width=True)
+        
+        dpoy_nominees = ["Atakan", "Ida", "Miguel"]
+        filtered_dpoy = [p for p in dpoy_nominees if p != st.session_state.user_name]
 
-        dyop_nominees = ["Atakan", "Ida", "Miguel"]
-        filtered_dyop_options = [p for p in dyop_nominees if p != st.session_state.user_name]
-        
-        
-        # Dropdown
-        dpoy_vote = st.selectbox(
-            "Your Pick:", 
-            options=[""]+filtered_dyop_options, 
-            key="dpoy_sel"
-        )
+        dpoy_vote = st.selectbox("Your Pick:", options=[""] + filtered_dpoy, key="dpoy_sel")
         st.session_state.selections['defensive_player'] = dpoy_vote
 
-        # --- Navigation Buttons ---
         st.write("") 
-        b_col, n_col = st.columns(2)
-        
-         # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -282,34 +268,22 @@ else:
                 else:
                     st.warning("Please pick a winner!")
                     
-      # STAGE 5: BEST DRIVER
+    # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
         st.markdown("## 🏎️ BEST DRIVER")
-        st.write("*Best drivers and finishers under the basket. These players have shown amazing finishes abilities this season*")
         
-        # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "BD1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "BD2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BD3.jpeg"), use_container_width=True)
 
         bd_nominees = ["Chris", "Iris", "Eugen"]
-        filtered_bd_options = [p for p in bd_nominees if p != st.session_state.user_name]
-        
-        # Dropdown
-        best_driver_vote = st.selectbox(
-            "Your Pick:", 
-            options=[""]+filtered_bd_options, 
-            key="bd_sel"
-        )
+        filtered_bd = [p for p in bd_nominees if p != st.session_state.user_name]
+
+        best_driver_vote = st.selectbox("Your Pick:", options=[""] + filtered_bd, key="bd_sel")
         st.session_state.selections['best_driver'] = best_driver_vote
 
-        # --- Navigation Buttons ---
         st.write("") 
-        b_col, n_col = st.columns(2)
-        
-         # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -322,37 +296,23 @@ else:
                     st.rerun()
                 else:
                     st.warning("Please pick a winner!")
-    
 
-     # STAGE 6: BEST SHOOTER
+    # STAGE 6: BEST SHOOTER
     elif st.session_state.voted_stage == "best_shooter":
         st.markdown("## 🎯 Best Shooter")
-        st.write("*Best all around shooters. These players have made any kind of shot throughout the season whether from the pass, dribble, midrange or 3 pointer*")
         
-        # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "BS1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "BS2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BS3.jpeg"), use_container_width=True)
 
         bs_nominees = ["Dani", "Ilinca", "Charlie"]
-        filtered_bs_options = [p for p in bs_nominees if p != st.session_state.user_name]
-        
-        # Dropdown
-        # Dropdown
-        best_shooter_vote = st.selectbox(
-            "Your Pick:", 
-            options=[""]+filtered_bs_options, 
-            key="bs_sel"
-        )
+        filtered_bs = [p for p in bs_nominees if p != st.session_state.user_name]
+
+        best_shooter_vote = st.selectbox("Your Pick:", options=[""] + filtered_bs, key="bs_sel")
         st.session_state.selections['best_shooter'] = best_shooter_vote
 
-        # --- Navigation Buttons ---
         st.write("") 
-        b_col, n_col = st.columns(2)
-        
-         # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -369,33 +329,19 @@ else:
     # STAGE 7: BEST REBOUNDER
     elif st.session_state.voted_stage == "best_rebounder":
         st.markdown("## 🪟 Best Rebounder")
-        st.write("*The glass cleaners. Box out with grit, and ensure the team gets every second-chance opportunity.*")
         
-        # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "BR1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "BR2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BR3.jpeg"), use_container_width=True)
 
         br_nominees = ["Harlod", "Rachne", "Akin"]
-        filtered_br_options = [p for p in br_nominees if p != st.session_state.user_name]
-        
-        # Dropdown
-        
-        # Dropdown
-        best_rebounder_vote = st.selectbox(
-            "Your Pick:", 
-            options=[""]+filtered_br_options, 
-            key="br_sel"
-        )
+        filtered_br = [p for p in br_nominees if p != st.session_state.user_name]
+
+        best_rebounder_vote = st.selectbox("Your Pick:", options=[""] + filtered_br, key="br_sel")
         st.session_state.selections['best_rebounder'] = best_rebounder_vote
 
-        # --- Navigation Buttons ---
         st.write("") 
-        b_col, n_col = st.columns(2)
-        
-         # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
@@ -412,31 +358,19 @@ else:
     # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
         st.markdown("## 📋 Best Coach")
-        st.write("*Recognizing the leader behind the bench who has best inspired their team and guided their growth this season.*")
         
-        # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "BC1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "BC2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BC3.jpeg"), use_container_width=True)
 
         bc_nominees = ["Niels", "Ilinca", "KJ"]
-        filtered_bc_options = [p for p in bc_nominees if p != st.session_state.user_name]
+        filtered_bc = [p for p in bc_nominees if p != st.session_state.user_name]
          
-        # Dropdown
-        best_coach_vote = st.selectbox(
-            "Your Pick:", 
-            options=[""]+filtered_bc_options, 
-            key="bc_sel"
-        )
+        best_coach_vote = st.selectbox("Your Pick:", options=[""] + filtered_bc, key="bc_sel")
         st.session_state.selections['best_coach'] = best_coach_vote
 
-        # --- Navigation Buttons ---
         st.write("") 
-        b_col, n_col = st.columns(2)
-        
-         # Back & Next Buttons on the same line
-        st.write("") # Spacer
         b_col1, b_col2 = st.columns(2)
         with b_col1:
             if st.button("← BACK"):
