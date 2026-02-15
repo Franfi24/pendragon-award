@@ -452,7 +452,7 @@ else:
     
     # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
-        st.markdown("## ✨ Fun Season Awards")
+        st.markdown("## ✨ Fun Awards")
 
         # All selectboxes here use the filtered 'universal_nominees' list
         s_supporter = st.selectbox("📣 Best Supporter", options=[""] + universal_nominees, key="fun_supporter")
