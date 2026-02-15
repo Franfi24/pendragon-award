@@ -273,7 +273,7 @@ else:
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
-        st.markdown("## 📈 Most Improved Player")
+        st.markdown("## 📈 Most Improved")
         st.write("*Players that have improved the most from last season.*")
         
         col1, col2, col3 = st.columns(3)
@@ -303,7 +303,7 @@ else:
                     
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
-        st.markdown("## 🛡️ Defensive Player of the Year")
+        st.markdown("## 🛡️ Best Defender")
         st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
         
         col1, col2, col3 = st.columns(3)
@@ -333,7 +333,7 @@ else:
                     
     # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
-        st.markdown("## 🏎️ BEST DRIVER")
+        st.markdown("## 🏎️ Best Driver")
         st.write("*Best drivers and finishers under the basket. These players have shown amazing finishes abilities this season*")
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "BD1.jpeg"), use_container_width=True)
@@ -422,7 +422,7 @@ else:
 
     # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
-        st.markdown("## 📋 Best Coach")
+        st.markdown("## 📋 Coach of the Year")
         st.write("*Recognizing the leader behind the bench who has best inspired their team and guided their growth this season.*")
         
         col1, col2, col3 = st.columns(3)
