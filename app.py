@@ -429,7 +429,7 @@ else:
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
                 
                 # Check if all fields are filled using the variables above
-                fun_votes = [s_supporter, s_party, s_drama, s_karen, s_late, s_forget]
+                fun_votes = [s_supporter, s_party, s_energy, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
                     data = {
@@ -443,7 +443,7 @@ else:
                         "best_coach": st.session_state.selections.get('best_coach'),
                         "best_supporter": s_supporter,
                         "party_animal": s_party,
-                        "drama": s_drama,
+                        "energy": s_energy,
                         "karen": s_karen,
                         "always_late": s_late,
                         "always_forgets": s_forget  # Matches your error-prone key
