@@ -140,8 +140,7 @@ if not st.session_state.authenticated:
 # --- POST-LOGIN VOTING FLOW ---
 else:
     all_players = [player for team_list in roster.values() for player in team_list]
-    nominees = [p for p in all_players if p != st.session_state.user_name]
-
+    universal_nominees = sorted([p for p in all_players if p != st.session_state.user_name])
     # STAGE 1: INSTRUCTIONS
     if st.session_state.voted_stage == "instructions":
         st.markdown(f"### WELCOME, {st.session_state.user_name.upper()}! 🏀")
@@ -384,45 +383,20 @@ else:
                 else:
                     st.warning("Please pick a winner!")
     
-    # STAGE 8: FUN AWARDS
+    # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
         st.markdown("## ✨ Fun Season Awards")
-        st.write("*Anybody is eligible for these awards, it does not matter if you were injured or only at Pendragon for 1 semester.*")
         st.divider()
 
-        # 1. Best Supporter
-        st.markdown("### 📣 Best Supporter")
-        s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + nominees, key="fun_supporter")
-        st.write("*Cheering even when their own team isn't playing.*")
-
-        # 2. Party Animal
-        st.markdown("### 🍻 Party Animal")
-        s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
-        st.write("*First one at the bar, last one to leave the after-party.*")
-
-        # 3. Energy
-        st.markdown("### ⚡ Best Energy")
-        s_energy = st.selectbox("Who brings the best energy on the court or bench?", options=[""] + nominees, key="fun_energy")
-        st.write("*Whether they are diving for a loose ball or leading the chants from the sidelines, their enthusiasm is contagious.*")
-      
-        # 4. Karen
-        st.markdown("### 👑 The 'Karen'")
-        s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
-        st.write("*Ready to challenge every whistle and discuss the rules.*")
-
-        # 5. Always Late
-        st.markdown("### ⏰ Always Late")
-        s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
-        st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
-
-        # 6. Forgetful One
-        st.markdown("### 🎒 The Forgetful One")
-        s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
-        st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
+        # All selectboxes here use the filtered 'universal_nominees' list
+        s_supporter = st.selectbox("📣 Best Supporter", options=[""] + universal_nominees, key="fun_supporter")
+        s_party = st.selectbox("🍻 Party Animal", options=[""] + universal_nominees, key="fun_party")
+        s_energy = st.selectbox("⚡ Best Energy", options=[""] + universal_nominees, key="fun_energy")
+        s_karen = st.selectbox("👑 The 'Karen'", options=[""] + universal_nominees, key="fun_karen")
+        s_late = st.selectbox("⏰ Always Late", options=[""] + universal_nominees, key="fun_late")
+        s_forget = st.selectbox("🎒 The Forgetful One", options=[""] + universal_nominees, key="fun_forget")
 
         st.divider()
-        
-        # --- SUBMIT SECTION ---
         f_col1, f_col2 = st.columns(2)
         
         with f_col1:
@@ -432,8 +406,6 @@ else:
                 
         with f_col2:
             if st.button("SUBMIT 🏀", key="final_submit_btn"):
-                
-                # Check if all fields are filled using the variables above
                 fun_votes = [s_supporter, s_party, s_energy, s_karen, s_late, s_forget]
                 
                 if all(val != "" for val in fun_votes):
@@ -452,22 +424,17 @@ else:
                         "energy": s_energy,
                         "karen": s_karen,
                         "always_late": s_late,
-                        "always_forgets": s_forget  # Matches your error-prone key
+                        "always_forgets": s_forget 
                     }
                     
                     try:
                         supabase.table(TABLE_NAME).insert(data).execute()
                         st.success("Votes Submitted!🏀")
                         st.balloons()
-                        st.session_state.authenticated = False
-                        st.session_state.user_name = None
-                        st.session_state.voted_stage = "instructions"
-                        st.session_state.selections = {}
-                        st.cache_data.clear()
                         time.sleep(2)
+                        st.session_state.authenticated = False
                         st.rerun()
                     except Exception as e:
                         st.error(f"Database Error: {e}")
                 else:
-                    st.warning("Please make a selection for all categories before submitting!")
-            st.markdown('</div>', unsafe_allow_html=True)
+                    st.warning("Please make a selection for all categories!")
