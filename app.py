@@ -212,7 +212,7 @@ else:
         st.write("Have a look at the voting rules before proceeding.")
         
         # Dropdown 1
-        with st.expander("THE VOTING RULES"):
+        with st.expander("General Information"):
             st.markdown("""
             * **Private Voting:** All individual selections are strictly confidential.
             * **Eligibility:** You may vote for members from any team.
