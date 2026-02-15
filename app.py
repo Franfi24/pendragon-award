@@ -19,9 +19,15 @@ st.set_page_config(
 # --- UNIVERSAL AUTO-SCROLL SCRIPT ---
 # This executes at the start of every rerun to snap the view to the top
 
+import time # Ensure this is at the top of your script
+
 def trigger_blue_warning():
+    # Adding a unique timestamp as the 'key' ensures Streamlit 
+    # renders a fresh explosion every time the button is clicked.
+    unique_id = f"warning_{time.time()}" 
+    
     st.components.v1.html(
-        """
+        f"""
         <script>
         const container = window.parent.document.createElement('div');
         container.style.position = 'fixed';
@@ -30,38 +36,36 @@ def trigger_blue_warning():
         container.style.pointerEvents = 'none'; container.style.zIndex = '9999';
         window.parent.document.body.appendChild(container);
 
-        // 8-10 items is perfect for a clean, centered look
-        for(let i=0; i<10; i++) {
+        for(let i=0; i<10; i++) {{
             const text = window.parent.document.createElement('div');
             text.innerHTML = 'FILL IN!';
             text.style.position = 'absolute';
             
-            // CENTER LOGIC: Start at 50vw (middle) and add a small random offset (-15 to +15)
             const centerOffset = (Math.random() * 30) - 15;
             text.style.left = (50 + centerOffset) + 'vw'; 
-            text.style.transform = 'translateX(-50%)'; // Ensure the text itself is centered on its point
+            text.style.transform = 'translateX(-50%)';
             
             text.style.top = '100vh';
-            text.style.color = '#7DF9FF'; // Electric Blue
-            text.style.textShadow = '0 0 10px #0000FF'; // Subtle blue glow to help readability on red
+            text.style.color = '#7DF9FF'; 
+            text.style.textShadow = '0 0 10px #0000FF';
             text.style.fontWeight = '900';
             text.style.fontSize = '35px';
             text.style.fontFamily = 'Arial Black, sans-serif';
-            
-            // Slow, deliberate float (6 seconds)
             text.style.transition = 'transform ' + (Math.random() * 1 + 6) + 's ease-out, opacity 5s';
             
             container.appendChild(text);
 
-            setTimeout(() => {
-                // Move straight up the center
+            setTimeout(() => {{
                 text.style.transform = 'translate(-50%, -110vh)';
                 text.style.opacity = '0';
-            }, i * 400); // Very clear, staggered timing
-        }
+            }}, i * 400);
+        }}
+        // Clean up the container from the DOM after the animation is done
+        setTimeout(() => {{ container.remove(); }}, 12000);
         </script>
         """,
         height=0,
+        key=unique_id # This is the magic fix
     )
 
 # --- THE ULTIMATE NO-GAP HORIZONTAL CSS ---
