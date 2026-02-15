@@ -218,8 +218,11 @@ else:
         with col1: st.image(os.path.join("images", "MIP1.jpeg"))
         with col2: st.image(os.path.join("images", "MIP2.jpeg"))
         with col3: st.image(os.path.join("images", "MIP3.jpeg"))
+
+        mip_nominees = ["Rayan", "Lise", "Elmer"]
+        filtered_mip_options = [p for p in mip_nominees if p != st.session_state.user_name]
         
-        mip_vote = st.selectbox("Your Pick:", options=["", "Rayan", "Lise", "Elmer"], key="mip_sel")
+        mip_vote = st.selectbox("Your Pick:", options=[""]+mip_nominees, key="mip_sel")
         st.session_state.selections['most_improved_player'] = mip_vote
 
          # Back & Next Buttons on the same line
@@ -241,17 +244,21 @@ else:
     elif st.session_state.voted_stage == "defensive_player":
         st.markdown("## 🛡️ Defensive Player of the Year")
         st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
-        
+
         # Image Strip (Matches Rookie/MIP style)
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "DPY1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "DPY2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "DPY3.jpeg"), use_container_width=True)
+
+        dyop_nominees = ["Atakan", "Ida", "Miguel"]
+        filtered_dyop_options = [p for p in dyop_nominees if p != st.session_state.user_name]
+        
         
         # Dropdown
         dpoy_vote = st.selectbox(
             "Your Pick:", 
-            options=["", "Atakan", "Ida", "Miguel"], 
+            options=[""]+filtered_dyop_options, 
             key="dpoy_sel"
         )
         st.session_state.selections['defensive_player'] = dpoy_vote
@@ -286,11 +293,13 @@ else:
         with col2: st.image(os.path.join("images", "BD2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BD3.jpeg"), use_container_width=True)
 
+        bd_nominees = ["Chris", "Iris", "Eugen"]
+        filtered_bd_options = [p for p in bd_nominees if p != st.session_state.user_name]
         
         # Dropdown
         best_driver_vote = st.selectbox(
             "Your Pick:", 
-            options=["", "Chris", "Iris", "Eugen"], 
+            options=[""]+filtered_bd_options, 
             key="bd_sel"
         )
         st.session_state.selections['best_driver'] = best_driver_vote
@@ -326,11 +335,14 @@ else:
         with col2: st.image(os.path.join("images", "BS2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BS3.jpeg"), use_container_width=True)
 
-
+        bs_nominees = ["Dani", "Ilinca", "Charlie"]
+        filtered_bs_options = [p for p in bs_nominees if p != st.session_state.user_name]
+        
+        # Dropdown
         # Dropdown
         best_shooter_vote = st.selectbox(
             "Your Pick:", 
-            options=["", "Dani", "Ilinca", "Charlie"], 
+            options=[""]+filtered_bs_options, 
             key="bs_sel"
         )
         st.session_state.selections['best_shooter'] = best_shooter_vote
@@ -364,11 +376,16 @@ else:
         with col1: st.image(os.path.join("images", "BR1.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "BR2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BR3.jpeg"), use_container_width=True)
+
+        br_nominees = ["Harlod", "Rachne", "Akin"]
+        filtered_br_options = [p for p in br_nominees if p != st.session_state.user_name]
+        
+        # Dropdown
         
         # Dropdown
         best_rebounder_vote = st.selectbox(
             "Your Pick:", 
-            options=["", "Harlod", "Rachne", "Akin"], 
+            options=[""]+filtered_br_options, 
             key="br_sel"
         )
         st.session_state.selections['best_rebounder'] = best_rebounder_vote
@@ -403,11 +420,13 @@ else:
         with col2: st.image(os.path.join("images", "BC2.jpeg"), use_container_width=True)
         with col3: st.image(os.path.join("images", "BC3.jpeg"), use_container_width=True)
 
-        
+        bc_nominees = ["Niels", "Ilinca", "KJ"]
+        filtered_bc_options = [p for p in bc_nominees if p != st.session_state.user_name]
+         
         # Dropdown
         best_coach_vote = st.selectbox(
             "Your Pick:", 
-            options=["", "Niels", "Ilinca", "KJ"], 
+            options=[""]+filtered_bc_options, 
             key="bc_sel"
         )
         st.session_state.selections['best_coach'] = best_coach_vote
