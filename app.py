@@ -81,11 +81,12 @@ def trigger_blue_warning():
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(180deg, #8B0000 0%, #f32811 100%);
+        background: linear-gradient(180deg, #f32811 0%, #8B0000 100%);
         color: #ffffff;
     }
-
-
+    /* ... rest of your CSS ... */
+    </style>
+""", unsafe_allow_html=True)
 
     /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
