@@ -203,6 +203,15 @@ if not st.session_state.authenticated:
                 st.rerun()
 # --- POST-LOGIN VOTING FLOW ---
 else:
+    stages = ["instructions", "rookie_of_the_year", "most_improved_player", "defensive_player", 
+          "best_driver", "best_shooter", "best_rebounder", "best_coach", "fun_awards"]
+    try:
+        current_idx = stages.index(st.session_state.voted_stage)
+        progress = (current_idx) / (len(stages) - 1)
+        st.progress(progress)
+    except:
+        pass
+        
     all_players = [player for team_list in roster.values() for player in team_list]
     universal_nominees = sorted([p for p in all_players if p != st.session_state.user_name])
     # STAGE 1: INSTRUCTIONS
