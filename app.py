@@ -456,32 +456,32 @@ else:
 
         # 1. Best Supporter
         st.markdown("### 📣 Best Supporter")
-        s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + nominees, key="fun_supporter")
+        s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + universal_nominees, key="fun_supporter")
         st.write("*Cheering even when their own team isn't playing.*")
 
         # 2. Party Animal
         st.markdown("### 🍻 Party Animal")
-        s_party = st.selectbox("Who dominates the post game?", options=[""] + nominees, key="fun_party")
+        s_party = st.selectbox("Who dominates the post game?", options=[""] + universal_nominees, key="fun_party")
         st.write("*First one at the bar, last one to leave the after-party.*")
 
         # 3. Energy
         st.markdown("### ⚡ Best Energy")
-        s_energy = st.selectbox("Who brings the best energy on the court or bench?", options=[""] + nominees, key="fun_energy")
+        s_energy = st.selectbox("Who brings the best energy on the court or bench?", options=[""] + universal_nominees, key="fun_energy")
         st.write("*Whether they are diving for a loose ball or leading the chants from the sidelines, their enthusiasm is contagious.*")
       
         # 4. Karen
         st.markdown("### 👑 The 'Karen'")
-        s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + nominees, key="fun_karen")
+        s_karen = st.selectbox("Who always wants to speak to the referee's manager?", options=[""] + universal_nominees, key="fun_karen")
         st.write("*Ready to challenge every whistle and discuss the rules.*")
 
         # 5. Always Late
         st.markdown("### ⏰ Always Late")
-        s_late = st.selectbox("Who operates on their own time zone?", options=[""] + nominees, key="fun_late")
+        s_late = st.selectbox("Who operates on their own time zone?", options=[""] + universal_nominees, key="fun_late")
         st.write("*Who has never seen a 7:30 PM practice start at 7:30 PM?*")
 
         # 6. Forgetful One
         st.markdown("### 🎒 The Forgetful One")
-        s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + nominees, key="fun_forget")
+        s_forget = st.selectbox("Who leaves a trail of gear across every gym?", options=[""] + universal_nominees, key="fun_forget")
         st.write("*Always forgetting water bottles, shoes, or their head if it wasn't attached.*")
         
         f_col1, f_col2 = st.columns(2)
