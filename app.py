@@ -85,7 +85,8 @@ st.markdown("""
         color: #ffffff;
     }
 
-    div[data-testid="stProgress"] > div > div > div > div {
+    /* Force the progress bar fill to WHITE */
+    div[data-testid="stProgress"] div div {
     background-color: #FFFFFF !important;
     }
 
