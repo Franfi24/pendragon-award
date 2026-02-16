@@ -268,25 +268,21 @@ else:
         with col2: st.image(os.path.join("images", "stella.jpeg"))
         with col3: st.image(os.path.join("images", "ak.jpeg"))
 
-        rookie_nominees = ["Jesper", "Stella", "AK"]
-        filtered_rookie = [p for p in rookie_nominees if p != st.session_state.user_name]
-
-        rookie_vote = st.selectbox("Your Pick:", options=[""] + filtered_rookie, key="rookie_sel")
-        st.session_state.selections['rookie_of_the_year'] = rookie_vote
-
-        st.write("") 
-        b_col1, b_col2 = st.columns(2)
-        with b_col1:
-            if st.button("← BACK"):
-                st.session_state.voted_stage = "instructions"
-                st.rerun()
-        with b_col2:
-            if st.button("NEXT →"):
-                if st.session_state.selections.get('rookie_of_the_year') or st.session_state.get('is_admin'):
+        for p in nominees:
+        with p["col"]:
+            st.image(os.path.join("images", p["img"]))
+            # Clicking this button replaces the selectbox entirely
+            if st.button(f"VOTE {p['name'].upper()}", use_container_width=True):
+                if p["name"] != st.session_state.user_name:
+                    st.session_state.selections['rookie_of_the_year'] = p["name"]
                     st.session_state.voted_stage = "most_improved_player"
                     st.rerun()
                 else:
-                    trigger_blue_warning()
+                    st.error("You cannot vote for yourself!")
+
+    if st.button("← BACK"):
+        st.session_state.voted_stage = "instructions"
+        st.rerun()
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
