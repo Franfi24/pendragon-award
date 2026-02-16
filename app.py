@@ -86,18 +86,12 @@ st.markdown("""
     }
 
         /* Make the nominees look like premium cards */
-    [data-testid="column"] img {
+        [data-testid="column"] img {
         border-radius: 12px !important;
         border: 2px solid rgba(255, 255, 255, 0.1) !important;
         transition: all 0.3s ease-in-out !important;
     }
     
-    /* Add a blue glow when hovering over an image */
-    [data-testid="column"] img:hover {
-        transform: translateY(-5px);
-        border-color: #00D4FF !important; /* Matches your favorite blue bar */
-        box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
-    }
 
     /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
