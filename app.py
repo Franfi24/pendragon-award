@@ -85,6 +85,10 @@ st.markdown("""
         color: #ffffff;
     }
 
+    div[data-testid="stProgress"] > div > div > div > div {
+    background-color: #FFFFFF !important;
+    }
+
         /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
