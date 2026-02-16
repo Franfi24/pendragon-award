@@ -166,8 +166,7 @@ if not st.session_state.authenticated:
     
     st.write(f"***Welcome to the Pendragon 2026 Ballot***")
     st.write(f"*Make your selections and help crown the season’s best!*")
-
-
+    st.divider()
     # 2. Use 'team_options' variable here so "ADMIN PANEL" actually appears
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=team_options)
 
