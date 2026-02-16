@@ -204,24 +204,33 @@ if not st.session_state.authenticated:
                 st.rerun()
 # --- POST-LOGIN VOTING FLOW ---
 else:
-    # --- CUSTOM WHITE PROGRESS BAR ---
+    # --- CUSTOM WHITE PROGRESS BAR (FORCE WHITE) ---
     stages = ["instructions", "rookie_of_the_year", "most_improved_player", "defensive_player", 
               "best_driver", "best_shooter", "best_rebounder", "best_coach", "fun_awards", "event_details"]
     
     try:
         current_idx = stages.index(st.session_state.voted_stage)
-        # Calculate percentage (e.g., 30)
         progress_pct = (current_idx / (len(stages) - 1)) * 100
         
-        # Injected HTML Bar
-        st.write(f"**Step {current_idx} of {len(stages)-1}**")
+        # We use a unique style tag inside the HTML to stop the global CSS from interfering
         st.components.v1.html(
             f"""
-            <div style="width: 100%; background-color: rgba(0,0,0,0.3); border-radius: 10px; height: 10px; overflow: hidden;">
-                <div style="width: {progress_pct}%; background-color: #FFFFFF; height: 100%; transition: width 0.5s ease-in-out; box-shadow: 0 0 8px white;"></div>
+            <div style="padding: 5px;">
+                <div style="width: 100%; background-color: rgba(0,0,0,0.4) !important; border-radius: 20px; height: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="width: {progress_pct}%; 
+                                background-color: #FFFFFF !important; 
+                                height: 100%; 
+                                border-radius: 20px;
+                                box-shadow: 0 0 10px rgba(255,255,255,0.8);
+                                transition: width 0.6s ease;">
+                    </div>
+                </div>
+                <p style="color: white; font-family: sans-serif; font-size: 12px; margin-top: 5px; opacity: 0.8;">
+                    PROGRESS: {int(progress_pct)}%
+                </p>
             </div>
             """,
-            height=30
+            height=60
         )
     except:
         pass
