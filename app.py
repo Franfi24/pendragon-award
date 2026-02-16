@@ -313,7 +313,7 @@ else:
     # STAGE 4: DEFENSIVE PLAYER OF THE YEAR
     elif st.session_state.voted_stage == "defensive_player":
         st.markdown("## 🛡️ Best Defender")
-        st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
+        st.write("*The premier stoppers. Awarded to the players who take pride in every defensive stand and refuse to be beaten.*")
         
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "atakan.jpeg"), use_container_width=True)
@@ -343,7 +343,7 @@ else:
     # STAGE 5: BEST DRIVER
     elif st.session_state.voted_stage == "best_driver":
         st.markdown("## 🏎️ Best Driver")
-        st.write("*Best drivers and finishers under the basket. These players have shown amazing finishes abilities this season*")
+        st.write("*Elite finishers at the rim. Recognizing the players who fearlessly attack the paint and master the art of the finish.*")
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "chris.jpeg"), use_container_width=True)
         with col2: st.image(os.path.join("images", "iris.jpeg"), use_container_width=True)
@@ -372,7 +372,7 @@ else:
     # STAGE 6: BEST SHOOTER
     elif st.session_state.voted_stage == "best_shooter":
         st.markdown("## 🎯 Best Shooter")
-        st.write("*Best all around shooters. These players have made any kind of shot throughout the season whether from the pass, dribble, midrange or 3 pointer*")
+        st.write("*The ultimate floor spacers. Awarded to the most consistent threats from midrange and beyond the arc.*")
         
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "dani.jpeg"), use_container_width=True)
@@ -402,7 +402,7 @@ else:
     # STAGE 7: BEST REBOUNDER
     elif st.session_state.voted_stage == "best_rebounder":
         st.markdown("## 🪟 Best Rebounder")
-        st.write("*The glass cleaners. Box out with grit, and ensure the team gets every second-chance opportunity.*")
+        st.write("*The glass cleaners. Players who dominate the boards with positioning, grit, and second-chance effort*")
         
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "harlod.jpeg"), use_container_width=True)
@@ -432,7 +432,7 @@ else:
     # STAGE 8: BEST COACH
     elif st.session_state.voted_stage == "best_coach":
         st.markdown("## 📋 Coach of the Year")
-        st.write("*Recognizing the leader behind the bench who has best inspired their team and guided their growth this season.*")
+        st.write("*The leaders on the sideline. Recognizing the vision and guidance that inspired our growth this season.*")
         
         col1, col2, col3 = st.columns(3)
         with col1: st.image(os.path.join("images", "niels.jpeg"), use_container_width=True)
