@@ -86,7 +86,6 @@ st.markdown("""
     }
 
 
-
     /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
@@ -205,12 +204,25 @@ if not st.session_state.authenticated:
                 st.rerun()
 # --- POST-LOGIN VOTING FLOW ---
 else:
+    # --- CUSTOM WHITE PROGRESS BAR ---
     stages = ["instructions", "rookie_of_the_year", "most_improved_player", "defensive_player", 
-          "best_driver", "best_shooter", "best_rebounder", "best_coach", "fun_awards"]
+              "best_driver", "best_shooter", "best_rebounder", "best_coach", "fun_awards", "event_details"]
+    
     try:
         current_idx = stages.index(st.session_state.voted_stage)
-        progress = (current_idx) / (len(stages) - 1)
-        st.progress(progress)
+        # Calculate percentage (e.g., 30)
+        progress_pct = (current_idx / (len(stages) - 1)) * 100
+        
+        # Injected HTML Bar
+        st.write(f"**Step {current_idx} of {len(stages)-1}**")
+        st.components.v1.html(
+            f"""
+            <div style="width: 100%; background-color: rgba(0,0,0,0.3); border-radius: 10px; height: 10px; overflow: hidden;">
+                <div style="width: {progress_pct}%; background-color: #FFFFFF; height: 100%; transition: width 0.5s ease-in-out; box-shadow: 0 0 8px white;"></div>
+            </div>
+            """,
+            height=30
+        )
     except:
         pass
         
