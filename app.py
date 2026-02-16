@@ -159,7 +159,7 @@ if 'selections' not in st.session_state:
 
 # --- SECTION 1: LOGIN ---
 if not st.session_state.authenticated:
-    st.markdown("<h1>Pendragon Awards 🏀</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Awards 2026🏀</h1>", unsafe_allow_html=True)
     
     # 1. Define the options correctly including the Admin Panel
     team_options = [""] + list(roster.keys()) + ["ADMIN"]
