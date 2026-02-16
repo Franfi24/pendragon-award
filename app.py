@@ -269,20 +269,20 @@ else:
         with col3: st.image(os.path.join("images", "ak.jpeg"))
 
         for p in nominees:
-        with p["col"]:
-            st.image(os.path.join("images", p["img"]))
-            # Clicking this button replaces the selectbox entirely
-            if st.button(f"VOTE {p['name'].upper()}", use_container_width=True):
-                if p["name"] != st.session_state.user_name:
-                    st.session_state.selections['rookie_of_the_year'] = p["name"]
-                    st.session_state.voted_stage = "most_improved_player"
-                    st.rerun()
-                else:
-                    st.error("You cannot vote for yourself!")
+            with p["col"]:
+                st.image(os.path.join("images", p["img"]))
+                # Clicking this button replaces the selectbox entirely
+                if st.button(f"VOTE {p['name'].upper()}", use_container_width=True):
+                    if p["name"] != st.session_state.user_name:
+                        st.session_state.selections['rookie_of_the_year'] = p["name"]
+                        st.session_state.voted_stage = "most_improved_player"
+                        st.rerun()
+                    else:
+                        st.error("You cannot vote for yourself!")
 
-    if st.button("← BACK"):
-        st.session_state.voted_stage = "instructions"
-        st.rerun()
+        if st.button("← BACK"):
+            st.session_state.voted_stage = "instructions"
+            st.rerun()
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
