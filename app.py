@@ -245,7 +245,7 @@ else:
             * **No Restrictions:** Time with the club doesn't matter. Whether you joined last year or last week, everyone is eligible!
             """)
         st.divider()
-        if st.button("START VOTING →"):
+        if st.button("Basketball Awards →"):
             st.session_state.voted_stage = "rookie_of_the_year"
             st.rerun()
 
@@ -452,7 +452,7 @@ else:
                 st.session_state.voted_stage = "best_rebounder"
                 st.rerun()
         with b_col2:
-            if st.button("NEXT →"):
+            if st.button("Fun Awards →"):
                 if st.session_state.selections.get('best_coach') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
@@ -461,8 +461,6 @@ else:
     
     # STAGE 9: FUN AWARDS
     elif st.session_state.voted_stage == "fun_awards":
-        st.markdown("## ✨ Fun Awards")
-
         # 1. Best Supporter
         st.markdown("### 📣 Best Supporter")
         s_supporter = st.selectbox("Who is the heartbeat of the stands?", options=[""] + universal_nominees, key="fun_supporter")
