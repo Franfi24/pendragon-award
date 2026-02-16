@@ -173,7 +173,7 @@ if not st.session_state.authenticated:
     if team == "ADMIN":
         admin_pass = st.text_input("ENTER ADMIN PASSWORD", type="password")
         if st.button("LOGIN AS ADMIN"):
-            if admin_pass == "Pendragon2026": 
+            if admin_pass == "palla": 
                 st.session_state.user_name = "ADMIN"
                 st.session_state.user_team = "MANAGEMENT"
                 st.session_state.is_admin = True # Enables the skip feature
