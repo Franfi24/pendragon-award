@@ -85,14 +85,6 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* When they hover over the image area, show the Blue Glow you like */
-    div.stButton > button[key^="vote_"]:hover {
-        border: 2px solid #00D4FF !important;
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-        background-color: rgba(0, 212, 255, 0.05) !important;
-    }
-    
-
     /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
@@ -136,24 +128,6 @@ st.markdown("""
         width: auto !important;
         min-width: 90px;
     }
-
-
-    /* Make the nominees look like premium cards */
-    [data-testid="column"] img {
-    border-radius: 12px !important;
-    border: 2px solid rgba(255, 255, 255, 0.1) !important;
-    transition: all 0.3s ease-in-out !important;
-    }
-    
-    /* This makes the button a transparent "hit box" over the image */
-    div.stButton > button[key^="vote_"] {
-    height: 150px !important;
-    background-color: transparent !important;
-    border: 2px solid rgba(255,255,255,0.1) !important;
-    z-index: 1;
-    position: relative;
-    }
-    
     </style>
     """, unsafe_allow_html=True)
 # --- PLAYER ROSTER ---
@@ -277,40 +251,34 @@ else:
 
     # STAGE 2: ROOKIE OF THE YEAR
     elif st.session_state.voted_stage == "rookie_of_the_year":
-        st.markdown("<h2 style='text-align: center;'>👶 Rookie of the Year</h2>", unsafe_allow_html=True)
-        st.write("<p style='text-align: center; opacity: 0.8;'>Click a photo to vote</p>", unsafe_allow_html=True)
+        st.markdown("## 👶 Rookie of the Year")
+        st.write("*New players showing amazing improvement.*")
         
         col1, col2, col3 = st.columns(3)
         
-        nominees = [
-            {"name": "Jesper", "img": "jesper.jpeg", "col": col1},
-            {"name": "Stella", "img": "stella.jpeg", "col": col2},
-            {"name": "AK", "img": "ak.jpeg", "col": col3}
-        ]
-    
-        for p in nominees:
-            with p["col"]:
-                # We create a button and hide the text, but put the image on top
-                # When the image/container is clicked, the button triggers
-                if st.button(" ", key=f"vote_{p['name']}", use_container_width=True):
-                    if p["name"] != st.session_state.user_name:
-                        st.session_state.selections['rookie_of_the_year'] = p["name"]
-                        st.session_state.voted_stage = "most_improved_player"
-                        st.rerun()
-                    else:
-                        st.error("You can't vote for yourself!")
-                
-                # This overlays the image back onto the button area
-                st.markdown(f"""
-                    <div style="margin-top: -85px; pointer-events: none;">
-                        <img src="app/static/images/{p['img']}" style="width: 100%; border-radius: 10px;">
-                    </div>
-                """, unsafe_allow_html=True)
-    
-        st.write("")
-        if st.button("← BACK"):
-            st.session_state.voted_stage = "instructions"
-            st.rerun()
+        with col1: st.image(os.path.join("images", "jesper.jpeg"))
+        with col2: st.image(os.path.join("images", "stella.jpeg"))
+        with col3: st.image(os.path.join("images", "ak.jpeg"))
+
+        rookie_nominees = ["Jesper", "Stella", "AK"]
+        filtered_rookie = [p for p in rookie_nominees if p != st.session_state.user_name]
+
+        rookie_vote = st.selectbox("Your Pick:", options=[""] + filtered_rookie, key="rookie_sel")
+        st.session_state.selections['rookie_of_the_year'] = rookie_vote
+
+        st.write("") 
+        b_col1, b_col2 = st.columns(2)
+        with b_col1:
+            if st.button("← BACK"):
+                st.session_state.voted_stage = "instructions"
+                st.rerun()
+        with b_col2:
+            if st.button("NEXT →"):
+                if st.session_state.selections.get('rookie_of_the_year') or st.session_state.get('is_admin'):
+                    st.session_state.voted_stage = "most_improved_player"
+                    st.rerun()
+                else:
+                    trigger_blue_warning()
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
