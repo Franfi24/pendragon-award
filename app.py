@@ -258,38 +258,38 @@ else:
             st.rerun()
 
     # STAGE 2: ROOKIE OF THE YEAR
-elif st.session_state.voted_stage == "rookie_of_the_year":
-    st.markdown("## 👶 Rookie of the Year")
-    st.write("*Click the button under a player to cast your vote*")
-    
-    # 1. Create the columns
-    col1, col2, col3 = st.columns(3)
-    
-    # 2. Define names and images
-    nominees = ["Jesper", "Stella", "AK"]
-    image_files = ["jesper.jpeg", "stella.jpeg", "ak.jpeg"]
-    cols = [col1, col2, col3]
-
-    # 3. Loop through them using the index
-    for i in range(len(nominees)):
-        name = nominees[i]
-        img_path = os.path.join("images", image_files[i])
+    elif st.session_state.voted_stage == "rookie_of_the_year":
+        st.markdown("## 👶 Rookie of the Year")
+        st.write("*Click the button under a player to cast your vote*")
         
-        with cols[i]:
-            st.image(img_path, use_container_width=True)
-            # This creates a "Pick" button for each player
-            if st.button(f"SELECT {name.upper()}", key=f"btn_{name}", use_container_width=True):
-                if name != st.session_state.user_name:
-                    st.session_state.selections['rookie_of_the_year'] = name
-                    st.session_state.voted_stage = "most_improved_player"
-                    st.rerun()
-                else:
-                    st.error("You cannot vote for yourself!")
-
-    st.divider()
-    if st.button("← BACK"):
-        st.session_state.voted_stage = "instructions"
-        st.rerun()
+        # 1. Create the columns
+        col1, col2, col3 = st.columns(3)
+        
+        # 2. Define names and images
+        nominees = ["Jesper", "Stella", "AK"]
+        image_files = ["jesper.jpeg", "stella.jpeg", "ak.jpeg"]
+        cols = [col1, col2, col3]
+    
+        # 3. Loop through them using the index
+        for i in range(len(nominees)):
+            name = nominees[i]
+            img_path = os.path.join("images", image_files[i])
+            
+            with cols[i]:
+                st.image(img_path, use_container_width=True)
+                # This creates a "Pick" button for each player
+                if st.button(f"SELECT {name.upper()}", key=f"btn_{name}", use_container_width=True):
+                    if name != st.session_state.user_name:
+                        st.session_state.selections['rookie_of_the_year'] = name
+                        st.session_state.voted_stage = "most_improved_player"
+                        st.rerun()
+                    else:
+                        st.error("You cannot vote for yourself!")
+    
+        st.divider()
+        if st.button("← BACK"):
+            st.session_state.voted_stage = "instructions"
+            st.rerun()
 
     # STAGE 3: MOST IMPROVED PLAYER
     elif st.session_state.voted_stage == "most_improved_player":
