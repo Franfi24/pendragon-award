@@ -164,7 +164,8 @@ if not st.session_state.authenticated:
     # 1. Define the options correctly including the Admin Panel
     team_options = [""] + list(roster.keys()) + ["ADMIN"]
     
-    st.write(f"***Welcome to the Pendragon Ballot of 2026!***")
+    st.write(f"***Welcome to the Pendragon 2026 Ballot***")
+     st.write(f"*Make your selections and help crown the season’s best!*")
 
 
     # 2. Use 'team_options' variable here so "ADMIN PANEL" actually appears
