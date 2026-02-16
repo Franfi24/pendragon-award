@@ -255,6 +255,7 @@ else:
         st.write("*New players showing amazing improvement.*")
         
         col1, col2, col3 = st.columns(3)
+        
         with col1: st.image(os.path.join("images", "jesper.jpeg"))
         with col2: st.image(os.path.join("images", "stella.jpeg"))
         with col3: st.image(os.path.join("images", "ak.jpeg"))
