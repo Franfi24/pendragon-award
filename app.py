@@ -81,7 +81,7 @@ def trigger_blue_warning():
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(180deg, #8B0000 0%, #fb1a00 100%);
+        background: linear-gradient(180deg, #8B0000 0%, #f32811 100%);
         color: #ffffff;
     }
 
