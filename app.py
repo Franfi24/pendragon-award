@@ -85,6 +85,21 @@ st.markdown("""
         color: #ffffff;
     }
 
+        /* 1. The moving part of the bar */
+    div[data-testid="stProgress"] > div > div > div > div {
+        background-color: #FFFFFF !important;
+    }
+    
+    /* 2. The empty track behind the bar (Dark Red for contrast) */
+    div[data-testid="stProgress"] > div {
+        background-color: rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* 3. The percentage text (if it shows up) */
+    div[data-testid="stProgress"] div {
+        color: #FFFFFF !important;
+}
+
 
     /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
