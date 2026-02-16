@@ -245,7 +245,7 @@ else:
             * **No Restrictions:** Time with the club doesn't matter. Whether you joined last year or last week, everyone is eligible!
             """)
         st.divider()
-        if st.button("Basketball Awards →"):
+        if st.button("BASKETBALL AWARDS →"):
             st.session_state.voted_stage = "rookie_of_the_year"
             st.rerun()
 
@@ -452,7 +452,7 @@ else:
                 st.session_state.voted_stage = "best_rebounder"
                 st.rerun()
         with b_col2:
-            if st.button("Fun Awards →"):
+            if st.button("FUN AWARDS →"):
                 if st.session_state.selections.get('best_coach') or st.session_state.get('is_admin'):
                     st.session_state.voted_stage = "fun_awards"
                     st.rerun()
