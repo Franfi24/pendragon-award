@@ -85,12 +85,8 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Force the progress bar fill to WHITE */
-    div[data-testid="stProgress"] div div {
-    background-color: #FFFFFF !important;
-    }
 
-        /* Target the container of the 3 columns */
+    /* Target the container of the 3 columns */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
