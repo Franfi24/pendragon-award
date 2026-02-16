@@ -255,9 +255,9 @@ else:
         st.write("*New players showing amazing improvement.*")
         
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "rookie1.jpeg"))
-        with col2: st.image(os.path.join("images", "rookie2.jpeg"))
-        with col3: st.image(os.path.join("images", "rookie3.jpeg"))
+        with col1: st.image(os.path.join("images", "jesper.jpeg"))
+        with col2: st.image(os.path.join("images", "stella.jpeg"))
+        with col3: st.image(os.path.join("images", "ak.jpeg"))
 
         rookie_nominees = ["Jesper", "Stella", "AK"]
         filtered_rookie = [p for p in rookie_nominees if p != st.session_state.user_name]
@@ -285,9 +285,9 @@ else:
         st.write("*Players that have improved the most from last season.*")
         
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "MIP1.jpeg"))
-        with col2: st.image(os.path.join("images", "MIP2.jpeg"))
-        with col3: st.image(os.path.join("images", "MIP3.jpeg"))
+        with col1: st.image(os.path.join("images", "rayan.jpeg"))
+        with col2: st.image(os.path.join("images", "lise.jpeg"))
+        with col3: st.image(os.path.join("images", "elmer.jpeg"))
 
         mip_nominees = ["Rayan", "Lise", "Elmer"]
         filtered_mip = [p for p in mip_nominees if p != st.session_state.user_name]
@@ -315,9 +315,9 @@ else:
         st.write("*The anchors of our defense. Hustle, intensity and proud of being a good defender*")
         
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "DPY1.jpeg"), use_container_width=True)
-        with col2: st.image(os.path.join("images", "DPY2.jpeg"), use_container_width=True)
-        with col3: st.image(os.path.join("images", "DPY3.jpeg"), use_container_width=True)
+        with col1: st.image(os.path.join("images", "atakan.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "ida.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "miguel.jpeg"), use_container_width=True)
         
         dpoy_nominees = ["Atakan", "Ida", "Miguel"]
         filtered_dpoy = [p for p in dpoy_nominees if p != st.session_state.user_name]
@@ -344,9 +344,9 @@ else:
         st.markdown("## 🏎️ Best Driver")
         st.write("*Best drivers and finishers under the basket. These players have shown amazing finishes abilities this season*")
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "BD1.jpeg"), use_container_width=True)
-        with col2: st.image(os.path.join("images", "BD2.jpeg"), use_container_width=True)
-        with col3: st.image(os.path.join("images", "BD3.jpeg"), use_container_width=True)
+        with col1: st.image(os.path.join("images", "chris.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "iris.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "eugen.jpeg"), use_container_width=True)
 
         bd_nominees = ["Chris", "Iris", "Eugen"]
         filtered_bd = [p for p in bd_nominees if p != st.session_state.user_name]
@@ -374,9 +374,9 @@ else:
         st.write("*Best all around shooters. These players have made any kind of shot throughout the season whether from the pass, dribble, midrange or 3 pointer*")
         
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "BS1.jpeg"), use_container_width=True)
-        with col2: st.image(os.path.join("images", "BS2.jpeg"), use_container_width=True)
-        with col3: st.image(os.path.join("images", "BS3.jpeg"), use_container_width=True)
+        with col1: st.image(os.path.join("images", "dani.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "ilinca.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "charlie.jpeg"), use_container_width=True)
 
         bs_nominees = ["Dani", "Ilinca", "Charlie"]
         filtered_bs = [p for p in bs_nominees if p != st.session_state.user_name]
@@ -404,9 +404,9 @@ else:
         st.write("*The glass cleaners. Box out with grit, and ensure the team gets every second-chance opportunity.*")
         
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "BR1.jpeg"), use_container_width=True)
-        with col2: st.image(os.path.join("images", "BR2.jpeg"), use_container_width=True)
-        with col3: st.image(os.path.join("images", "BR3.jpeg"), use_container_width=True)
+        with col1: st.image(os.path.join("images", "harlod.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "rachne.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "akin.jpeg"), use_container_width=True)
 
         br_nominees = ["Harlod", "Rachne", "Akin"]
         filtered_br = [p for p in br_nominees if p != st.session_state.user_name]
@@ -434,9 +434,9 @@ else:
         st.write("*Recognizing the leader behind the bench who has best inspired their team and guided their growth this season.*")
         
         col1, col2, col3 = st.columns(3)
-        with col1: st.image(os.path.join("images", "BC1.jpeg"), use_container_width=True)
-        with col2: st.image(os.path.join("images", "BC2.jpeg"), use_container_width=True)
-        with col3: st.image(os.path.join("images", "BC3.jpeg"), use_container_width=True)
+        with col1: st.image(os.path.join("images", "niels.jpeg"), use_container_width=True)
+        with col2: st.image(os.path.join("images", "ilinca.jpeg"), use_container_width=True)
+        with col3: st.image(os.path.join("images", "kj.jpeg"), use_container_width=True)
 
         bc_nominees = ["Niels", "Ilinca", "KJ"]
         filtered_bc = [p for p in bc_nominees if p != st.session_state.user_name]
