@@ -268,7 +268,7 @@ else:
         with col2: st.image(os.path.join("images", "stella.jpeg"))
         with col3: st.image(os.path.join("images", "ak.jpeg"))
 
-        for p in nominees:
+        for p in universal_nominees:
             with p["col"]:
                 st.image(os.path.join("images", p["img"]))
                 # Clicking this button replaces the selectbox entirely
