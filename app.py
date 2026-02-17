@@ -547,22 +547,35 @@ else:
                 const trophy = window.parent.document.createElement('div');
                 trophy.innerHTML = '🏆';
                 trophy.style.position = 'absolute';
-                trophy.style.left = Math.random() * 100 + 'vw';
+                
+                // Centers them with a bit of random spread (30% width)
+                const centerOffset = (Math.random() * 30) - 15;
+                trophy.style.left = (50 + centerOffset) + 'vw'; 
+                
                 trophy.style.top = '100vh';
-                trophy.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                trophy.style.transition = 'transform ' + (Math.random() *2 + 6) + 's linear, opacity 2s';
+                trophy.style.fontSize = (Math.random() * 20 + 25) + 'px'; // Slightly larger
+                trophy.style.zIndex = '9999';
+                
+                // Add a subtle glow to make them pop against the red background
+                trophy.style.textShadow = '0 0 15px rgba(255, 215, 0, 0.6)'; 
+                
+                // Slow float: 6 to 7 seconds duration
+                const duration = Math.random() * 1 + 6;
+                trophy.style.transition = `transform ${duration}s ease-out, opacity ${duration - 1}s`;
+                
                 confetti.appendChild(trophy);
-
+            
+                // The i * 200 creates the "staggered" launch effect
                 setTimeout(() => {
-                    trophy.style.transform = 'translateY(-120vh) rotate(' + (Math.random() * 360) + 'deg)';
+                    trophy.style.transform = 'translate(-50%, -110vh) rotate(' + (Math.random() * 360) + 'deg)';
                     trophy.style.opacity = '0';
-                }, 100);
+                }, i * 200);
+            
+                // Clean up to keep the app fast
+                setTimeout(() => {
+                    trophy.remove();
+                }, (i * 200) + (duration * 1000));
             }
-            </script>
-            """,
-            height=0,
-        )
-
         st.markdown("<h2 style='text-align: center;'>VOTES SUBMITTED! 🏀</h2>", unsafe_allow_html=True)
         
         # Award Night Details Box
