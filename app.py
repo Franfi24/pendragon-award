@@ -550,7 +550,7 @@ else:
                 trophy.style.left = Math.random() * 100 + 'vw';
                 trophy.style.top = '100vh';
                 trophy.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                trophy.style.transition = 'transform ' + (Math.random() * 2 + 2) + 's linear, opacity 2s';
+                trophy.style.transition = 'transform ' + (Math.random() * 4 + 6) + 's linear, opacity 2s';
                 confetti.appendChild(trophy);
 
                 setTimeout(() => {
