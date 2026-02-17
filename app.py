@@ -550,19 +550,26 @@ else:
                 trophy.style.left = Math.random() * 100 + 'vw';
                 trophy.style.top = '100vh';
                 trophy.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                trophy.style.transition = 'transform ' + (Math.random() * 4 + 6) + 's linear, opacity 2s';
+                
+                // 1. INCREASE DURATION: Changed from 2-4s to 5-8s for a slower float
+                const duration = Math.random() * 3 + 5; 
+                trophy.style.transition = `transform ${duration}s linear, opacity ${duration}s ease-in`;
+                
                 confetti.appendChild(trophy);
-
+            
                 setTimeout(() => {
-                    trophy.style.transform = 'translateY(-120vh) rotate(' + (Math.random() * 360) + 'deg)';
+                    // 2. DISTANCE: Ensure they travel far enough to clear the screen slowly
+                    trophy.style.transform = 'translateY(-120vh) rotate(' + (Math.random() * 720) + 'deg)';
+                    
+                    // 3. DELAYED FADE: They stay solid longer before disappearing
                     trophy.style.opacity = '0';
                 }, 100);
+            
+                // 4. CLEANUP: Remove the element after it finishes its longer journey
+                setTimeout(() => {
+                    trophy.remove();
+                }, duration * 1000);
             }
-            </script>
-            """,
-            height=0,
-        )
-
         st.markdown("<h2 style='text-align: center;'>VOTES SUBMITTED! 🏀</h2>", unsafe_allow_html=True)
         
         # Award Night Details Box
