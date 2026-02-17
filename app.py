@@ -17,10 +17,6 @@ st.set_page_config(
 )
 
 # --- UNIVERSAL AUTO-SCROLL SCRIPT ---
-# This executes at the start of every rerun to snap the view to the top
-
-import time # Ensure this is at the top of your script
-
 def trigger_blue_warning():
     # Generate a unique ID for this specific trigger
     unique_id = f"warning_{int(time.time() * 1000)}" 
@@ -161,13 +157,11 @@ if 'selections' not in st.session_state:
 if not st.session_state.authenticated:
     st.markdown("<h1>Voting Portal 🏀</h1>", unsafe_allow_html=True)
     
-    # 1. Define the options correctly including the Admin Panel
     team_options = [""] + list(roster.keys()) + ["ADMIN"]
     
     st.write(f"***Welcome to the Pendragon 2026 Ballot***")
     st.write(f"*Make your selections and help crown the season’s best!*")
     st.divider()
-    # 2. Use 'team_options' variable here so "ADMIN PANEL" actually appears
     team = st.selectbox("WHICH TEAM ARE YOU IN?", options=team_options)
 
     if team == "ADMIN":
@@ -532,7 +526,6 @@ else:
 
     # --- NEW STAGE: AWARD NIGHT DETAILS ---
     elif st.session_state.voted_stage == "event_details":
-    # The Trophy Celebration script with centered, staggered, and slow float
         st.components.v1.html(
             """
             <script>
