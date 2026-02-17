@@ -222,7 +222,7 @@ else:
         # Dropdown 1
         with st.expander("GENERAL INFORMATION"):
             st.markdown("""
-            * **Private Voting:** All individual selections are strictly confidential.
+            * **Anonymous Voting:** All individual selections are strictly confidential.
             * **Self-Voting Guard:** The system automatically prevents self-voting.
             * **Single Entry:** Once you submit your ballot, your name is removed from the login list.
             """)
@@ -571,7 +571,7 @@ else:
                 <h3 style="color: #FFD700; margin-top: 0;">🏆 Pendragon Awards Night</h3>
                 <p style="font-size: 1.2rem;"><b>DATE:</b> TBD, TBD, 2026</p>
                 <p style="font-size: 1.2rem;"><b>TIME:</b> TBD - Late</p>
-                <p style="font-size: 1.2rem;"><b>LOCATION:</b> Sportcetner Cafe </p>
+                <p style="font-size: 1.2rem;"><b>LOCATION:</b> Sportcenter Cafe </p>
                 <hr style="border-color: rgba(255,255,255,0.2);">
                 <p><i>Bring your best energy!</i></p>
             </div>
