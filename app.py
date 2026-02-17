@@ -531,59 +531,59 @@ else:
                     trigger_blue_warning()
 
     # --- NEW STAGE: AWARD NIGHT DETAILS ---
-  elif st.session_state.voted_stage == "event_details":
+    elif st.session_state.voted_stage == "event_details":
     # The Trophy Celebration script with centered, staggered, and slow float
-    st.components.v1.html(
-        """
-        <script>
-        const parentDoc = window.parent.document;
-        const confetti = parentDoc.createElement('div');
-        confetti.style.position = 'fixed';
-        confetti.style.top = '0'; 
-        confetti.style.left = '0';
-        confetti.style.width = '100vw'; 
-        confetti.style.height = '100vh';
-        confetti.style.pointerEvents = 'none'; 
-        confetti.style.zIndex = '9999';
-        confetti.style.overflow = 'hidden';
-        parentDoc.body.appendChild(confetti);
-
-        for(let i=0; i<40; i++) {
-            const trophy = parentDoc.createElement('div');
-            trophy.innerHTML = '🏆';
-            trophy.style.position = 'absolute';
-            
-            // Centered with slight variance (center 30% of screen)
-            const centerOffset = (Math.random() * 30) - 15;
-            trophy.style.left = (50 + centerOffset) + 'vw'; 
-            trophy.style.top = '100vh';
-            
-            // Random size & gold glow for that Red theme pop
-            trophy.style.fontSize = (Math.random() * 15 + 25) + 'px';
-            trophy.style.textShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
-            
-            // Smooth slow float (6 to 8 seconds)
-            const duration = Math.random() * 2 + 6;
-            trophy.style.transition = `transform ${duration}s ease-out, opacity ${duration}s`;
-            
-            confetti.appendChild(trophy);
-
-            // Staggered launch (one every 150ms)
-            setTimeout(() => {
-                trophy.style.transform = `translate(-50%, -115vh) rotate(${Math.random() * 720}deg)`;
-                trophy.style.opacity = '0';
-            }, i * 150);
-
-            // Remove trophy after it finishes
-            setTimeout(() => { trophy.remove(); }, (i * 150) + (duration * 1000));
-        }
-
-        // Cleanup the container after all trophies are gone (approx 15s)
-        setTimeout(() => { confetti.remove(); }, 15000);
-        </script>
-        """,
-        height=0,
-    )
+        st.components.v1.html(
+            """
+            <script>
+            const parentDoc = window.parent.document;
+            const confetti = parentDoc.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.top = '0'; 
+            confetti.style.left = '0';
+            confetti.style.width = '100vw'; 
+            confetti.style.height = '100vh';
+            confetti.style.pointerEvents = 'none'; 
+            confetti.style.zIndex = '9999';
+            confetti.style.overflow = 'hidden';
+            parentDoc.body.appendChild(confetti);
+    
+            for(let i=0; i<40; i++) {
+                const trophy = parentDoc.createElement('div');
+                trophy.innerHTML = '🏆';
+                trophy.style.position = 'absolute';
+                
+                // Centered with slight variance (center 30% of screen)
+                const centerOffset = (Math.random() * 30) - 15;
+                trophy.style.left = (50 + centerOffset) + 'vw'; 
+                trophy.style.top = '100vh';
+                
+                // Random size & gold glow for that Red theme pop
+                trophy.style.fontSize = (Math.random() * 15 + 25) + 'px';
+                trophy.style.textShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+                
+                // Smooth slow float (6 to 8 seconds)
+                const duration = Math.random() * 2 + 6;
+                trophy.style.transition = `transform ${duration}s ease-out, opacity ${duration}s`;
+                
+                confetti.appendChild(trophy);
+    
+                // Staggered launch (one every 150ms)
+                setTimeout(() => {
+                    trophy.style.transform = `translate(-50%, -115vh) rotate(${Math.random() * 720}deg)`;
+                    trophy.style.opacity = '0';
+                }, i * 150);
+    
+                // Remove trophy after it finishes
+                setTimeout(() => { trophy.remove(); }, (i * 150) + (duration * 1000));
+            }
+    
+            // Cleanup the container after all trophies are gone (approx 15s)
+            setTimeout(() => { confetti.remove(); }, 15000);
+            </script>
+            """,
+            height=0,
+        )
 
         st.markdown("<h2 style='text-align: center;'>VOTES SUBMITTED! 🏀</h2>", unsafe_allow_html=True)
         
